@@ -24,12 +24,14 @@ create table vozac(
 
 create table konstruktorski_naslov(
     godina_osvajanja date not null,
+    opis varchar(8000),
     ekipa int not null,
     foreign key (ekipa) references ekipa(sifra)
 );
 
 create table vozacki_naslov(
     godina_osvajanja date not null,
+    opis varchar(8000),
     vozac int not null,
     foreign key (vozac) references vozac(sifra)
 );
