@@ -680,4 +680,111 @@ postizanje svog najbržeg vremena u drugom segmentu kvalifikacija; svi vozači s
 svim utrkama.'
 where godina_osvajanja=2022;
 
--- ostalo je za unijeti opis u vozački naslov
+
+
+-- VOZAČKI NASLOV
+
+update vozacki_naslov set opis=
+'Svoj prvi vozački naslov osvojio je Fernando Alonso (SPA) za momčad Renault. Time je s 24 godine i 59 dana srušio tadašnji rekord Emersona 
+Fittipaldija za najmlađeg svjetskog prvaka. Karijeru u Formuli 1 započeo je 2001. u Minardiju, nakon čega je 2002. prešao u Renault te postao 
+njihov testni vozač. 2003. godine postao je najmlađi vozač koji je do tada ostvario prvo startno mjesto te najmlađi pobjednik u utrci F1. 
+Alonso je prvi španjolski vozač Formule 1 koji je osvojio naslov prvaka. Vlasnik je momčadi FA Racing koja se natječe u kategoriji eSportova, 
+Formuli Renault, Formuli 4 te kartingu. Osnivač je i ambasador modnog brenda Kimoa te UNICEF-ov ambasador dobre volje.'
+where godina_osvajanja=2005;
+
+update vozacki_naslov set opis=
+'Svoj drugi vozački naslov osvojio je Fernando Alonso (SPA) za momčad Renault. Time je postao i najmlađi dvostruki svjetski prvak. Jedini je
+vozač u povijesti koji je dva puta uvršten u FIA-inu Kuću slavnih. Dvostruki je pobjednik utrke 24 sata Le Mansa te pobjednik utrke 24 sata 
+Daytone. Često ga se smatra jednim od najboljih i najkompletnijih vozača u Formuli 1. '
+where godina_osvajanja=2006;
+
+update vozacki_naslov set opis=
+'Svoj prvi vozački naslov osvojio je Lewis Hamilton (UK) za momčad McLaren, i to za jedan bod ispred viceprvaka Felipea Masse (BRA). Sezonu 
+prije, odnosno prvu u kojoj je nastupao, završio je kao viceprvak, i to jedan bod iza svjetskog prvaka Kimija Räikkönena (FIN). Nakon 
+osvajanja šest naslova u raznim karting natjecanjima od 1995. do 2000., Hamilton je debitirao u jednosjedu 2001. u Britanskoj Formuli Renault 
+Winter Series. 2003. godine osvaja naslov prvaka u Britanskoj Formuli Renault 2.0 za momčad Manor Motorsport, a 2005. naslov prvaka u Euro 
+Formula 3 prvenstvu za momčad ASM Formule 3. 2006. godine osvaja naslov prvaka u GP2 Series prvenstvu za momčad ART Grand Prix.'
+where godina_osvajanja=2008;
+
+update vozacki_naslov set opis=
+'Svoj drugi vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes. Promjene propisa za sezonu 2014., koje su nalagale upotrebu 
+turbo-hibridnih motora, odnosno novi 1.6L V6 motori, pridonijele su početku vrlo uspješne ere za Hamilton. Te je godine Mercedes osvojio 16 
+od 19 utrka te sezone, 11 od onih koje je osigurao Hamilton dok je pobijedio u dvoboju za naslov koji je trajao cijelu sezonu protiv 
+momčadskog kolege Rosberga. Osvojivši svoj drugi vozački naslov i zasjenivši zbroj pobjeda svih britanskih vozača prije njega, Hamilton je 
+izjavio preko timskog radija nakon finalne utrke u Abu Dhabiju: "Ovo je najbolji dan u mom životu." Novi vozački broj propisi doneseni za 
+2014. omogućili su vozačima da odaberu jedinstveni broj bolida koji će koristiti tijekom cijele karijere, pa je Hamilton odlučio voziti pod 
+svojim starim karting brojem 44 do kraja karijere.'
+where godina_osvajanja=2014;
+
+update vozacki_naslov set opis=
+'Svoj treći vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes. Hamilton je u obranu naslova krenuo pobjedom s pole positiona 
+u Australiji, a nakon Vettelovog slavlja u Maleziji, Hamilton ostvaruje dvije pobjede u nizu. Rosberg ga je prvi put porazio na petoj utrci 
+prvenstva u Španjolskoj, a Hamilton gubi sigurnu pobjedu u Monaku zbog krive procjene momčadi koja ga je nepotrebno pozvala u boks za vrijeme 
+sigurnosnog automobila. U Kanadi, Lewis dolazi do četvrte pobjede u sezoni, a uslijedio je drugi poraz od momčadskog kolege u Austriji gdje 
+je završio drugi. U Mađarskoj je Lewis još jednom startao s pole positiona, ali gubi vodstvo na startu i u utrci punoj grešaka dolazi do 
+šestog mjesta. Uslijedile su pobjede u Belgiji i dominantna pobjeda u Italiji na novoj specifikaciji motora gdje je startao prvi, odvozio 
+najbrži krug i vodio svaki krug utrke. Na tri utrke u Japanu, Rusiji i SAD-u, Hamilton je startao drugi, ali i upisao tri pobjede što mu je 
+bilo dovoljno za treći naslov prvaka. Time je postao tek deseti vozač u povijesti Formule 1 s tri ili više naslova.'
+where godina_osvajanja=2015;
+
+update vozacki_naslov set opis=
+'Svoj četvrti vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes. Nakon Rosbergova umirovljenja, Sebastian Vettel iz Ferrarija 
+postao je Hamiltonov najbliži suparnik jer su njih dvojica izmjenjivali vodstvo u prvenstvu tijekom 2017. u napetoj borbi za naslov. Njegova 
+dosljednost (završavanje svake utrke u bodovima), kao i nedostatak ozbiljnog izazova od strane njegovog novog momčadskog kolege Valtterija 
+Bottasa (FIN), vidjeli su zabilježavanje devet pobjeda u utrkama te je time osigurao svoj četvrti naslov svjetskog vozača jer je poništio 
+bodovni zaostatak za Vettelom u prvoj polovici sezone, naposljetku završivši naslov u Meksiku s dvije utrke viška.'
+where godina_osvajanja=2017;
+
+update vozacki_naslov set opis=
+'Svoj peti vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes. Sezona 2018. bila je prvi put da će se dva četverostruka s
+vjetska prvaka, Hamilton i Vettel, natjecati za peti naslov, a novinari i navijači su je nazvali "borbom za pet". Kao i prethodne sezone, 
+činilo se da Ferrari i Vettel imaju prednost tijekom većeg dijela sezone, te su bili na vrhu poretka do polovine puta. Međutim, Vettelova 
+sezona raspala se s nekim vozačkim i brojnim mehaničkim pogreškama, kao i još brojnijih pogrešaka momčadi Ferrari, dok je Hamiltonova serija 
+šest pobjeda od sedam u drugoj polovici sezone dovela do toga da je Hamilton osvojio naslov u Meksiku drugu godinu za redom, postavivši novi 
+rekord za najviše bodova osvojenih u sezoni (408). Tijekom sezone, Hamilton je potpisao dvogodišnji ugovor s Mercedesom, koji je navodno 
+vrijedan do 40 milijuna funti godišnje, što ga čini najbolje plaćenim vozačem Formule 1 u povijesti.'
+where godina_osvajanja=2018;
+
+update vozacki_naslov set opis=
+'Svoj šesti vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes. Nakon što je potpisao ugovor s Mercedesom koji je trajao do 
+kraja 2020. godine, potvrđeno je da će Hamilton braniti svoj naslov 2019. godine. Hamilton je veći dio sezone vodio u poretku vozača, braneći 
+izazove za naslov od momčadskog kolege Bottasa, Verstappenova Red Bulla s Hondom i Ferrarijevog nedavno promoviranog Leclerca, da bi osvojio 
+svoju šestu vozačku krunu na VN SAD-a 2019. s dvije preostale utrke. Nakon što je u posljednjoj utrci sezone osvojio svoj šesti Grand Slam
+(također poznat kao "Grand Chelem", nevjerojatno je teško postići. Zahtijeva da vozač zauzme pole position, vodi u svakom krugu utrke, 
+pobijedi u utrci i postavi najbrži krug utrke.) u karijeri, Hamilton je završio sezonu s 11 pobjeda (poklapajući se s prethodnim najboljim 
+rezultatom iz 2014. i 2018.) i 17 postolja (izjednačavajući četvrti put rekord svih vremena), kao i osvojivši 5 pole positiona. Njegovih 
+ukupno 413 bodova u sezoni bio je novi rekord svih vremena, čime je završio s 87 bodova prednosti u odnosu na drugoplasiranog Bottasa.'
+where godina_osvajanja=2019;
+
+update vozacki_naslov set opis=
+'Svoj sedmi vozački naslov osvojio je Lewis Hamilton (UK) za momčad Mercedes, kojemu je to bio 7. uzastopni konstruktorski naslov. Time 
+je Hamilton izjednačio Schumacherov rekord te su do danas to jedina dva vozača koja imaju 7 osvojenih vozačkih naslova. Tijekom skraćene 
+sezone od 17 utrka, Hamilton je odnio 11 pobjeda (izjednačivši svoj prethodni osobni rekord, ali u manje utrka), uključujući onu u Portugalu, 
+čime je srušio Schumacherov rekord od 91 pobjede. Hamilton je osvojio naslov na VN Turske 2020. s tri utrke viška i završio sezonu sa 124 
+bodova više od svog momčadskog kolege Bottasa, koji je završio drugi u poretku.'
+where godina_osvajanja=2020;
+
+update vozacki_naslov set opis=
+'Svoj prvi vozački naslov osvojio je Max Verstappen (NLD) za momčad Red Bull. Vozački naslov je obilježen velikom kontroverzom. Verstappen i 
+Hamilton imali su jednak broj bodova u prvenstvu vozača koji je ulazio u posljednju rundu, VN Abu Dhabija, s Verstappenom koji je vodio u 
+odbrojavanju. Verstappen je prestigao Hamiltona u posljednjem krugu i osvojio utrku, te svoje prvo svjetsko prvenstvo u Formuli 1 za vozače.
+Verstappen, koji se kvalificirao na pole positionu za gotovo četiri desetinke sekunde prednosti, imao je spor start izvan linije na početku 
+utrke i pao na drugo mjesto. Verstappen je zaostajao za Hamiltonom više od deset sekundi sve dok je kasno u utrci, 7 krugova prije kraja, 
+sigurnosni automobil pozvan zbog sudara u zavoju 14 u kojem je sudjelovao vozač Williamsa Nicholas Latifi (CAN). Povlačenje sigurnosnog 
+automobila i nastavak utrke nakon razdoblja sigurnosnog automobila naišli su na kontroverze. Direktor utrke Michael Masi dopustio je prolaz 
+samo određenom broju bolida u krugu (njih 5 koji su bili između vodećeg Hamiltona i drugoplasiranog Verstappena), koji su nakon utrke 
+donijeli prosvjed Mercedesovog tima i izrazili namjeru žalbe na rezultat utrke, tvrdeći da bi svi bolidi u krugu koji zaostaju puni krug ili 
+više trebali biti pušteni. Red Bull je kontraargumentima da to nije bilo određeno tekstom pravilnika. Prosvjed je odbijen, iako je kasnija 
+istraga FIA-e zaključila da je Masi pogrešno protumačio pravilo, a tekst pravila je izmijenjen za sezonu 2022. kako bi se preciziralo da će 
+se "svi" bolidi sami osloboditi kruga (po odluci direktora utrke), a ne "bilo koji". Verstappen je prestigao Hamiltona u petom zavoju 
+posljednjeg kruga utrke i postao 34. svjetski prvak Formule 1, iako za mnoge s upitnim kredibilitetom.'
+where godina_osvajanja=2021;
+
+update vozacki_naslov set opis=
+'Svoj drugi vozački naslov osvojio je Max Verstappen (NLD) za momčad Red Bull. U ožujku 2022. Verstappen je potpisao petogodišnje produljenje 
+ugovora s Red Bull Racingom za sezone 2023. do 2028. Verstappen je pretrpio dva odustajanja zbog sustava goriva u prve tri utrke, nalazeći se 
+46 bodova iza vodećeg u prvenstvu Charlesa Leclerca (MCO). Odgovorio je pobjedom u pet od sljedećih sedam utrka, što mu je omogućilo da 
+preuzme vodstvo u prvenstvu i izgradi zaostatak od 37 bodova u odnosu na drugo mjesto, koje je do tada držao njegov timski kolega Sergio 
+Pérez (MEX). Nastavit će dominirati većim dijelom sezone, pobijedivši u 15 utrka, time oborivši rekord za najviše pobjeda u sezoni Formule 1, 
+koji su prethodno zajedno držali Michael Schumacher (GER) (2004.) i Sebastian Vettel (GER) (2013.) s 13 pobjeda u sezoni.'
+where godina_osvajanja=2022;
