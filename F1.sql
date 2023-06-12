@@ -788,3 +788,30 @@ preuzme vodstvo u prvenstvu i izgradi zaostatak od 37 bodova u odnosu na drugo m
 Pérez (MEX). Nastavit će dominirati većim dijelom sezone, pobijedivši u 15 utrka, time oborivši rekord za najviše pobjeda u sezoni Formule 1, 
 koji su prethodno zajedno držali Michael Schumacher (GER) (2004.) i Sebastian Vettel (GER) (2013.) s 13 pobjeda u sezoni.'
 where godina_osvajanja=2022;
+
+
+
+/* Vježba select naredbi:
+
+Izlistaj vozače koji su osvojili vozački naslov vozeći za Mercedes.
+
+select concat(a.ime, ' ', a.prezime) as DRIVER, c.naziv as TEAM
+from vozac a
+inner join vozacki_naslov b 		on a.sifra =b.vozac 
+inner join ekipa c 					on c.sifra =a.ekipa 
+where c.naziv like 'Mercedes';
+
+*/
+
+/*
+Izlistaj ekipu koja je osim konstruktorskog naslova donijela i vozački naslov vozaču.
+
+select distinct c.naziv, d.godina_osvajanja as konstruktorski_naslov, a.godina_osvajanja as vozacki_naslov
+from vozacki_naslov a
+inner join vozac b 					on b.sifra =a.vozac 
+inner join ekipa c 					on c.sifra =b.ekipa 
+inner join konstruktorski_naslov d 	on c.sifra =d.ekipa;
+
+Ovo mi je čudno, nešto nisam dobro postavio, trebam pomoć.
+*/
+
