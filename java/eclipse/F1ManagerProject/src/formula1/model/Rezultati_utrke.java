@@ -10,6 +10,19 @@ public class Rezultati_utrke extends Entitet {
 	private int pozicija;
 	private LocalTime najbrzi_krug;
 
+	public Rezultati_utrke() {
+
+	}
+
+	public Rezultati_utrke(int id, Utrke utrka, Vozaci vozac, Timovi tim, int pozicija, LocalTime najbrzi_krug) {
+		super(id);
+		this.utrka = utrka;
+		this.vozac = vozac;
+		this.tim = tim;
+		this.pozicija = pozicija;
+		this.najbrzi_krug = najbrzi_krug;
+	}
+
 	public Utrke getUtrka() {
 		return utrka;
 	}

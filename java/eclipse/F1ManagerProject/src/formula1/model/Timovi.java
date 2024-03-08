@@ -7,6 +7,18 @@ public class Timovi extends Entitet {
 	private int godina_osnutka;
 	private Vozaci vozac;
 
+	public Timovi() {
+
+	}
+
+	public Timovi(int id, String ime_tima, String drzava_sjedista, int godina_osnutka, Vozaci vozac) {
+		super(id);
+		this.ime_tima = ime_tima;
+		this.drzava_sjedista = drzava_sjedista;
+		this.godina_osnutka = godina_osnutka;
+		this.vozac = vozac;
+	}
+
 	public String getIme_tima() {
 		return ime_tima;
 	}

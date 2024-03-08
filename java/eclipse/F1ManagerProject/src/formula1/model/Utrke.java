@@ -8,6 +8,17 @@ public class Utrke extends Entitet {
 	private Sezone sezona;
 	private Date datum_i_vrijeme;
 
+	public Utrke() {
+
+	}
+
+	public Utrke(int id, Staze staza, Sezone sezona, Date datum_i_vrijeme) {
+		super(id);
+		this.staza = staza;
+		this.sezona = sezona;
+		this.datum_i_vrijeme = datum_i_vrijeme;
+	}
+
 	public Staze getStaza() {
 		return staza;
 	}

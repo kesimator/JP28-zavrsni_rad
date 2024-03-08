@@ -11,6 +11,21 @@ public class Vozaci extends Entitet {
 	private int broj_pobjeda;
 	private int broj_pole_positiona;
 
+	public Vozaci() {
+
+	}
+
+	public Vozaci(int id, String ime, String prezime, String nacionalnost, Date datum_rodenja, int broj_pobjeda,
+			int broj_pole_positiona) {
+		super(id);
+		this.ime = ime;
+		this.prezime = prezime;
+		this.nacionalnost = nacionalnost;
+		this.datum_rodenja = datum_rodenja;
+		this.broj_pobjeda = broj_pobjeda;
+		this.broj_pole_positiona = broj_pole_positiona;
+	}
+
 	public String getIme() {
 		return ime;
 	}

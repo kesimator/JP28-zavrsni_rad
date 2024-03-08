@@ -10,6 +10,20 @@ public class Staze extends Entitet {
 	private LocalTime rekord_staze;
 	private int godina_postavljanja;
 
+	public Staze() {
+
+	}
+
+	public Staze(int id, String ime_staze, int duzina_staze, String lokacija, LocalTime rekord_staze,
+			int godina_postavljanja) {
+		super(id);
+		this.ime_staze = ime_staze;
+		this.duzina_staze = duzina_staze;
+		this.lokacija = lokacija;
+		this.rekord_staze = rekord_staze;
+		this.godina_postavljanja = godina_postavljanja;
+	}
+
 	public String getIme_staze() {
 		return ime_staze;
 	}
