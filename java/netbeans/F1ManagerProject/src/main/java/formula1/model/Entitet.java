@@ -1,24 +1,32 @@
 package formula1.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Entitet {
 
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	public Entitet() {
+    public Entitet() {
 
-	}
+    }
 
-	public Entitet(int id) {
-		super();
-		this.id = id;
-	}
+    public Entitet(int id) {
+        super();
+        this.id = id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
 }

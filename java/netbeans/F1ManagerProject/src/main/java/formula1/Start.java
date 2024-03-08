@@ -4,13 +4,17 @@
 
 package formula1;
 
+import formula1.util.HibernateUtil;
+
 /**
  *
  * @author Kesimator
  */
-public class F1ManagerProject {
+public class Start {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+        HibernateUtil.getSession();
+        
     }
 }
