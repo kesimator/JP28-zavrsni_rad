@@ -1,16 +1,23 @@
 package formula1.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import java.util.Date;
 
 @Entity
 public class Vozaci extends Entitet {
 
+    @Column(nullable = false)
     private String ime;
+    @Column(nullable = false)
     private String prezime;
+    @Column(nullable = false)
     private String nacionalnost;
+    @Column(nullable = false)
     private Date datum_rodenja;
+    @Column(nullable = true)
     private int broj_pobjeda;
+    @Column(nullable = true)
     private int broj_pole_positiona;
 
     public Vozaci() {

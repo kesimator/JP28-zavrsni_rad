@@ -1,14 +1,24 @@
 package formula1.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalTime;
 
 @Entity
 public class Rezultati_utrke extends Entitet {
 
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private Utrke utrka;
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private Vozaci vozac;
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private Timovi tim;
+    @Column(nullable = false)
     private int pozicija;
     private LocalTime najbrzi_krug;
 

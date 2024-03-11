@@ -1,11 +1,13 @@
 package formula1.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import java.time.LocalTime;
 
 @Entity
 public class Staze extends Entitet {
 
+    @Column(nullable = false)
     private String ime_staze;
     private int duzina_staze;
     private String lokacija;

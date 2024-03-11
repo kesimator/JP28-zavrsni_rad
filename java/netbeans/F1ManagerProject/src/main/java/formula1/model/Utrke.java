@@ -1,13 +1,21 @@
 package formula1.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
 public class Utrke extends Entitet {
 
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private Staze staza;
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private Sezone sezona;
+    @Column(nullable = false)
     private Date datum_i_vrijeme;
 
     public Utrke() {
