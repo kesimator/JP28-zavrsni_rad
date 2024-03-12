@@ -5,6 +5,7 @@
 package formula1;
 
 import formula1.util.HibernateUtil;
+import formula1.util.PocetniInsert;
 
 /**
  *
@@ -14,7 +15,8 @@ public class Start {
 
     public static void main(String[] args) {
         
-        HibernateUtil.getSession();
+        // HibernateUtil.getSession();
+        new PocetniInsert();
         
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class Timovi extends Entitet {
@@ -13,7 +14,7 @@ public class Timovi extends Entitet {
     @Column(nullable = true)
     private String drzava_sjedista;
     @Column(nullable = false)
-    private int godina_osnutka;
+    private Date godina_osnutka;
     @JoinColumn(nullable = false)
     @ManyToOne
     private Vozaci vozac;
@@ -22,7 +23,7 @@ public class Timovi extends Entitet {
 
     }
 
-    public Timovi(int id, String ime_tima, String drzava_sjedista, int godina_osnutka, Vozaci vozac) {
+    public Timovi(int id, String ime_tima, String drzava_sjedista, Date godina_osnutka, Vozaci vozac) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
@@ -46,11 +47,11 @@ public class Timovi extends Entitet {
         this.drzava_sjedista = drzava_sjedista;
     }
 
-    public int getGodina_osnutka() {
+    public Date getGodina_osnutka() {
         return godina_osnutka;
     }
 
-    public void setGodina_osnutka(int godina_osnutka) {
+    public void setGodina_osnutka(Date godina_osnutka) {
         this.godina_osnutka = godina_osnutka;
     }
 
