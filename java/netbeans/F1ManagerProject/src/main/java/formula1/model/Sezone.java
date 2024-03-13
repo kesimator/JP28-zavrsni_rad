@@ -4,13 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Sezone extends Entitet {
 
     @Column(nullable = false)
-    private int godina;
+    private Date godina;
     @JoinColumn(nullable = false)
     @ManyToOne
     private Vozaci vozac;
@@ -20,18 +21,18 @@ public class Sezone extends Entitet {
 
     }
 
-    public Sezone(int id, int godina, Vozaci vozac, List<Staze> staze) {
+    public Sezone(int id, Date godina, Vozaci vozac, List<Staze> staze) {
         super(id);
         this.godina = godina;
         this.vozac = vozac;
         //this.staze = staze;
     }
 
-    public int getGodina() {
+    public Date getGodina() {
         return godina;
     }
 
-    public void setGodina(int godina) {
+    public void setGodina(Date godina) {
         this.godina = godina;
     }
 
