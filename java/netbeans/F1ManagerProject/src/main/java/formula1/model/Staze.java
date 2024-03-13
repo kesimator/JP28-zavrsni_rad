@@ -3,6 +3,7 @@ package formula1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 public class Staze extends Entitet {
@@ -12,14 +13,14 @@ public class Staze extends Entitet {
     private int duzina_staze;
     private String lokacija;
     private LocalTime rekord_staze;
-    private int godina_postavljanja;
+    private Date godina_postavljanja;
 
     public Staze() {
 
     }
 
     public Staze(int id, String ime_staze, int duzina_staze, String lokacija, LocalTime rekord_staze,
-            int godina_postavljanja) {
+            Date godina_postavljanja) {
         super(id);
         this.ime_staze = ime_staze;
         this.duzina_staze = duzina_staze;
@@ -60,11 +61,11 @@ public class Staze extends Entitet {
         this.rekord_staze = rekord_staze;
     }
 
-    public int getGodina_postavljanja() {
+    public Date getGodina_postavljanja() {
         return godina_postavljanja;
     }
 
-    public void setGodina_postavljanja(int godina_postavljanja) {
+    public void setGodina_postavljanja(Date godina_postavljanja) {
         this.godina_postavljanja = godina_postavljanja;
     }
 
