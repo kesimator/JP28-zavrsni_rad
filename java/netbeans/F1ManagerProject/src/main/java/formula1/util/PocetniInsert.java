@@ -11,6 +11,7 @@ import formula1.model.Staze;
 import formula1.model.Timovi;
 import formula1.model.Utrke;
 import formula1.model.Vozaci;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -27,8 +28,8 @@ public class PocetniInsert {
     private static final int BROJ_VOZACA = 100;
     private static final int BROJ_TIMOVA = 20;
     private static final int BROJ_SEZONA = 74;
-    private static final int BROJ_STAZA = 300;
-    private static final int BROJ_UTRKA = 2000;
+    private static final int BROJ_STAZA = 70;
+    private static final int BROJ_UTRKA = 1000;
 
     private Faker faker;
     private Session session;
@@ -53,6 +54,7 @@ public class PocetniInsert {
         session.getTransaction().begin();
         kreirajVozace();
         kreirajTimove();
+        kreirajStaze();
         kreirajSezone();
 
         session.getTransaction().commit();
@@ -87,7 +89,7 @@ public class PocetniInsert {
             //List<Vozaci> v = new ArrayList<>();
             List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
             Collections.shuffle(shuffledVozaci);
-            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(2, 6));
+            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(3, 7));
             for (int j = 0; j < 7; j++) {
                 Vozaci vozac = shuffledVozaci.get(j);
                 if (j < 2) {
@@ -95,12 +97,36 @@ public class PocetniInsert {
                 } else {
                     vozac.setGlavni(false);
                 }
-                v.add(vozac);
+                //v.add(vozac);
             }
             t.setVozaci(v);
 
             session.persist(t);
             timovi.add(t);
+        }
+    }
+
+    private void kreirajStaze() {
+        Staze s;
+        for (int i = 0; i < BROJ_STAZA; i++) {
+            s = new Staze();
+            s.setIme_staze(faker.rickAndMorty().quote());
+            s.setDuzina_staze(faker.number().numberBetween(3100, 7500));
+            s.setLokacija(faker.country().name());
+
+            int sati = faker.number().numberBetween(0, 0);
+            int minute = faker.number().numberBetween(1, 1);
+            int sekunde = faker.number().numberBetween(5, 45);
+            int milisekunde = faker.number().numberBetween(20, 990);
+            //String rekordStaze = String.format("d%:%02d.%03d", minute, sekunde, milisekunde);
+            //LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
+            LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
+            s.setRekord_staze(rekordStaze);
+
+            s.setGodina_postavljanja(faker.date().birthday(2, 52));
+
+            session.persist(s);
+            staze.add(s);
         }
     }
 
@@ -130,6 +156,12 @@ public class PocetniInsert {
             Collections.shuffle(shuffledTimovi);
             List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(3, BROJ_TIMOVA - 1));
             s.setTimovi(t);
+
+            List<Staze> shuffledStaze = new ArrayList<>(staze);
+            Collections.shuffle(shuffledStaze);
+            List<Staze> s1 = shuffledStaze.subList(0, faker.number().numberBetween(7, 22));
+
+            s.setStaze(s1);
 
             session.persist(s);
         }

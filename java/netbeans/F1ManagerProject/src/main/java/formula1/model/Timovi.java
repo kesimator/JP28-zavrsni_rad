@@ -75,7 +75,6 @@ public class Timovi extends Entitet {
 //    public void setMax_vozaca(int max_vozaca) {
 //        this.max_vozaca = max_vozaca;
 //    }
-
     public List<Vozaci> getVozaci() {
         return vozaci;
     }
@@ -83,7 +82,5 @@ public class Timovi extends Entitet {
     public void setVozaci(List<Vozaci> vozaci) {
         this.vozaci = vozaci;
     }
-    
-    
 
 }
