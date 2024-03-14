@@ -12,6 +12,9 @@ import formula1.model.Timovi;
 import formula1.model.Utrke;
 import formula1.model.Vozaci;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -21,9 +24,9 @@ import org.hibernate.Session;
  */
 public class PocetniInsert {
 
-    private static final int BROJ_VOZACA = 20;
-    private static final int BROJ_TIMOVA = 10;
-    private static final int BROJ_SEZONA = 70;
+    private static final int BROJ_VOZACA = 100;
+    private static final int BROJ_TIMOVA = 20;
+    private static final int BROJ_SEZONA = 74;
     private static final int BROJ_STAZA = 300;
     private static final int BROJ_UTRKA = 2000;
 
@@ -50,6 +53,7 @@ public class PocetniInsert {
         session.getTransaction().begin();
         kreirajVozace();
         kreirajTimove();
+        kreirajSezone();
 
         session.getTransaction().commit();
 
@@ -59,27 +63,75 @@ public class PocetniInsert {
         Vozaci v;
         for (int i = 0; i < BROJ_VOZACA; i++) {
             v = new Vozaci();
-            v.setIme(faker.name().firstName());
+            v.setIme(faker.dune().character());
             v.setPrezime(faker.name().lastName());
-            v.setDatum_rodenja(faker.date().birthday(18, 40));
+            v.setDatum_rodenja(faker.date().birthday(18, 60));
             v.setNacionalnost(faker.nation().nationality());
             v.setBroj_pobjeda(faker.number().numberBetween(0, 300));
             v.setBroj_pole_positiona(faker.number().numberBetween(0, 500));
-            session.persist(v);
             vozaci.add(v);
+            session.persist(v);
         }
     }
 
     private void kreirajTimove() {
         Timovi t;
-        for(int i=0;i<BROJ_TIMOVA;i++) {
-            t=new Timovi();
-            t.setIme_tima(faker.team().name());
+        for (int i = 0; i < BROJ_TIMOVA; i++) {
+            t = new Timovi();
+            t.setIme_tima(faker.dragonBall().character().toUpperCase());
             t.setDrzava_sjedista(faker.country().capital());
             t.setGodina_osnutka(faker.date().birthday(20, 120));
-            t.setVozac(vozaci.get(faker.number().numberBetween(2, 2)));
+            // t.setVozac(vozaci.get(faker.number().numberBetween(0, BROJ_VOZACA-1)));
+            // t.setMax_vozaca(faker.number().numberBetween(3, 7));
+
+            //List<Vozaci> v = new ArrayList<>();
+            List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
+            Collections.shuffle(shuffledVozaci);
+            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(2, 6));
+            for (int j = 0; j < 7; j++) {
+                Vozaci vozac = shuffledVozaci.get(j);
+                if (j < 2) {
+                    vozac.setGlavni(true);
+                } else {
+                    vozac.setGlavni(false);
+                }
+                v.add(vozac);
+            }
+            t.setVozaci(v);
+
             session.persist(t);
             timovi.add(t);
+        }
+    }
+
+    private void kreirajSezone() {
+        Sezone s;
+        Calendar kalendar = Calendar.getInstance();
+        for (int i = 0; i < BROJ_SEZONA; i++) {
+            s = new Sezone();
+            kalendar.add(Calendar.YEAR, -1);
+            Date godinaSezone = kalendar.getTime();
+            s.setGodina(godinaSezone);
+
+//            List<Vozaci> v = new ArrayList<>();
+//            for (int j = 0; j < BROJ_VOZACA; j++) {
+//                v.add(vozaci.get(faker.random().nextInt(15, BROJ_VOZACA - 1)));
+//            }
+            List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
+            Collections.shuffle(shuffledVozaci);
+            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
+            s.setVozac(v);
+
+//            List<Timovi> t = new ArrayList<>();
+//            for (int k = 0; k < BROJ_TIMOVA; k++) {
+//                t.add(timovi.get(faker.random().nextInt(3, BROJ_TIMOVA - 1)));
+//            }
+            List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
+            Collections.shuffle(shuffledTimovi);
+            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(3, BROJ_TIMOVA - 1));
+            s.setTimovi(t);
+
+            session.persist(s);
         }
     }
 

@@ -2,8 +2,7 @@ package formula1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -12,19 +11,22 @@ public class Sezone extends Entitet {
 
     @Column(nullable = false)
     private Date godina;
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    private Vozaci vozac;
-    //private List<Staze> staze;
+    //@JoinColumn(nullable = false)
+    @ManyToMany
+    private List<Vozaci> vozac;
+    @ManyToMany
+    private List<Staze> staze;
+    @ManyToMany
+    private List<Timovi> timovi;
 
     public Sezone() {
 
     }
 
-    public Sezone(int id, Date godina, Vozaci vozac, List<Staze> staze) {
+    public Sezone(int id, Date godina, List<Vozaci> vozac, List<Staze> staze, List<Timovi> timovi) {
         super(id);
         this.godina = godina;
-        this.vozac = vozac;
+        //this.vozac = vozac;
         //this.staze = staze;
     }
 
@@ -36,20 +38,28 @@ public class Sezone extends Entitet {
         this.godina = godina;
     }
 
-    public Vozaci getVozac() {
+    public List<Vozaci> getVozac() {
         return vozac;
     }
 
-    public void setVozac(Vozaci vozac) {
+    public void setVozac(List<Vozaci> vozac) {
         this.vozac = vozac;
     }
 
-//    public List<Staze> getStaze() {
-//        return staze;
-//    }
-//
-//    public void setStaze(List<Staze> staze) {
-//        this.staze = staze;
-//    }
+    public List<Staze> getStaze() {
+        return staze;
+    }
+
+    public void setStaze(List<Staze> staze) {
+        this.staze = staze;
+    }
+
+    public List<Timovi> getTimovi() {
+        return timovi;
+    }
+
+    public void setTimovi(List<Timovi> timovi) {
+        this.timovi = timovi;
+    }
 
 }

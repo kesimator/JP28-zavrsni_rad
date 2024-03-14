@@ -3,8 +3,10 @@ package formula1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Timovi extends Entitet {
@@ -15,20 +17,24 @@ public class Timovi extends Entitet {
     private String drzava_sjedista;
     @Column(nullable = false)
     private Date godina_osnutka;
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    private Vozaci vozac;
+//    @JoinColumn(nullable = false)
+//    @ManyToOne
+//    private Vozaci vozac;
+    // private int max_vozaca;
+    @ManyToMany
+    private List<Vozaci> vozaci;
 
     public Timovi() {
 
     }
 
-    public Timovi(int id, String ime_tima, String drzava_sjedista, Date godina_osnutka, Vozaci vozac) {
+    public Timovi(int id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
         this.godina_osnutka = godina_osnutka;
-        this.vozac = vozac;
+        // this.vozac = vozac;
+        // this.max_vozaca = max_vozaca;
     }
 
     public String getIme_tima() {
@@ -55,12 +61,29 @@ public class Timovi extends Entitet {
         this.godina_osnutka = godina_osnutka;
     }
 
-    public Vozaci getVozac() {
-        return vozac;
+//    public Vozaci getVozac() {
+//        return vozac;
+//    }
+//
+//    public void setVozac(Vozaci vozac) {
+//        this.vozac = vozac;
+//    }
+//    public int getMax_vozaca() {
+//        return max_vozaca;
+//    }
+//
+//    public void setMax_vozaca(int max_vozaca) {
+//        this.max_vozaca = max_vozaca;
+//    }
+
+    public List<Vozaci> getVozaci() {
+        return vozaci;
     }
 
-    public void setVozac(Vozaci vozac) {
-        this.vozac = vozac;
+    public void setVozaci(List<Vozaci> vozaci) {
+        this.vozaci = vozaci;
     }
+    
+    
 
 }
