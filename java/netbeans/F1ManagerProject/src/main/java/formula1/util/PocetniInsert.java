@@ -25,11 +25,11 @@ import org.hibernate.Session;
  */
 public class PocetniInsert {
 
-    private static final int BROJ_VOZACA = 100;
-    private static final int BROJ_TIMOVA = 20;
+    private static final int BROJ_VOZACA = 1000;
+    private static final int BROJ_TIMOVA = 70;
     private static final int BROJ_SEZONA = 74;
-    private static final int BROJ_STAZA = 70;
-    private static final int BROJ_UTRKA = 1000;
+    private static final int BROJ_STAZA = 80;
+    private static final int BROJ_UTRKA = 1500;
 
     private Faker faker;
     private Session session;
@@ -56,6 +56,7 @@ public class PocetniInsert {
         kreirajTimove();
         kreirajStaze();
         kreirajSezone();
+        // kreirajUtrke();
 
         session.getTransaction().commit();
 
@@ -143,9 +144,21 @@ public class PocetniInsert {
 //            for (int j = 0; j < BROJ_VOZACA; j++) {
 //                v.add(vozaci.get(faker.random().nextInt(15, BROJ_VOZACA - 1)));
 //            }
+            int ukupanBrojVozaca = 0; // Inicijalizacija ukupnog broja vozača
+            // Izračunaj maksimalni broj vozača za trenutnu sezonu
+            int maxBrojVozaca = Math.min(BROJ_VOZACA - ukupanBrojVozaca, 50); // Maksimalno 50 vozača ili manje ako je 
+            // preostalo manje od 50 vozača
+            int brojVozaca = faker.number().numberBetween(15, maxBrojVozaca);
+            ukupanBrojVozaca += brojVozaca; // Dodaj broj vozača za trenutnu sezonu u ukupan broj vozača
+
+            // Provjeri je li ukupan broj vozača premašio limit
+            if (ukupanBrojVozaca > BROJ_VOZACA) {
+                brojVozaca = Math.max(BROJ_VOZACA - (ukupanBrojVozaca - brojVozaca), 15); // Ako je premašen limit, postavi broj vozača na preostali broj vozača do limita ili 15, ovisno o tome koji je manji
+                ukupanBrojVozaca = BROJ_VOZACA; // Postavi ukupan broj vozača na maksimalni limit
+            }
             List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
             Collections.shuffle(shuffledVozaci);
-            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
+            List<Vozaci> v = shuffledVozaci.subList(0, brojVozaca);
             s.setVozac(v);
 
 //            List<Timovi> t = new ArrayList<>();
@@ -167,4 +180,18 @@ public class PocetniInsert {
         }
     }
 
+//    private void kreirajUtrke() {
+//        Utrke u;
+//        for (int i = 0; i < BROJ_UTRKA; i++) {
+//            u = new Utrke();
+//
+//            List<Staze> shuffledStaze = new ArrayList<>(staze);
+//            Collections.shuffle(shuffledStaze);
+//            List<Staze> st = shuffledStaze.subList(0, faker.number().numberBetween(7, 22));
+//
+//            List<Sezone> shuffledSezone = new ArrayList<>(sezone);
+//            Collections.shuffle(shuffledSezone);
+//            List<Sezone> se = shuffledSezone.subList(0, i)
+//        }
+//    }
 }
