@@ -22,7 +22,7 @@ public class Utrke extends Entitet {
 
     }
 
-    public Utrke(int id, Staze staza, Sezone sezona, Date datum_i_vrijeme) {
+    public Utrke(Integer id, Staze staza, Sezone sezona, Date datum_i_vrijeme) {
         super(id);
         this.staza = staza;
         this.sezona = sezona;

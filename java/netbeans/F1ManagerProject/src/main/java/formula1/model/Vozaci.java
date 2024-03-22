@@ -16,9 +16,9 @@ public class Vozaci extends Entitet {
     @Column(nullable = false)
     private Date datum_rodenja;
     @Column(nullable = true)
-    private int broj_pobjeda;
+    private Integer broj_pobjeda;
     @Column(nullable = true)
-    private int broj_pole_positiona;
+    private Integer broj_pole_positiona;
     @Column(columnDefinition = "boolean")
     private boolean glavni;
 
@@ -26,8 +26,8 @@ public class Vozaci extends Entitet {
 
     }
 
-    public Vozaci(int id, String ime, String prezime, String nacionalnost, Date datum_rodenja, int broj_pobjeda,
-            int broj_pole_positiona, boolean glavni) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Integer broj_pobjeda,
+            Integer broj_pole_positiona, boolean glavni) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
@@ -70,19 +70,19 @@ public class Vozaci extends Entitet {
         this.datum_rodenja = datum_rodenja;
     }
 
-    public int getBroj_pobjeda() {
+    public Integer getBroj_pobjeda() {
         return broj_pobjeda;
     }
 
-    public void setBroj_pobjeda(int broj_pobjeda) {
+    public void setBroj_pobjeda(Integer broj_pobjeda) {
         this.broj_pobjeda = broj_pobjeda;
     }
 
-    public int getBroj_pole_positiona() {
+    public Integer getBroj_pole_positiona() {
         return broj_pole_positiona;
     }
 
-    public void setBroj_pole_positiona(int broj_pole_positiona) {
+    public void setBroj_pole_positiona(Integer broj_pole_positiona) {
         this.broj_pole_positiona = broj_pole_positiona;
     }
 

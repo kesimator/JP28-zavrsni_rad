@@ -23,7 +23,7 @@ public class Sezone extends Entitet {
 
     }
 
-    public Sezone(int id, Date godina, List<Vozaci> vozac, List<Staze> staze, List<Timovi> timovi) {
+    public Sezone(Integer id, Date godina, List<Vozaci> vozac, List<Staze> staze, List<Timovi> timovi) {
         super(id);
         this.godina = godina;
         //this.vozac = vozac;

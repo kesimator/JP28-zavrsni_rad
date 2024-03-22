@@ -10,7 +10,7 @@ public class Staze extends Entitet {
 
     @Column(nullable = false)
     private String ime_staze;
-    private int duzina_staze;
+    private Integer duzina_staze;
     private String lokacija;
     private LocalTime rekord_staze;
     private Date godina_postavljanja;
@@ -19,7 +19,7 @@ public class Staze extends Entitet {
 
     }
 
-    public Staze(int id, String ime_staze, int duzina_staze, String lokacija, LocalTime rekord_staze,
+    public Staze(Integer id, String ime_staze, Integer duzina_staze, String lokacija, LocalTime rekord_staze,
             Date godina_postavljanja) {
         super(id);
         this.ime_staze = ime_staze;
@@ -37,11 +37,11 @@ public class Staze extends Entitet {
         this.ime_staze = ime_staze;
     }
 
-    public int getDuzina_staze() {
+    public Integer getDuzina_staze() {
         return duzina_staze;
     }
 
-    public void setDuzina_staze(int duzina_staze) {
+    public void setDuzina_staze(Integer duzina_staze) {
         this.duzina_staze = duzina_staze;
     }
 

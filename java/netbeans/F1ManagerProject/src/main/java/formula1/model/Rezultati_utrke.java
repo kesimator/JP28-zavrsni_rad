@@ -19,14 +19,14 @@ public class Rezultati_utrke extends Entitet {
     @ManyToOne
     private Timovi tim;
     @Column(nullable = false)
-    private int pozicija;
+    private Integer pozicija;
     private LocalTime najbrzi_krug;
 
     public Rezultati_utrke() {
 
     }
 
-    public Rezultati_utrke(int id, Utrke utrka, Vozaci vozac, Timovi tim, int pozicija, LocalTime najbrzi_krug) {
+    public Rezultati_utrke(Integer id, Utrke utrka, Vozaci vozac, Timovi tim, Integer pozicija, LocalTime najbrzi_krug) {
         super(id);
         this.utrka = utrka;
         this.vozac = vozac;
@@ -59,11 +59,11 @@ public class Rezultati_utrke extends Entitet {
         this.tim = tim;
     }
 
-    public int getPozicija() {
+    public Integer getPozicija() {
         return pozicija;
     }
 
-    public void setPozicija(int pozicija) {
+    public void setPozicija(Integer pozicija) {
         this.pozicija = pozicija;
     }
 

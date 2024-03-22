@@ -28,7 +28,7 @@ public class Timovi extends Entitet {
 
     }
 
-    public Timovi(int id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
@@ -68,11 +68,11 @@ public class Timovi extends Entitet {
 //    public void setVozac(Vozaci vozac) {
 //        this.vozac = vozac;
 //    }
-//    public int getMax_vozaca() {
+//    public Integer getMax_vozaca() {
 //        return max_vozaca;
 //    }
 //
-//    public void setMax_vozaca(int max_vozaca) {
+//    public void setMax_vozaca(Integer max_vozaca) {
 //        this.max_vozaca = max_vozaca;
 //    }
     public List<Vozaci> getVozaci() {
