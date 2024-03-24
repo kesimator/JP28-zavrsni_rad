@@ -5,7 +5,6 @@
 package formula1.util;
 
 import com.github.javafaker.Faker;
-import formula1.model.Rezultati_utrke;
 import formula1.model.Sezone;
 import formula1.model.Staze;
 import formula1.model.Timovi;
@@ -24,13 +23,13 @@ import org.hibernate.Session;
  * @author Kesimator
  */
 public class PocetniInsert {
-    
+
     private static final int BROJ_VOZACA = 1000;
     private static final int BROJ_TIMOVA = 70;
     private static final int BROJ_SEZONA = 74;
     private static final int BROJ_STAZA = 80;
     private static final int BROJ_UTRKA = 1500;
-    
+
     private Faker faker;
     private Session session;
     private List<Vozaci> vozaci;
@@ -38,10 +37,9 @@ public class PocetniInsert {
     private List<Sezone> sezone;
     private List<Staze> staze;
     private List<Utrke> utrke;
-    private List<Rezultati_utrke> rezultati_utrke;
-    
+
     public PocetniInsert() {
-        
+
         faker = new Faker();
         session = HibernateUtil.getSession();
         vozaci = new ArrayList<>();
@@ -49,8 +47,7 @@ public class PocetniInsert {
         sezone = new ArrayList<>();
         staze = new ArrayList<>();
         utrke = new ArrayList<>();
-        rezultati_utrke = new ArrayList<>();
-        
+
         session.getTransaction().begin();
         kreirajVozace();
         kreirajTimove();
@@ -59,9 +56,9 @@ public class PocetniInsert {
         // kreirajUtrke();
 
         session.getTransaction().commit();
-        
+
     }
-    
+
     private void kreirajVozace() {
         Vozaci v;
         for (int i = 0; i < BROJ_VOZACA; i++) {
@@ -70,13 +67,13 @@ public class PocetniInsert {
             v.setPrezime(faker.name().lastName());
             v.setDatum_rodenja(faker.date().birthday(18, 60));
             v.setNacionalnost(faker.nation().nationality());
-            v.setBroj_pobjeda(faker.number().numberBetween(0, 300));
-            v.setBroj_pole_positiona(faker.number().numberBetween(0, 500));
+//            v.setBroj_pobjeda(faker.number().numberBetween(0, 300));
+//            v.setBroj_pole_positiona(faker.number().numberBetween(0, 500));
             vozaci.add(v);
             session.persist(v);
         }
     }
-    
+
     private void kreirajTimove() {
         Timovi t;
         for (int i = 0; i < BROJ_TIMOVA; i++) {
@@ -84,29 +81,12 @@ public class PocetniInsert {
             t.setIme_tima(faker.dragonBall().character().toUpperCase());
             t.setDrzava_sjedista(faker.country().capital());
             t.setGodina_osnutka(faker.date().birthday(20, 120));
-            // t.setVozac(vozaci.get(faker.number().numberBetween(0, BROJ_VOZACA-1)));
-            // t.setMax_vozaca(faker.number().numberBetween(3, 7));
 
-            //List<Vozaci> v = new ArrayList<>();
-            List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
-            Collections.shuffle(shuffledVozaci);
-            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(3, 7));
-            for (int j = 0; j < 7; j++) {
-                Vozaci vozac = shuffledVozaci.get(j);
-                if (j < 2) {
-                    vozac.setGlavni(true);
-                } else {
-                    vozac.setGlavni(false);
-                }
-                //v.add(vozac);
-            }
-            t.setVozaci(v);
-            
             session.persist(t);
             timovi.add(t);
         }
     }
-    
+
     private void kreirajStaze() {
         Staze s;
         for (int i = 0; i < BROJ_STAZA; i++) {
@@ -114,7 +94,7 @@ public class PocetniInsert {
             s.setIme_staze(faker.rickAndMorty().quote());
             s.setDuzina_staze(faker.number().numberBetween(3100, 7500));
             s.setLokacija(faker.country().name());
-            
+
             int sati = faker.number().numberBetween(0, 0);
             int minute = faker.number().numberBetween(1, 1);
             int sekunde = faker.number().numberBetween(5, 45);
@@ -123,14 +103,14 @@ public class PocetniInsert {
             //LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
             LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
             s.setRekord_staze(rekordStaze);
-            
+
             s.setGodina_postavljanja(faker.date().birthday(2, 52));
-            
+
             session.persist(s);
             staze.add(s);
         }
     }
-    
+
     private void kreirajSezone() {
         Sezone s;
         Calendar kalendar = Calendar.getInstance();
@@ -139,6 +119,7 @@ public class PocetniInsert {
             kalendar.add(Calendar.YEAR, -1);
             Date godinaSezone = kalendar.getTime();
             s.setGodina(godinaSezone);
+            s.setBroj_utrka(faker.number().numberBetween(7, 23));
 
 //            List<Vozaci> v = new ArrayList<>();
 //            for (int j = 0; j < BROJ_VOZACA; j++) {
@@ -162,20 +143,56 @@ public class PocetniInsert {
 //            if (ukupanBrojVozaca + brojVozaca > BROJ_VOZACA) {
 //                brojVozaca = BROJ_VOZACA - ukupanBrojVozaca;
 //            }
+
+
+
+
             List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
             Collections.shuffle(shuffledVozaci);
             List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
             s.setVozac(v);
 
+
+
+
 //            List<Timovi> t = new ArrayList<>();
 //            for (int k = 0; k < BROJ_TIMOVA; k++) {
 //                t.add(timovi.get(faker.random().nextInt(3, BROJ_TIMOVA - 1)));
 //            }
+
+
+
+
             List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
             Collections.shuffle(shuffledTimovi);
-            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(3, BROJ_TIMOVA - 1));
+            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(5, 13));
             s.setTimovi(t);
-            
+
+//            // Dodjela vozača timovima
+            List<Vozaci> dostupniVozaci = new ArrayList<>(vozaci);
+            Collections.shuffle(dostupniVozaci);
+
+            // int brojVozaca = faker.number().numberBetween(15, 50);
+
+            int indeksVozaca = 0;
+            for (Timovi tim : timovi) {
+                int brojVozacaUTimu = Math.min(faker.number().numberBetween(2, 7), dostupniVozaci.size() - indeksVozaca);
+
+                List<Vozaci> vozaciUTimu = dostupniVozaci.subList(indeksVozaca, indeksVozaca + brojVozacaUTimu);
+                tim.setVozaci(vozaciUTimu);
+                
+                // Ažurirajte indeks vozača
+                indeksVozaca += brojVozacaUTimu;
+                
+                
+                // brojVozaca -= brojVozacaUTimu;
+
+                // Provjerite jesu li dodijeljeni svi vozači
+                if (indeksVozaca >= dostupniVozaci.size()) {
+                    break;
+                }
+            }
+
             List<Staze> shuffledStaze = new ArrayList<>(staze);
             Collections.shuffle(shuffledStaze);
             List<Staze> s1 = shuffledStaze.subList(0, faker.number().numberBetween(7, 22));
@@ -186,7 +203,7 @@ public class PocetniInsert {
             sezone.add(s);
         }
     }
-    
+
 //    private void kreirajUtrke() {
 //        Utrke u;
 //        for (int i = 0; i < BROJ_UTRKA; i++) {

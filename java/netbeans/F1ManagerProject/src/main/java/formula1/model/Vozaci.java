@@ -2,6 +2,8 @@ package formula1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
@@ -15,27 +17,34 @@ public class Vozaci extends Entitet {
     private String nacionalnost;
     @Column(nullable = false)
     private Date datum_rodenja;
-    @Column(nullable = true)
-    private Integer broj_pobjeda;
-    @Column(nullable = true)
-    private Integer broj_pole_positiona;
-    @Column(columnDefinition = "boolean")
-    private boolean glavni;
+//    @Column(nullable = true)
+//    private Integer broj_pobjeda;
+//    @Column(nullable = true)
+//    private Integer broj_pole_positiona;
+//    @Column(columnDefinition = "boolean")
+//    private boolean glavni;
+    //@Column(nullable = false)
+    private Integer vozacki_naslov;
+    @ManyToOne
+    @JoinColumn(name = "sezone_id")
+    private Sezone sezone;
 
     public Vozaci() {
 
     }
 
-    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Integer broj_pobjeda,
-            Integer broj_pole_positiona, boolean glavni) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Integer vozacki_naslov,
+            Sezone sezone) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
         this.nacionalnost = nacionalnost;
         this.datum_rodenja = datum_rodenja;
-        this.broj_pobjeda = broj_pobjeda;
-        this.broj_pole_positiona = broj_pole_positiona;
-        this.glavni = glavni;
+//        this.broj_pobjeda = broj_pobjeda;
+//        this.broj_pole_positiona = broj_pole_positiona;
+//        this.glavni = glavni;
+        this.vozacki_naslov = vozacki_naslov;
+        this.sezone = sezone;
     }
 
     public String getIme() {
@@ -70,28 +79,41 @@ public class Vozaci extends Entitet {
         this.datum_rodenja = datum_rodenja;
     }
 
-    public Integer getBroj_pobjeda() {
-        return broj_pobjeda;
+//    public Integer getBroj_pobjeda() {
+//        return broj_pobjeda;
+//    }
+//
+//    public void setBroj_pobjeda(Integer broj_pobjeda) {
+//        this.broj_pobjeda = broj_pobjeda;
+//    }
+//
+//    public Integer getBroj_pole_positiona() {
+//        return broj_pole_positiona;
+//    }
+//
+//    public void setBroj_pole_positiona(Integer broj_pole_positiona) {
+//        this.broj_pole_positiona = broj_pole_positiona;
+//    }
+//    public boolean isGlavni() {
+//        return glavni;
+//    }
+//
+//    public void setGlavni(boolean glavni) {
+//        this.glavni = glavni;
+//    }
+    public Integer getVozacki_naslov() {
+        return vozacki_naslov;
     }
 
-    public void setBroj_pobjeda(Integer broj_pobjeda) {
-        this.broj_pobjeda = broj_pobjeda;
+    public void setVozacki_naslov(Integer vozacki_naslov) {
+        this.vozacki_naslov = vozacki_naslov;
     }
 
-    public Integer getBroj_pole_positiona() {
-        return broj_pole_positiona;
+    public Sezone getSezone() {
+        return sezone;
     }
 
-    public void setBroj_pole_positiona(Integer broj_pole_positiona) {
-        this.broj_pole_positiona = broj_pole_positiona;
+    public void setSezone(Sezone sezone) {
+        this.sezone = sezone;
     }
-
-    public boolean isGlavni() {
-        return glavni;
-    }
-
-    public void setGlavni(boolean glavni) {
-        this.glavni = glavni;
-    }
-
 }

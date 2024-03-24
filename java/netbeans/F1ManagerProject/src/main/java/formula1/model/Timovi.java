@@ -28,13 +28,14 @@ public class Timovi extends Entitet {
 
     }
 
-    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka, List<Vozaci> vozaci) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
         this.godina_osnutka = godina_osnutka;
         // this.vozac = vozac;
         // this.max_vozaca = max_vozaca;
+        this.vozaci = vozaci;
     }
 
     public String getIme_tima() {
