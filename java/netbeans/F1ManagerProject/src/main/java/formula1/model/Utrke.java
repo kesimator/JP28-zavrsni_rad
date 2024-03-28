@@ -22,24 +22,22 @@ public class Utrke extends Entitet {
 
     private Integer redni_broj_utrke;
 
-    private Integer bodovi;
-    @ManyToOne
-    private Vozaci pobjednik;
+//    @ManyToOne
+//    @JoinColumn(name = "pobjednik_id")
+//    private Vozaci pobjednik;
 
     public Utrke() {
 
     }
 
-    public Utrke(Integer id, Date datum_i_vrijeme, Integer broj_vozaca, Integer redni_broj_utrke, Sezone sezona,
-            Integer bodovi, Vozaci pobjednik, Staze staza) {
+    public Utrke(Integer id, Date datum_i_vrijeme, Integer broj_vozaca, Integer redni_broj_utrke, Sezone sezona, Staze staza) {
         super(id);
         this.staza = staza;
         this.sezona = sezona;
         this.datum_i_vrijeme = datum_i_vrijeme;
         this.broj_vozaca = broj_vozaca;
         this.redni_broj_utrke = redni_broj_utrke;
-        this.bodovi = bodovi;
-        this.pobjednik = pobjednik;
+//        this.pobjednik = pobjednik;
     }
 
     public Staze getStaza() {
@@ -82,20 +80,12 @@ public class Utrke extends Entitet {
         this.redni_broj_utrke = redni_broj_utrke;
     }
 
-    public Integer getBodovi() {
-        return bodovi;
-    }
-
-    public void setBodovi(Integer bodovi) {
-        this.bodovi = bodovi;
-    }
-
-    public Vozaci getPobjednik() {
-        return pobjednik;
-    }
-
-    public void setPobjednik(Vozaci pobjednik) {
-        this.pobjednik = pobjednik;
-    }
+//    public Vozaci getPobjednik() {
+//        return pobjednik;
+//    }
+//
+//    public void setPobjednik(Vozaci pobjednik) {
+//        this.pobjednik = pobjednik;
+//    }
 
 }

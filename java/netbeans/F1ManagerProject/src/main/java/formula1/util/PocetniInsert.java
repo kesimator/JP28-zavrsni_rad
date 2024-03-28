@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import org.hibernate.Session;
 
 /**
@@ -121,106 +122,118 @@ public class PocetniInsert {
             s.setGodina(godinaSezone);
             s.setBroj_utrka(faker.number().numberBetween(7, 23));
 
-//            List<Vozaci> v = new ArrayList<>();
-//            for (int j = 0; j < BROJ_VOZACA; j++) {
-//                v.add(vozaci.get(faker.random().nextInt(15, BROJ_VOZACA - 1)));
-//            }
-//            int ukupanBrojVozaca = 0; // Inicijalizacija ukupnog broja vozača
-////            // Izračunaj maksimalni broj vozača za trenutnu sezonu
-////            int maxBrojVozaca = Math.min(BROJ_VOZACA - ukupanBrojVozaca, 50); // Maksimalno 50 vozača ili manje ako je 
-////            // preostalo manje od 50 vozača
-////            int brojVozaca = faker.number().numberBetween(15, maxBrojVozaca);
-////            ukupanBrojVozaca += brojVozaca; // Dodaj broj vozača za trenutnu sezonu u ukupan broj vozača
-////
-////            // Provjeri je li ukupan broj vozača premašio limit
-////            if (ukupanBrojVozaca > BROJ_VOZACA) {
-////                brojVozaca = Math.max(BROJ_VOZACA - (ukupanBrojVozaca - brojVozaca), 15); // Ako je premašen limit, postavi broj vozača na preostali broj vozača do limita ili 15, ovisno o tome koji je manji
-////                ukupanBrojVozaca = BROJ_VOZACA; // Postavi ukupan broj vozača na maksimalni limit
-////            }
+//            List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
+//            Collections.shuffle(shuffledVozaci);
+//            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
+//            s.setVozac(v);
 //
-//            int brojVozaca = faker.number().numberBetween(15, 50); // Generiramo broj vozača za trenutnu sezonu
-//            // Ako dodavanje ovih vozača premašuje ukupan broj vozača, ograničavamo broj vozača
-//            if (ukupanBrojVozaca + brojVozaca > BROJ_VOZACA) {
-//                brojVozaca = BROJ_VOZACA - ukupanBrojVozaca;
+//            List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
+//            Collections.shuffle(shuffledTimovi);
+//            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(5, 13));
+//            s.setTimovi(t);
+//
+//            Random random = new Random();
+//
+//            for (Vozaci vozac : s.getVozac()) {
+//                Timovi randomTim = timovi.get(random.nextInt(timovi.size()));
+//                vozac.setTim(randomTim);
 //            }
 
 
-
+            // Generiranje broja vozača i timova za sezonu
+            int brojVozacaZaSezonu = faker.number().numberBetween(15, 50);
+            int brojTimovaZaSezonu = faker.number().numberBetween(5, 13);
 
             List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
             Collections.shuffle(shuffledVozaci);
-            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
-            s.setVozac(v);
-
-
-
-
-//            List<Timovi> t = new ArrayList<>();
-//            for (int k = 0; k < BROJ_TIMOVA; k++) {
-//                t.add(timovi.get(faker.random().nextInt(3, BROJ_TIMOVA - 1)));
-//            }
-
-
-
 
             List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
             Collections.shuffle(shuffledTimovi);
-            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(5, 13));
-            s.setTimovi(t);
 
-//            // Dodjela vozača timovima
-            List<Vozaci> dostupniVozaci = new ArrayList<>(vozaci);
-            Collections.shuffle(dostupniVozaci);
-
-            // int brojVozaca = faker.number().numberBetween(15, 50);
-
-            int indeksVozaca = 0;
-            for (Timovi tim : timovi) {
-                int brojVozacaUTimu = Math.min(faker.number().numberBetween(2, 7), dostupniVozaci.size() - indeksVozaca);
-
-                List<Vozaci> vozaciUTimu = dostupniVozaci.subList(indeksVozaca, indeksVozaca + brojVozacaUTimu);
-                tim.setVozaci(vozaciUTimu);
-                
-                // Ažurirajte indeks vozača
-                indeksVozaca += brojVozacaUTimu;
-                
-                
-                // brojVozaca -= brojVozacaUTimu;
-
-                // Provjerite jesu li dodijeljeni svi vozači
-                if (indeksVozaca >= dostupniVozaci.size()) {
-                    break;
+            // Dodjela vozača timovima
+            int indexVozaca = 0;
+            for (Timovi tim : shuffledTimovi) {
+                int brojVozacaUTimu = faker.number().numberBetween(2, 7);
+                int brojVozacaZaTim = Math.min(brojVozacaUTimu, brojVozacaZaSezonu - indexVozaca); // Ograničavamo broj vozača po timu
+                for (int j = 0; j < brojVozacaZaTim; j++) {
+                    if (indexVozaca >= brojVozacaZaSezonu) {
+                        break;
+                    }
+                    Vozaci vozac = shuffledVozaci.get(indexVozaca++);
+                    vozac.setTim(tim);
                 }
+                // Ispis broja vozača dodijeljenih timu
+                System.out.println("Broj vozača u timu " + tim.getIme_tima() + ": " + brojVozacaZaTim);
             }
 
-            List<Staze> shuffledStaze = new ArrayList<>(staze);
-            Collections.shuffle(shuffledStaze);
-            List<Staze> s1 = shuffledStaze.subList(0, faker.number().numberBetween(7, 22));
-            s.setStaze(s1);
+            // Postavljanje vozača i timova u sezonu
+            List<Vozaci> vozaciZaSezonu = shuffledVozaci.subList(0, brojVozacaZaSezonu);
+            List<Timovi> timoviZaSezonu = shuffledTimovi.subList(0, brojTimovaZaSezonu);
+            s.setVozac(vozaciZaSezonu);
+            s.setTimovi(timoviZaSezonu);
 
-//            ukupanBrojVozaca += brojVozaca; // Dodajemo broj vozača trenutnoj sezonu na ukupan broj vozača
             session.persist(s);
             sezone.add(s);
         }
     }
 
+    private Date generirajDatumIVrijemeUtrke(Date godinaSezone1, int godinaSezone) {
+        Calendar calendar = Calendar.getInstance();
+        // Postavi kalendar na prvi dan godine
+        calendar.set(godinaSezone, Calendar.JANUARY, 1);
+        // Pronađi prvi nedjeljni datum u godini
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        // Dodaj broj tjedana koji je prošao od 1950. godine
+        int brojTjedanaOdPocetka = 0;
+        for (int godina = 1950; godina < godinaSezone; godina++) {
+            brojTjedanaOdPocetka += calendar.getActualMaximum(Calendar.WEEK_OF_YEAR);
+        }
+        int redniBrojUtrke = 0;
+        // Dodaj broj tjedana za trenutnu sezonu
+        calendar.add(Calendar.WEEK_OF_YEAR, brojTjedanaOdPocetka + redniBrojUtrke - 1); // -1 jer se brojanje tjedana počinje od 1
+        // Provjeri da li je datum između ožujka i listopada
+        while (calendar.get(Calendar.MONTH) < Calendar.MARCH || calendar.get(Calendar.MONTH) > Calendar.OCTOBER) {
+            // Ako nije, dodaj jedan tjedan
+            calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        }
+        // Generiraj slučajno vrijeme između 14:00 i 17:00 sati
+        Random random = new Random();
+        int sat = random.nextInt(4) + 14; // Slučajni sat između 14 i 17
+        // Postavi vrijeme u kalendar
+        calendar.set(Calendar.HOUR_OF_DAY, sat);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        // Vrati datum kao rezultat
+        return calendar.getTime();
+    }
+
+//    private Sezone findSeasonByYear(int year) {
+//        for (Sezone season : sezone) {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(season.getGodina());
+//            int seasonYear = calendar.get(Calendar.YEAR);
+//            if (seasonYear == year) {
+//                return season;
+//            }
+//        }
+//        return null; // Ako ne pronađemo sezonu za određenu godinu, vraćamo null
+//    }
 //    private void kreirajUtrke() {
 //        Utrke u;
-//        for (int i = 0; i < BROJ_UTRKA; i++) {
-//            u = new Utrke();
-//            
-//            List<Staze> shuffledStaze = new ArrayList<>(staze);
-//            Collections.shuffle(shuffledStaze);
-//            List<Staze> st = shuffledStaze.subList(0, faker.number().numberBetween(7, 22));
-//            u.setStaza(st);
-//            
-//            List<Sezone> shuffledSezone = new ArrayList<>(sezone);
-//            Collections.shuffle(shuffledSezone);
-//            List<Sezone> se = shuffledSezone.subList(0, faker.number().numberBetween(1, BROJ_SEZONA));
-//            u.setSezona(se);
-//            
-//            session.persist(u);
-//            utrke.add(u);
+// 
+//
+//                    // Generiraj datum i vrijeme utrke
+//                    Date godinaSezone = s.getGodina();
+//                    Date datumIVrijemeUtrke = generirajDatumIVrijemeUtrke(godinaSezone, i);
+//                    u.setDatum_i_vrijeme(datumIVrijemeUtrke);
+//
+//                    session.persist(u);
+//                    utrke.add(u);
+//
+//            }
 //        }
+//
 //    }
 }

@@ -17,25 +17,19 @@ public class Timovi extends Entitet {
     private String drzava_sjedista;
     @Column(nullable = false)
     private Date godina_osnutka;
-//    @JoinColumn(nullable = false)
-//    @ManyToOne
-//    private Vozaci vozac;
-    // private int max_vozaca;
-    @ManyToMany
-    private List<Vozaci> vozaci;
+//    @ManyToMany
+//    private List<Vozaci> vozaci;
 
     public Timovi() {
 
     }
 
-    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka, List<Vozaci> vozaci) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
         this.godina_osnutka = godina_osnutka;
-        // this.vozac = vozac;
-        // this.max_vozaca = max_vozaca;
-        this.vozaci = vozaci;
+//        this.vozaci = vozaci;
     }
 
     public String getIme_tima() {
@@ -62,26 +56,12 @@ public class Timovi extends Entitet {
         this.godina_osnutka = godina_osnutka;
     }
 
-//    public Vozaci getVozac() {
-//        return vozac;
+//    public List<Vozaci> getVozaci() {
+//        return vozaci;
 //    }
 //
-//    public void setVozac(Vozaci vozac) {
-//        this.vozac = vozac;
+//    public void setVozaci(List<Vozaci> vozaci) {
+//        this.vozaci = vozaci;
 //    }
-//    public Integer getMax_vozaca() {
-//        return max_vozaca;
-//    }
-//
-//    public void setMax_vozaca(Integer max_vozaca) {
-//        this.max_vozaca = max_vozaca;
-//    }
-    public List<Vozaci> getVozaci() {
-        return vozaci;
-    }
-
-    public void setVozaci(List<Vozaci> vozaci) {
-        this.vozaci = vozaci;
-    }
 
 }

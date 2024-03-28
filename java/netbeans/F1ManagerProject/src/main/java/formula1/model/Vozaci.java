@@ -3,8 +3,10 @@ package formula1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Vozaci extends Entitet {
@@ -17,34 +19,24 @@ public class Vozaci extends Entitet {
     private String nacionalnost;
     @Column(nullable = false)
     private Date datum_rodenja;
-//    @Column(nullable = true)
-//    private Integer broj_pobjeda;
-//    @Column(nullable = true)
-//    private Integer broj_pole_positiona;
-//    @Column(columnDefinition = "boolean")
-//    private boolean glavni;
-    //@Column(nullable = false)
-    private Integer vozacki_naslov;
+//    @ManyToMany(mappedBy = "vozaci")
+//    private List<Sezone> sezone;
     @ManyToOne
-    @JoinColumn(name = "sezone_id")
-    private Sezone sezone;
+    @JoinColumn(name = "tim_id") // Naziv stupca koji predstavlja vanjski ključ prema tabeli Timovi
+    private Timovi tim;
 
     public Vozaci() {
 
     }
 
-    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Integer vozacki_naslov,
-            Sezone sezone) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Timovi tim) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
         this.nacionalnost = nacionalnost;
         this.datum_rodenja = datum_rodenja;
-//        this.broj_pobjeda = broj_pobjeda;
-//        this.broj_pole_positiona = broj_pole_positiona;
-//        this.glavni = glavni;
-        this.vozacki_naslov = vozacki_naslov;
-        this.sezone = sezone;
+//        this.sezone = sezone;
+        this.tim = tim;
     }
 
     public String getIme() {
@@ -79,41 +71,18 @@ public class Vozaci extends Entitet {
         this.datum_rodenja = datum_rodenja;
     }
 
-//    public Integer getBroj_pobjeda() {
-//        return broj_pobjeda;
+//    public List<Sezone> getSezone() {
+//        return sezone;
 //    }
 //
-//    public void setBroj_pobjeda(Integer broj_pobjeda) {
-//        this.broj_pobjeda = broj_pobjeda;
+//    public void setSezone(List<Sezone> sezone) {
+//        this.sezone = sezone;
 //    }
-//
-//    public Integer getBroj_pole_positiona() {
-//        return broj_pole_positiona;
-//    }
-//
-//    public void setBroj_pole_positiona(Integer broj_pole_positiona) {
-//        this.broj_pole_positiona = broj_pole_positiona;
-//    }
-//    public boolean isGlavni() {
-//        return glavni;
-//    }
-//
-//    public void setGlavni(boolean glavni) {
-//        this.glavni = glavni;
-//    }
-    public Integer getVozacki_naslov() {
-        return vozacki_naslov;
+    public Timovi getTim() {
+        return tim;
     }
 
-    public void setVozacki_naslov(Integer vozacki_naslov) {
-        this.vozacki_naslov = vozacki_naslov;
-    }
-
-    public Sezone getSezone() {
-        return sezone;
-    }
-
-    public void setSezone(Sezone sezone) {
-        this.sezone = sezone;
+    public void setTim(Timovi tim) {
+        this.tim = tim;
     }
 }

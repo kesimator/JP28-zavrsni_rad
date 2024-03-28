@@ -25,6 +25,7 @@
         <mapping class="formula1.model.Sezone" />
         <mapping class="formula1.model.Staze" />
         <mapping class="formula1.model.Utrke" />
+        <mapping class="formula1.model.RezultatiUtrke" />
         
     
      

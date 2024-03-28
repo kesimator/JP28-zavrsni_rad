@@ -2,6 +2,8 @@ package formula1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import java.util.Date;
 import java.util.List;
@@ -13,9 +15,12 @@ public class Sezone extends Entitet {
     private Date godina;
     //@JoinColumn(nullable = false)
     @ManyToMany
+    @JoinTable(
+            name = "sezona_vozaci",
+            joinColumns = @JoinColumn(name = "sezona_id"),
+            inverseJoinColumns = @JoinColumn(name = "vozaci_id")
+    )
     private List<Vozaci> vozac;
-    @ManyToMany
-    private List<Staze> staze;
     @ManyToMany
     private List<Timovi> timovi;
     @Column(nullable = false)
@@ -25,11 +30,10 @@ public class Sezone extends Entitet {
 
     }
 
-    public Sezone(Integer id, Date godina, List<Vozaci> vozac, List<Staze> staze, List<Timovi> timovi, Integer broj_utrka) {
+    public Sezone(Integer id, Date godina, List<Vozaci> vozac, List<Timovi> timovi, Integer broj_utrka) {
         super(id);
         this.godina = godina;
         this.vozac = vozac;
-        //this.staze = staze;
         this.broj_utrka = broj_utrka;
     }
 
@@ -47,14 +51,6 @@ public class Sezone extends Entitet {
 
     public void setVozac(List<Vozaci> vozac) {
         this.vozac = vozac;
-    }
-
-    public List<Staze> getStaze() {
-        return staze;
-    }
-
-    public void setStaze(List<Staze> staze) {
-        this.staze = staze;
     }
 
     public List<Timovi> getTimovi() {
