@@ -20,12 +20,9 @@
         <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
         
-        <mapping class="formula1.model.Vozaci" />
         <mapping class="formula1.model.Timovi" />
-        <mapping class="formula1.model.Sezone" />
-        <mapping class="formula1.model.Staze" />
-        <mapping class="formula1.model.Utrke" />
-        <mapping class="formula1.model.RezultatiUtrke" />
+        <mapping class="formula1.model.Vozaci" />
+        <mapping class="formula1.model.Prvenstva" />
         
     
      

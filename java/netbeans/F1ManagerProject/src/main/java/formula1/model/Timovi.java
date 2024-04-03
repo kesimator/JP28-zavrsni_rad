@@ -2,9 +2,7 @@ package formula1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -17,19 +15,19 @@ public class Timovi extends Entitet {
     private String drzava_sjedista;
     @Column(nullable = false)
     private Date godina_osnutka;
-//    @ManyToMany
-//    private List<Vozaci> vozaci;
+    @OneToMany(mappedBy = "tim")
+    private List<Vozaci> vozaci;
 
     public Timovi() {
 
     }
 
-    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka, List<Vozaci> vozaci) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
         this.godina_osnutka = godina_osnutka;
-//        this.vozaci = vozaci;
+        this.vozaci = vozaci;
     }
 
     public String getIme_tima() {
@@ -56,12 +54,12 @@ public class Timovi extends Entitet {
         this.godina_osnutka = godina_osnutka;
     }
 
-//    public List<Vozaci> getVozaci() {
-//        return vozaci;
-//    }
-//
-//    public void setVozaci(List<Vozaci> vozaci) {
-//        this.vozaci = vozaci;
-//    }
+    public List<Vozaci> getVozaci() {
+        return vozaci;
+    }
+
+    public void setVozaci(List<Vozaci> vozaci) {
+        this.vozaci = vozaci;
+    }
 
 }

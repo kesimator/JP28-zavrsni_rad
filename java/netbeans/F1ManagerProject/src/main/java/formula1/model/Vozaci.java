@@ -3,10 +3,8 @@ package formula1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Vozaci extends Entitet {
@@ -19,24 +17,21 @@ public class Vozaci extends Entitet {
     private String nacionalnost;
     @Column(nullable = false)
     private Date datum_rodenja;
-//    @ManyToMany(mappedBy = "vozaci")
-//    private List<Sezone> sezone;
-//    @ManyToOne
-//    @JoinColumn(name = "tim_id") // Naziv stupca koji predstavlja vanjski ključ prema tabeli Timovi
-//    private Timovi tim;
+    @ManyToOne
+    @JoinColumn(name = "tim_id")
+    private Timovi tim;
 
     public Vozaci() {
 
     }
 
-    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Timovi tim) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
         this.nacionalnost = nacionalnost;
         this.datum_rodenja = datum_rodenja;
-//        this.sezone = sezone;
-//        this.tim = tim;
+        this.tim = tim;
     }
 
     public String getIme() {
@@ -71,18 +66,12 @@ public class Vozaci extends Entitet {
         this.datum_rodenja = datum_rodenja;
     }
 
-//    public List<Sezone> getSezone() {
-//        return sezone;
-//    }
-//
-//    public void setSezone(List<Sezone> sezone) {
-//        this.sezone = sezone;
-//    }
-//    public Timovi getTim() {
-//        return tim;
-//    }
-//
-//    public void setTim(Timovi tim) {
-//        this.tim = tim;
-//    }
+    public Timovi getTim() {
+        return tim;
+    }
+
+    public void setTim(Timovi tim) {
+        this.tim = tim;
+    }
+
 }
