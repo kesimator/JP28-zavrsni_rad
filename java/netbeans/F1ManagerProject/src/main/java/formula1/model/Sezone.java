@@ -22,6 +22,11 @@ public class Sezone extends Entitet {
     )
     private List<Vozaci> vozac;
     @ManyToMany
+    @JoinTable(
+            name = "sezona_timovi",
+            joinColumns = @JoinColumn(name = "sezona_id"),
+            inverseJoinColumns = @JoinColumn(name = "timovi_id")
+    )
     private List<Timovi> timovi;
     @Column(nullable = false)
     private Integer broj_utrka;
@@ -30,11 +35,12 @@ public class Sezone extends Entitet {
 
     }
 
-    public Sezone(Integer id, Date godina, List<Vozaci> vozac, List<Timovi> timovi, Integer broj_utrka) {
+    public Sezone(Integer id, Date godina, Integer broj_utrka, List<Vozaci> vozac, List<Timovi> timovi) {
         super(id);
         this.godina = godina;
-        this.vozac = vozac;
         this.broj_utrka = broj_utrka;
+        this.vozac = vozac;
+        this.timovi = timovi;
     }
 
     public Date getGodina() {

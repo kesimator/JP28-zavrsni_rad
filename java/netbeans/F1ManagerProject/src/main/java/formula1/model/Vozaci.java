@@ -21,22 +21,22 @@ public class Vozaci extends Entitet {
     private Date datum_rodenja;
 //    @ManyToMany(mappedBy = "vozaci")
 //    private List<Sezone> sezone;
-    @ManyToOne
-    @JoinColumn(name = "tim_id") // Naziv stupca koji predstavlja vanjski ključ prema tabeli Timovi
-    private Timovi tim;
+//    @ManyToOne
+//    @JoinColumn(name = "tim_id") // Naziv stupca koji predstavlja vanjski ključ prema tabeli Timovi
+//    private Timovi tim;
 
     public Vozaci() {
 
     }
 
-    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja, Timovi tim) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, Date datum_rodenja) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
         this.nacionalnost = nacionalnost;
         this.datum_rodenja = datum_rodenja;
 //        this.sezone = sezone;
-        this.tim = tim;
+//        this.tim = tim;
     }
 
     public String getIme() {
@@ -78,11 +78,11 @@ public class Vozaci extends Entitet {
 //    public void setSezone(List<Sezone> sezone) {
 //        this.sezone = sezone;
 //    }
-    public Timovi getTim() {
-        return tim;
-    }
-
-    public void setTim(Timovi tim) {
-        this.tim = tim;
-    }
+//    public Timovi getTim() {
+//        return tim;
+//    }
+//
+//    public void setTim(Timovi tim) {
+//        this.tim = tim;
+//    }
 }

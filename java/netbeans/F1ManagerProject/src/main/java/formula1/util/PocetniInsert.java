@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import org.hibernate.Session;
 
 /**
@@ -68,8 +70,6 @@ public class PocetniInsert {
             v.setPrezime(faker.name().lastName());
             v.setDatum_rodenja(faker.date().birthday(18, 60));
             v.setNacionalnost(faker.nation().nationality());
-//            v.setBroj_pobjeda(faker.number().numberBetween(0, 300));
-//            v.setBroj_pole_positiona(faker.number().numberBetween(0, 500));
             vozaci.add(v);
             session.persist(v);
         }
@@ -77,9 +77,18 @@ public class PocetniInsert {
 
     private void kreirajTimove() {
         Timovi t;
+        // Koristimo set za spremanje imena kako bi se automatski eliminirali duplikati
+        Set<String> imenaTimova = new HashSet<>();
         for (int i = 0; i < BROJ_TIMOVA; i++) {
             t = new Timovi();
-            t.setIme_tima(faker.dragonBall().character().toUpperCase());
+
+            String imeTima;
+            do {
+                imeTima = faker.dragonBall().character().toUpperCase(); // Generiranje nasumičnog imena tima
+            } while (imenaTimova.contains(imeTima)); // Provjera je li ime već korišteno
+            imenaTimova.add(imeTima); // Dodavanje imena u set kako bi se spriječilo ponavljanje
+
+            t.setIme_tima(imeTima);
             t.setDrzava_sjedista(faker.country().capital());
             t.setGodina_osnutka(faker.date().birthday(20, 120));
 
@@ -100,8 +109,6 @@ public class PocetniInsert {
             int minute = faker.number().numberBetween(1, 1);
             int sekunde = faker.number().numberBetween(5, 45);
             int milisekunde = faker.number().numberBetween(20, 990);
-            //String rekordStaze = String.format("d%:%02d.%03d", minute, sekunde, milisekunde);
-            //LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
             LocalTime rekordStaze = LocalTime.of(sati, minute, sekunde, milisekunde * 1_000_000);
             s.setRekord_staze(rekordStaze);
 
@@ -122,55 +129,16 @@ public class PocetniInsert {
             s.setGodina(godinaSezone);
             s.setBroj_utrka(faker.number().numberBetween(7, 23));
 
-//            List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
-//            Collections.shuffle(shuffledVozaci);
-//            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
-//            s.setVozac(v);
-//
-//            List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
-//            Collections.shuffle(shuffledTimovi);
-//            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(5, 13));
-//            s.setTimovi(t);
-//
-//            Random random = new Random();
-//
-//            for (Vozaci vozac : s.getVozac()) {
-//                Timovi randomTim = timovi.get(random.nextInt(timovi.size()));
-//                vozac.setTim(randomTim);
-//            }
-
-
-            // Generiranje broja vozača i timova za sezonu
-            int brojVozacaZaSezonu = faker.number().numberBetween(15, 50);
-            int brojTimovaZaSezonu = faker.number().numberBetween(5, 13);
-
             List<Vozaci> shuffledVozaci = new ArrayList<>(vozaci);
             Collections.shuffle(shuffledVozaci);
+            List<Vozaci> v = shuffledVozaci.subList(0, faker.number().numberBetween(15, 50));
+            s.setVozac(v);
 
             List<Timovi> shuffledTimovi = new ArrayList<>(timovi);
             Collections.shuffle(shuffledTimovi);
+            List<Timovi> t = shuffledTimovi.subList(0, faker.number().numberBetween(5, 13));
+            s.setTimovi(t);
 
-            // Dodjela vozača timovima
-            int indexVozaca = 0;
-            for (Timovi tim : shuffledTimovi) {
-                int brojVozacaUTimu = faker.number().numberBetween(2, 7);
-                int brojVozacaZaTim = Math.min(brojVozacaUTimu, brojVozacaZaSezonu - indexVozaca); // Ograničavamo broj vozača po timu
-                for (int j = 0; j < brojVozacaZaTim; j++) {
-                    if (indexVozaca >= brojVozacaZaSezonu) {
-                        break;
-                    }
-                    Vozaci vozac = shuffledVozaci.get(indexVozaca++);
-                    vozac.setTim(tim);
-                }
-                // Ispis broja vozača dodijeljenih timu
-                System.out.println("Broj vozača u timu " + tim.getIme_tima() + ": " + brojVozacaZaTim);
-            }
-
-            // Postavljanje vozača i timova u sezonu
-            List<Vozaci> vozaciZaSezonu = shuffledVozaci.subList(0, brojVozacaZaSezonu);
-            List<Timovi> timoviZaSezonu = shuffledTimovi.subList(0, brojTimovaZaSezonu);
-            s.setVozac(vozaciZaSezonu);
-            s.setTimovi(timoviZaSezonu);
 
             session.persist(s);
             sezone.add(s);
@@ -220,6 +188,8 @@ public class PocetniInsert {
 //        }
 //        return null; // Ako ne pronađemo sezonu za određenu godinu, vraćamo null
 //    }
+    
+    
 //    private void kreirajUtrke() {
 //        Utrke u;
 // 
