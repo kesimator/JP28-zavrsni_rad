@@ -3,8 +3,13 @@
  */
 package formula1;
 
-import formula1.util.HibernateUtil;
+import com.google.gson.Gson;
+import formula1.controller.ObradaTimovi;
+import formula1.model.Timovi;
+import formula1.util.EdunovaException;
 import formula1.util.PocetniInsert;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,5 +22,6 @@ public class Start {
         // HibernateUtil.getSession();
         new PocetniInsert();
 
+        // System.out.println(new Gson().toJson(new ObradaTimovi().read()));
     }
 }

@@ -3,6 +3,7 @@ package formula1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Timovi extends Entitet {
     @Column(nullable = false)
     private Date godina_osnutka;
     @OneToMany(mappedBy = "tim")
-    private List<Vozaci> vozaci;
+    private List<Vozaci> vozaci = new ArrayList<>();
 
     public Timovi() {
 
