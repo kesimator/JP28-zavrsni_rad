@@ -31,6 +31,11 @@ public abstract class Obrada<T extends Entitet> {
         session = HibernateUtil.getSession();
     }
 
+    public Obrada(T entitet) {
+        this();
+        this.entitet = entitet;
+    }
+
     public void create() throws EdunovaException {
         kontrolaNull();
 //        entitet.setId(null);

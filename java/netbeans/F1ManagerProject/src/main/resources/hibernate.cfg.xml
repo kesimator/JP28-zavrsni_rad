@@ -23,6 +23,7 @@
         <mapping class="formula1.model.Timovi" />
         <mapping class="formula1.model.Vozaci" />
         <mapping class="formula1.model.Prvenstva" />
+        <mapping class="formula1.model.Operater" />
         
     
      

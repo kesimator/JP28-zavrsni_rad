@@ -8,6 +8,7 @@ import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,14 @@ import java.util.List;
  * @author Kesimator
  */
 public class ObradaTimovi extends Obrada<Timovi> {
+
+    public ObradaTimovi() {
+        super();
+    }
+
+    public ObradaTimovi(Timovi t) {
+        super(t);
+    }
 
     @Override
     public List<Timovi> read() {
@@ -25,7 +34,6 @@ public class ObradaTimovi extends Obrada<Timovi> {
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaImeTima();
         kontrolaDrzavaSjedista();
-        kontrolaVozaci();
         kontrolaGodinaUnosa();
     }
 
@@ -45,6 +53,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
                 sb.append(v.getIme());
                 sb.append(", ");
             }
+            sb.delete(sb.length() - 2, sb.length());
             sb.append(") ");
 
             throw new EdunovaException(sb.toString());
@@ -57,24 +66,13 @@ public class ObradaTimovi extends Obrada<Timovi> {
             throw new EdunovaException("Ime tima mora biti definirano!");
         }
         if (i.isEmpty()) {
-            throw new EdunovaException("Ime tima ne smije biti prazan!");
+            throw new EdunovaException("Ime tima ne smije biti prazno!");
         }
     }
 
     private void kontrolaDrzavaSjedista() throws EdunovaException {
         var d = entitet.getDrzava_sjedista();
         if (d == null) {
-            return;
-        }
-    }
-
-    private void kontrolaVozaci() throws EdunovaException {
-        var v = entitet.getVozaci();
-        if (v == null) {
-            throw new EdunovaException("Ime tima mora biti definirano!");
-        }
-        if (v.isEmpty()) {
-            throw new EdunovaException("Ime tima ne smije biti prazan!");
         }
     }
 
@@ -83,11 +81,30 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (g == null) {
             throw new EdunovaException("Godina osnutka mora biti definirana!");
         }
+        Calendar kk = Calendar.getInstance();
+        int trenutna = kk.get(Calendar.YEAR);
+
         Calendar k = Calendar.getInstance();
         k.setTime(g);
         int year = k.get(Calendar.YEAR);
+
         if (year < 1904) {
+            throw new EdunovaException("Godina osnutka ne smije biti starija od 1904. godine!");
+        }
+        if (year > trenutna) {
+            throw new EdunovaException("Godina osnutka ne smije biti novija od trenutne godine!");
+        }
+
+        var prije = new Date();
+        prije.setYear(04);
+
+        var danas = new Date();
+
+        if (g.before(prije)) {
             throw new EdunovaException("Godina osnutka ne može biti starija od 1904. godine!");
+        }
+        if (g.after(danas) || g.getYear() == danas.getYear()) {
+            throw new EdunovaException("Godina osnutka ne smije biti novija od trenutne godine!");
         }
     }
 

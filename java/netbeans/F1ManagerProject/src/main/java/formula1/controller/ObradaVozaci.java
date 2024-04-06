@@ -7,6 +7,7 @@ package formula1.controller;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,14 @@ import java.util.List;
  * @author Kesimator
  */
 public class ObradaVozaci extends Obrada<Vozaci> {
+
+    public ObradaVozaci() {
+        super();
+    }
+
+    public ObradaVozaci(Vozaci v) {
+        super(v);
+    }
 
     @Override
     public List<Vozaci> read() {
@@ -30,12 +39,14 @@ public class ObradaVozaci extends Obrada<Vozaci> {
 
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
-
+        kontrolaUnos();
     }
 
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
-
+        if (entitet.getTim() != null) {
+            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!");
+        }
     }
 
     private void kontrolaIme() throws EdunovaException {
@@ -73,16 +84,27 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (dr == null) {
             throw new EdunovaException("Datum rođenja mora biti definiran!");
         }
+
         Calendar r = Calendar.getInstance();
         r.setTime(dr);
-        Calendar s = Calendar.getInstance();
-        s.add(Calendar.YEAR, -60);
-        Calendar o = Calendar.getInstance();
-        o.add(Calendar.YEAR, -18);
+        Calendar ss = Calendar.getInstance();
+        ss.add(Calendar.YEAR, -60);
+        Calendar oo = Calendar.getInstance();
+        oo.add(Calendar.YEAR, -18);
 
-        if (r.after(s) || r.after(o)) {
+        if (r.after(ss) || r.after(oo)) {
             throw new EdunovaException("Vozač ne može biti stariji od 60 godina ili mlađi od 18 godina!");
         }
+
+        var s = new Date();
+        s.setYear(s.getYear() - 60);
+        var o = new Date();
+        o.setYear(o.getYear() - 18);
+
+        if (dr.before(s) || dr.after(o)) {
+            throw new EdunovaException("Vozač ne može biti stariji od 60 godina ili mlađi od 18 godina!");
+        }
+
     }
 
 }
