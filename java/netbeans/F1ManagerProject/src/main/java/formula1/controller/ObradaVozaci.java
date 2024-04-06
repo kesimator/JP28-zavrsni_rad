@@ -26,7 +26,10 @@ public class ObradaVozaci extends Obrada<Vozaci> {
 
     @Override
     public List<Vozaci> read() {
-        return session.createQuery("from Vozaci", Vozaci.class).list();
+
+        List<Vozaci> lista = session.createQuery("from Vozaci", Vozaci.class).list();
+
+        return lista;
     }
 
     @Override

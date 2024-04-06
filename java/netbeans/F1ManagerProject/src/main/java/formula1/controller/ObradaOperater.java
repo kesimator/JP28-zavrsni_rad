@@ -39,7 +39,7 @@ public class ObradaOperater extends Obrada<Operater> {
 
     @Override
     protected void kontrolaUnos() throws EdunovaException {
-
+        kontrolaEmail();
     }
 
     @Override
@@ -50,6 +50,16 @@ public class ObradaOperater extends Obrada<Operater> {
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
 
+    }
+
+    private void kontrolaEmail() throws EdunovaException {
+        // Provjeri postoji li već operater s istim emailom
+        List<Operater> mail = session.createQuery("from Operater o where o.email=:email", Operater.class)
+                .setParameter("email", entitet.getEmail()).getResultList();
+
+        if (!mail.isEmpty()) {
+            throw new EdunovaException("Već postoji operater s tim emailom!");
+        }
     }
 
 }

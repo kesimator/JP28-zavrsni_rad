@@ -69,10 +69,25 @@ public class PocetniInsert {
     private void kreirajVozace() {
         List<Timovi> sviTimovi = session.createQuery("FROM Timovi", Timovi.class).getResultList(); // Dohvaćanje svih timova iz baze
         int brojTimova = sviTimovi.size();
+
+        Set<String> prvo = new HashSet<>();
+        Set<String> drugo = new HashSet<>();
+
         for (int i = 0; i < BROJ_VOZACA; i++) {
             Vozaci v = new Vozaci();
-            v.setIme(faker.dune().character());
-            v.setPrezime(faker.name().lastName());
+
+            String ime;
+            do {
+                ime = faker.name().firstName();
+            } while (!prvo.add(ime));
+
+            String prezime;
+            do {
+                prezime = faker.company().name();
+            } while (!drugo.add(prezime));
+
+            v.setIme(ime);
+            v.setPrezime(prezime);
             v.setDatum_rodenja(faker.date().birthday(18, 60));
             v.setNacionalnost(faker.nation().nationality());
 

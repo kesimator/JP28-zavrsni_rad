@@ -27,7 +27,10 @@ public class ObradaTimovi extends Obrada<Timovi> {
 
     @Override
     public List<Timovi> read() {
-        return session.createQuery("from Timovi", Timovi.class).list();
+
+        List<Timovi> lista = session.createQuery("from Timovi", Timovi.class).list();
+
+        return lista;
     }
 
     @Override

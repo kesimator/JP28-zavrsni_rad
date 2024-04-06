@@ -63,4 +63,9 @@ public class Timovi extends Entitet {
         this.vozaci = vozaci;
     }
 
+    @Override
+    public String toString() {
+        return ime_tima;
+    }
+
 }
