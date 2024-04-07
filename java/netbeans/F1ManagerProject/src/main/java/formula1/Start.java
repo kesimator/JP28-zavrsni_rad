@@ -20,7 +20,7 @@ import formula1.util.HibernateUtil;
 import formula1.util.PocetniInsert;
 import formula1.view.Autorizacija;
 import formula1.view.SplashScreen;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,10 +38,8 @@ public class Start {
         // HibernateUtil.getSession();
         // new PocetniInsert();
         // System.out.println(new Gson().toJson(new ObradaTimovi().read()));
-        new SplashScreen().setVisible(true);
+         new SplashScreen().setVisible(true);
 
-        
-        
         
         
         
@@ -80,14 +78,13 @@ public class Start {
 
     private void Testiranje() {
 
-        //        ObradaTimovi ot = new ObradaTimovi();
+//        ObradaTimovi ot = new ObradaTimovi();
 //        
-//        
-//        Date datum = new Date(47,07,15);
+
 //        
 //        Timovi t = new Timovi();
 //        t.setIme_tima("Prvi preko kontrola");
-//        t.setGodina_osnutka(datum);
+//        t.setGodina_osnutka(1990);
 //        t.setDrzava_sjedista("EDUNOVA");
 //        
 //        
@@ -111,7 +108,7 @@ public class Start {
 //        }
 //        ObradaVozaci ov = new ObradaVozaci();
 //        
-//        Date datum = new Date(95,05,15);
+//        LocalDate datum = LocalDate.of(1995,2,19);
 //                
 //        Vozaci v = new Vozaci();
 //        v.setIme("Mika");

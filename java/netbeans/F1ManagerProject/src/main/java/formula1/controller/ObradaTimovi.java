@@ -7,8 +7,6 @@ package formula1.controller;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
     @Override
     public List<Timovi> read() {
 
-        List<Timovi> lista = session.createQuery("from Timovi", Timovi.class).list();
+        List<Timovi> lista = session.createQuery("from Timovi order by ime_tima", Timovi.class).list();
 
         return lista;
     }
@@ -38,6 +36,9 @@ public class ObradaTimovi extends Obrada<Timovi> {
         kontrolaImeTima();
         kontrolaDrzavaSjedista();
         kontrolaGodinaUnosa();
+        kontrolaPostojanjaTimova();
+//        kontrolaPostojanjaVozacaUTimu();
+//        kontrolaPostojanjaVozaca();
     }
 
     @Override
@@ -71,12 +72,18 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (i.isEmpty()) {
             throw new EdunovaException("Ime tima ne smije biti prazno!");
         }
+        entitet.setIme_tima(entitet.getIme_tima().toUpperCase());
     }
 
     private void kontrolaDrzavaSjedista() throws EdunovaException {
         var d = entitet.getDrzava_sjedista();
         if (d == null) {
+            throw new EdunovaException("Država sjedišta mora biti definirano!");
         }
+        if (d.isEmpty()) {
+            throw new EdunovaException("Država sjedišta ne smije biti prazno!");
+        }
+        entitet.setDrzava_sjedista(entitet.getDrzava_sjedista().toUpperCase());
     }
 
     private void kontrolaGodinaUnosa() throws EdunovaException {
@@ -84,31 +91,46 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (g == null) {
             throw new EdunovaException("Godina osnutka mora biti definirana!");
         }
-        Calendar kk = Calendar.getInstance();
-        int trenutna = kk.get(Calendar.YEAR);
-
-        Calendar k = Calendar.getInstance();
-        k.setTime(g);
-        int year = k.get(Calendar.YEAR);
-
-        if (year < 1904) {
-            throw new EdunovaException("Godina osnutka ne smije biti starija od 1904. godine!");
-        }
-        if (year > trenutna) {
-            throw new EdunovaException("Godina osnutka ne smije biti novija od trenutne godine!");
-        }
-
-        var prije = new Date();
-        prije.setYear(04);
-
-        var danas = new Date();
-
-        if (g.before(prije)) {
-            throw new EdunovaException("Godina osnutka ne može biti starija od 1904. godine!");
-        }
-        if (g.after(danas) || g.getYear() == danas.getYear()) {
-            throw new EdunovaException("Godina osnutka ne smije biti novija od trenutne godine!");
+        if (g < 1904 || g > 2020) {
+            throw new EdunovaException("Godina osnutka mora biti unutar raspona od 1904. godine do 2020. godine!");
         }
     }
 
+    private void kontrolaPostojanjaTimova() throws EdunovaException {
+        List<Timovi> timovi = session.createQuery("from Timovi t where t.ime_tima = :ime_tima", Timovi.class)
+                .setParameter("ime_tima", entitet.getIme_tima())
+                .getResultList();
+        if (!timovi.isEmpty()) {
+            throw new EdunovaException("Već postoji tim s istim imenom!");
+        }
+    }
+
+//    private void kontrolaPostojanjaVozacaUTimu() throws EdunovaException {
+//        List<Vozaci> vozaciUTimu = session.createQuery("from Vozaci v where v.tim = :tim", Vozaci.class)
+//                .setParameter("tim", entitet)
+//                .getResultList();
+//        if (!vozaciUTimu.isEmpty()) {
+//            throw new EdunovaException("Vozač je već dodijeljen timu!");
+//        }
+//    }
+//    private void kontrolaPostojanjaVozaca() throws EdunovaException {
+//        List<Vozaci> vozaci = entitet.getVozaci();
+//
+//        // Iteriramo kroz listu vozača
+//        for (Vozaci vozac : vozaci) {
+//            String ime = vozac.getIme();
+//            String prezime = vozac.getPrezime();
+//            
+//            List<Vozaci> postojeciVozaci = session.createQuery(
+//                    "from Vozaci v where v.ime = :ime and v.prezime = :prezime", Vozaci.class)
+//                    .setParameter("ime", ime)
+//                    .setParameter("prezime", prezime)
+//                    .getResultList();
+//            
+//            if (!postojeciVozaci.isEmpty()) {   // provjeriti !
+//                throw new EdunovaException("Vozač s navedenim imenom i prezimenom ne postoji!");
+//            }
+//        }
+//        
+//    }
 }

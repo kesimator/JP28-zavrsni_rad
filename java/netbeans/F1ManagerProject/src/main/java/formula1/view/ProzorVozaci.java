@@ -8,9 +8,8 @@ import formula1.controller.ObradaVozaci;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
 import formula1.util.EdunovaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -228,11 +227,15 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
         obrada.setEntitet(new Vozaci());
         popuniModel();
+
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
         try {
             obrada.create();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
         }
 
     }//GEN-LAST:event_btnDodajActionPerformed
@@ -244,8 +247,10 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
         var e = lstPodaci.getSelectedValue();
 
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
         if (JOptionPane.showConfirmDialog(getRootPane(), e, "Sigurno obrisati?",
-                JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
             return;
         }
 
@@ -255,7 +260,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             obrada.delete();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
         }
 
     }//GEN-LAST:event_btnObrisiActionPerformed
@@ -270,11 +276,14 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         obrada.setEntitet(e);
         popuniModel();
 
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
         try {
             obrada.update();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka());
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
             obrada.refresh();
         }
 

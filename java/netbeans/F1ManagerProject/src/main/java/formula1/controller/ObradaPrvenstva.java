@@ -6,8 +6,6 @@ package formula1.controller;
 
 import formula1.model.Prvenstva;
 import formula1.util.EdunovaException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,7 +34,7 @@ public class ObradaPrvenstva extends Obrada<Prvenstva> {
 
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
-
+        kontrolaUnos(); // Je li potrebno?
     }
 
     @Override
@@ -54,33 +52,9 @@ public class ObradaPrvenstva extends Obrada<Prvenstva> {
         if (s == null) {
             throw new EdunovaException("Sezona mora biti definirana!");
         }
-
-        Calendar sss = Calendar.getInstance();
-        int zadnja = sss.get(Calendar.YEAR);
-
-        Calendar ss = Calendar.getInstance();
-        ss.setTime(s);
-        int prva = ss.get(Calendar.YEAR);
-
-        if (prva < 1904) {
-            throw new EdunovaException("Sezona ne smije biti starija od 1904. godine!");
+        if (s < 1950 || s > 2023) {
+            throw new EdunovaException("Sezona mora biti unutar raspona od 1950. godine do 2023. godine!");
         }
-        if (prva > zadnja) {
-            throw new EdunovaException("Sezona ne smije biti novija od trenutne godine!");
-        }
-
-        var prije = new Date();
-        prije.setYear(04);
-
-        var danas = new Date();
-
-        if (s.before(prije)) {
-            throw new EdunovaException("Sezona ne smije biti starija od 1904. godine!");
-        }
-        if (s.after(danas)) {
-            throw new EdunovaException("Sezona ne smije biti novija od trenutne godine!");
-        }
-
     }
 
 }

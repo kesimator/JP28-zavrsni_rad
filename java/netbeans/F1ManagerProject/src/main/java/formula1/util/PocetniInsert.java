@@ -8,11 +8,13 @@ import com.github.javafaker.Faker;
 import formula1.model.Prvenstva;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import org.hibernate.Session;
 
 /**
@@ -59,7 +61,7 @@ public class PocetniInsert {
 
             t.setIme_tima(imeTima);
             t.setDrzava_sjedista(faker.country().capital());
-            t.setGodina_osnutka(faker.date().birthday(20, 120));
+            t.setGodina_osnutka(faker.number().numberBetween(1904, 2020));
 
             session.persist(t);
             timovi.add(t);
@@ -71,7 +73,7 @@ public class PocetniInsert {
         int brojTimova = sviTimovi.size();
 
         Set<String> prvo = new HashSet<>();
-        Set<String> drugo = new HashSet<>();
+//        Set<String> drugo = new HashSet<>();
 
         for (int i = 0; i < BROJ_VOZACA; i++) {
             Vozaci v = new Vozaci();
@@ -81,14 +83,27 @@ public class PocetniInsert {
                 ime = faker.name().firstName();
             } while (!prvo.add(ime));
 
-            String prezime;
-            do {
-                prezime = faker.company().name();
-            } while (!drugo.add(prezime));
+//            String prezime;
+//            do {
+//                prezime = faker.name().lastName();
+//            } while (!drugo.add(prezime));
 
             v.setIme(ime);
-            v.setPrezime(prezime);
-            v.setDatum_rodenja(faker.date().birthday(18, 60));
+            v.setPrezime(faker.name().lastName());
+
+            LocalDate trenutno = LocalDate.now();
+            LocalDate min = trenutno.minusYears(60); // Maksimalna dob je 60 godina
+            LocalDate max = trenutno.minusYears(18); // Minimalna dob je 18 godina
+
+            long mini = min.toEpochDay();
+            long maxi = max.toEpochDay();
+
+            long randomDateEpochDay = ThreadLocalRandom.current().nextLong(mini, maxi + 1);
+
+            LocalDate nasumicno = LocalDate.ofEpochDay(randomDateEpochDay);
+
+            v.setDatum_rodenja(nasumicno);
+
             v.setNacionalnost(faker.nation().nationality());
 
             Timovi randomTim = sviTimovi.get(faker.random().nextInt(brojTimova));
@@ -100,19 +115,15 @@ public class PocetniInsert {
     }
 
     private void kreirajPrvenstva() {
-        Calendar kalendar = Calendar.getInstance();
-        kalendar.add(Calendar.YEAR, -74);
-
-        for (int i = 0; i < 74; i++) {
+        for (int i = 1950; i <= 2023; i++) {
             Prvenstva p = new Prvenstva();
 
-            p.setSezona(kalendar.getTime());
+            p.setSezona(i);
             p.setVozac(vozaci.get(faker.random().nextInt(vozaci.size())));
             p.setTim(timovi.get(faker.random().nextInt(timovi.size())));
 
             session.persist(p);
 
-            kalendar.add(Calendar.YEAR, 1); // Dodaj jednu godinu na kalendar za sljedeće prvenstvo
         }
     }
 

@@ -8,7 +8,10 @@ import formula1.controller.ObradaTimovi;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
+import formula1.util.EdunovaException;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,6 +58,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtDrzavaSjedista = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtVozaciUTimu = new javax.swing.JTextField();
+        btnDodaj = new javax.swing.JButton();
+        btnPromjena = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,6 +103,30 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtVozaciUTimu.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtVozaciUTimu.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnPromjena.setText("Promijeni");
+        btnPromjena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjenaActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnObrisi.setText("Obriši");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,17 +134,25 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtGodinaOsnutka, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                    .addComponent(txtImeTima, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtVozaciUTimu)
-                    .addComponent(txtDrzavaSjedista))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtGodinaOsnutka, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(txtImeTima, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtVozaciUTimu)
+                            .addComponent(txtDrzavaSjedista)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnDodaj)
+                        .addGap(49, 49, 49)
+                        .addComponent(btnPromjena)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addComponent(btnObrisi)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,7 +174,12 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtVozaciUTimu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodaj)
+                    .addComponent(btnObrisi)
+                    .addComponent(btnPromjena))
+                .addContainerGap())
         );
 
         pack();
@@ -157,11 +200,81 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         popuniView();
     }//GEN-LAST:event_lstPodaciValueChanged
 
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+
+        obrada.setEntitet(new Timovi());
+        popuniModel();
+        
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+        
+        try {
+            obrada.create();
+            ucitaj();
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
+        if (lstPodaci.getSelectedValue() == null) {
+            return;
+        }
+
+        var e = lstPodaci.getSelectedValue();
+
+        obrada.setEntitet(e);
+        popuniModel();
+        
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
+        try {
+            obrada.update();
+            ucitaj();
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
+            obrada.refresh();
+        }
+    }//GEN-LAST:event_btnPromjenaActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        if (lstPodaci.getSelectedValue() == null) {
+            return;
+        }
+
+        var e = lstPodaci.getSelectedValue();
+        
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+        
+
+        if (JOptionPane.showConfirmDialog(getRootPane(), e, "Sigurno obrisati?",
+            JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
+        return;
+        }
+
+        obrada.setEntitet(e);
+
+        try {
+            obrada.delete();
+            ucitaj();
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
+                    JOptionPane.ERROR_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
     @Override
     public void popuniModel() {
         var e = obrada.getEntitet();
         e.setIme_tima(txtImeTima.getText());
         e.setDrzava_sjedista(txtDrzavaSjedista.getText());
+        
+        try {
+            e.setGodina_osnutka(Integer.valueOf(txtGodinaOsnutka.getText()));
+        } catch (Exception ex) {
+            e.setGodina_osnutka(null);
+        }
     }
 
     @Override
@@ -170,10 +283,19 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtImeTima.setText(e.getIme_tima());
         txtDrzavaSjedista.setText(e.getDrzava_sjedista());
         txtGodinaOsnutka.setText(String.valueOf(e.getGodina_osnutka()));
-        txtVozaciUTimu.setText(String.valueOf(e.getVozaci()));
+//        txtVozaciUTimu.setText(String.valueOf(e.getVozaci()));
+        
+        try {
+            txtVozaciUTimu.setText(String.valueOf(e.getVozaci()));
+        } catch (Exception ex) {
+            txtVozaciUTimu.setText("");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnPromjena;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

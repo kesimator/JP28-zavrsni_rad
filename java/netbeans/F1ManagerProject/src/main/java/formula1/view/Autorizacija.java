@@ -145,7 +145,7 @@ public class Autorizacija extends javax.swing.JFrame {
         Operater o = obrada.autoriziraj(email, new String(txtLozinka.getPassword()));
 
         if (o == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Neispravna kombinacija email i lozinka!");
+            JOptionPane.showMessageDialog(getRootPane(), "Neispravna kombinacija email i/ili lozinka!");
             return;
         }
 

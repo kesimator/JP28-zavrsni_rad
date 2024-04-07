@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,10 +11,10 @@ public class Timovi extends Entitet {
 
     @Column(nullable = false)
     private String ime_tima;
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String drzava_sjedista;
     @Column(nullable = false)
-    private Date godina_osnutka;
+    private Integer godina_osnutka;
     @OneToMany(mappedBy = "tim")
     private List<Vozaci> vozaci = new ArrayList<>();
 
@@ -23,7 +22,7 @@ public class Timovi extends Entitet {
 
     }
 
-    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Date godina_osnutka, List<Vozaci> vozaci) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Integer godina_osnutka, List<Vozaci> vozaci) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
@@ -47,11 +46,11 @@ public class Timovi extends Entitet {
         this.drzava_sjedista = drzava_sjedista;
     }
 
-    public Date getGodina_osnutka() {
+    public Integer getGodina_osnutka() {
         return godina_osnutka;
     }
 
-    public void setGodina_osnutka(Date godina_osnutka) {
+    public void setGodina_osnutka(Integer godina_osnutka) {
         this.godina_osnutka = godina_osnutka;
     }
 

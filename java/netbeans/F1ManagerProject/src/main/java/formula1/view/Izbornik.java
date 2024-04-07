@@ -8,6 +8,7 @@ import formula1.util.Alati;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -108,7 +109,7 @@ public class Izbornik extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,11 +127,16 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Image slika = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        ImageIcon ii = new ImageIcon(slika);
+        
+        String putanja = "/f1logo132x55.jpg";
+        ImageIcon slika = new ImageIcon(getClass().getResource(putanja));
+        
+//        Image slika = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+//        ImageIcon ii = new ImageIcon(slika);
 
-        JOptionPane.showMessageDialog(getRootPane(), "O aplikaciji\n" + "Ovo je primjer",
-                "Aplikacija za vođenje nastave", JOptionPane.INFORMATION_MESSAGE, ii);
+        JOptionPane.showMessageDialog(getRootPane(), "O aplikaciji\n" + 
+                "Stvorena za jednostavno praćenje timova,\n" + "vozača, vozača u timovima i prvenstvima.",
+                "Aplikacija za podatke o sudionicima Formule 1", JOptionPane.INFORMATION_MESSAGE, slika);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

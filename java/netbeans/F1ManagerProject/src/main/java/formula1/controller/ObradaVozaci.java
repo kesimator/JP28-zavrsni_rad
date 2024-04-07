@@ -4,10 +4,11 @@
  */
 package formula1.controller;
 
+import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 /**
@@ -15,43 +16,46 @@ import java.util.List;
  * @author Kesimator
  */
 public class ObradaVozaci extends Obrada<Vozaci> {
-
+    
     public ObradaVozaci() {
         super();
     }
-
+    
     public ObradaVozaci(Vozaci v) {
         super(v);
     }
-
+    
     @Override
     public List<Vozaci> read() {
-
-        List<Vozaci> lista = session.createQuery("from Vozaci", Vozaci.class).list();
-
+        
+        List<Vozaci> lista = session.createQuery("from Vozaci order by ime, prezime", Vozaci.class).list();
+        
         return lista;
     }
-
+    
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
         kontrolaPrezime();
         kontrolaNacionalnost();
         kontrolaDatumRodenja();
+        kontrolaPostojanjaTima();
+        kontrolaPostojanjaVozaca();
     }
-
+    
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
         kontrolaUnos();
     }
-
+    
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
-        if (entitet.getTim() != null) {
-            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!");
+        Timovi tim = entitet.getTim();
+        if (tim != null) {
+            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan! [" + tim.getIme_tima() + "]");
         }
     }
-
+    
     private void kontrolaIme() throws EdunovaException {
         var i = entitet.getIme();
         if (i == null) {
@@ -60,8 +64,9 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (i.isEmpty()) {
             throw new EdunovaException("Ime vozača ne smije biti prazno!");
         }
+        entitet.setIme(entitet.getIme().toUpperCase());
     }
-
+    
     private void kontrolaPrezime() throws EdunovaException {
         var p = entitet.getPrezime();
         if (p == null) {
@@ -70,8 +75,9 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (p.isEmpty()) {
             throw new EdunovaException("Prezime vozača ne smije biti prazno!");
         }
+        entitet.setPrezime(entitet.getPrezime().toUpperCase());
     }
-
+    
     private void kontrolaNacionalnost() throws EdunovaException {
         var n = entitet.getNacionalnost();
         if (n == null) {
@@ -80,34 +86,41 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (n.isEmpty()) {
             throw new EdunovaException("Nacionalnost vozača ne smije biti prazna!");
         }
+        entitet.setNacionalnost(entitet.getNacionalnost().toUpperCase());
     }
-
+    
     private void kontrolaDatumRodenja() throws EdunovaException {
         var dr = entitet.getDatum_rodenja();
         if (dr == null) {
             throw new EdunovaException("Datum rođenja mora biti definiran!");
         }
 
-        Calendar r = Calendar.getInstance();
-        r.setTime(dr);
-        Calendar ss = Calendar.getInstance();
-        ss.add(Calendar.YEAR, -60);
-        Calendar oo = Calendar.getInstance();
-        oo.add(Calendar.YEAR, -18);
+        // Trenutni datum
+        LocalDate danas = LocalDate.now();
 
-        if (r.after(ss) || r.after(oo)) {
-            throw new EdunovaException("Vozač ne može biti stariji od 60 godina ili mlađi od 18 godina!");
+        // Računanje razlike u godinama između datuma rođenja i danas
+        int godine = Period.between(dr, danas).getYears();
+
+        // Provjera uvjeta
+        if (godine < 18 || godine > 60) {
+            throw new EdunovaException("Vozač ne može biti mlađi od 18 godina ili stariji od 60 godina!");
         }
-
-        var s = new Date();
-        s.setYear(s.getYear() - 60);
-        var o = new Date();
-        o.setYear(o.getYear() - 18);
-
-        if (dr.before(s) || dr.after(o)) {
-            throw new EdunovaException("Vozač ne može biti stariji od 60 godina ili mlađi od 18 godina!");
-        }
-
+        
     }
-
+    
+    private void kontrolaPostojanjaTima() throws EdunovaException {
+        Timovi tim = entitet.getTim();
+        if (tim == null) {
+            throw new EdunovaException("Vozač mora biti dodijeljen postojećem timu!");
+        }
+    }
+    
+    private void kontrolaPostojanjaVozaca() throws EdunovaException {
+        Vozaci vozac = entitet;
+        Timovi tim = entitet.getTim();
+        if (tim != null && tim.getVozaci().contains(vozac)) {
+            throw new EdunovaException("Vozač već pripada tom timu!");
+        }
+    }
+    
 }
