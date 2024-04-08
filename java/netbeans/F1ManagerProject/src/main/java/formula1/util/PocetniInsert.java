@@ -60,7 +60,7 @@ public class PocetniInsert {
             imenaTimova.add(imeTima); // Dodavanje imena u set kako bi se spriječilo ponavljanje
 
             t.setIme_tima(imeTima);
-            t.setDrzava_sjedista(faker.country().capital());
+            t.setDrzava_sjedista(faker.country().capital().toUpperCase());
             t.setGodina_osnutka(faker.number().numberBetween(1904, 2020));
 
             session.persist(t);
@@ -80,7 +80,7 @@ public class PocetniInsert {
 
             String ime;
             do {
-                ime = faker.name().firstName();
+                ime = faker.name().firstName().toUpperCase();
             } while (!prvo.add(ime));
 
 //            String prezime;
@@ -89,7 +89,7 @@ public class PocetniInsert {
 //            } while (!drugo.add(prezime));
 
             v.setIme(ime);
-            v.setPrezime(faker.name().lastName());
+            v.setPrezime(faker.name().lastName().toUpperCase());
 
             LocalDate trenutno = LocalDate.now();
             LocalDate min = trenutno.minusYears(60); // Maksimalna dob je 60 godina
@@ -104,7 +104,7 @@ public class PocetniInsert {
 
             v.setDatum_rodenja(nasumicno);
 
-            v.setNacionalnost(faker.nation().nationality());
+            v.setNacionalnost(faker.nation().nationality().toUpperCase());
 
             Timovi randomTim = sviTimovi.get(faker.random().nextInt(brojTimova));
             v.setTim(randomTim);

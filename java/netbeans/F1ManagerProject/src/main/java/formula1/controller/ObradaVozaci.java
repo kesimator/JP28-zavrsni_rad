@@ -9,6 +9,7 @@ import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -16,46 +17,57 @@ import java.util.List;
  * @author Kesimator
  */
 public class ObradaVozaci extends Obrada<Vozaci> {
-    
+
     public ObradaVozaci() {
         super();
     }
-    
+
     public ObradaVozaci(Vozaci v) {
         super(v);
     }
-    
+
     @Override
     public List<Vozaci> read() {
-        
+
         List<Vozaci> lista = session.createQuery("from Vozaci order by ime, prezime", Vozaci.class).list();
-        
+
         return lista;
     }
-    
+
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
         kontrolaPrezime();
-        kontrolaNacionalnost();
         kontrolaDatumRodenja();
-        kontrolaPostojanjaTima();
-        kontrolaPostojanjaVozaca();
+        kontrolaNacionalnost();
+        kontrolaJedinstvenostiVozaca();
+//        kontrolaPostojanjaTima();
+//        kontrolaPostojanjaVozaca();
+
+        if (entitet.getId() == null) {
+            entitet.setTim(null);
+        }
     }
-    
+
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
-        kontrolaUnos();
+        if (entitet.getId() != null) {
+            // Ako je postavljen identifikator, mijenja se postojeći vozač
+            kontrolaUnos(); // Provjeri kontrole kao za unos novog vozača
+        } else {
+            // Inače, dodaje se novi vozač
+            kontrolaPromjena(); // Provjeri kontrole kao za promjenu postojećeg vozača
+        }
     }
-    
+
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
         Timovi tim = entitet.getTim();
         if (tim != null) {
-            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan! [" + tim.getIme_tima() + "]");
+            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!\n [" + tim.getIme_tima() + "]");
         }
     }
-    
+
     private void kontrolaIme() throws EdunovaException {
         var i = entitet.getIme();
         if (i == null) {
@@ -66,7 +78,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
         entitet.setIme(entitet.getIme().toUpperCase());
     }
-    
+
     private void kontrolaPrezime() throws EdunovaException {
         var p = entitet.getPrezime();
         if (p == null) {
@@ -77,7 +89,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
         entitet.setPrezime(entitet.getPrezime().toUpperCase());
     }
-    
+
     private void kontrolaNacionalnost() throws EdunovaException {
         var n = entitet.getNacionalnost();
         if (n == null) {
@@ -88,12 +100,19 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
         entitet.setNacionalnost(entitet.getNacionalnost().toUpperCase());
     }
-    
+
     private void kontrolaDatumRodenja() throws EdunovaException {
         var dr = entitet.getDatum_rodenja();
         if (dr == null) {
             throw new EdunovaException("Datum rođenja mora biti definiran!");
         }
+
+        // Provjerite ispravnost formata datuma
+        try {
+            LocalDate.parse(dr.toString()); // Provjerava ispravnost parsiranja datuma
+        } catch (DateTimeParseException ex) {
+            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu YYYY-mm-DD.");
+        }   // NE RADI!
 
         // Trenutni datum
         LocalDate danas = LocalDate.now();
@@ -105,16 +124,16 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (godine < 18 || godine > 60) {
             throw new EdunovaException("Vozač ne može biti mlađi od 18 godina ili stariji od 60 godina!");
         }
-        
+
     }
-    
+
     private void kontrolaPostojanjaTima() throws EdunovaException {
         Timovi tim = entitet.getTim();
         if (tim == null) {
             throw new EdunovaException("Vozač mora biti dodijeljen postojećem timu!");
         }
     }
-    
+
     private void kontrolaPostojanjaVozaca() throws EdunovaException {
         Vozaci vozac = entitet;
         Timovi tim = entitet.getTim();
@@ -122,5 +141,29 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Vozač već pripada tom timu!");
         }
     }
-    
+
+    private void kontrolaJedinstvenostiVozaca() throws EdunovaException {
+        String ime = entitet.getIme();
+        String prezime = entitet.getPrezime();
+        LocalDate datum_rodenja = entitet.getDatum_rodenja();
+        String nacionalnost = entitet.getNacionalnost();
+
+        // Provjera postoji li već vozač s istim osobnim podacima
+        List<Vozaci> istiVozaci = session.createQuery(
+                "SELECT v FROM Vozaci v WHERE v.ime = :ime "
+                + "AND v.prezime = :prezime "
+                + "AND v.datum_rodenja = :datum_rodenja "
+                + "AND v.nacionalnost = :nacionalnost", Vozaci.class)
+                .setParameter("ime", ime)
+                .setParameter("prezime", prezime)
+                .setParameter("datum_rodenja", datum_rodenja)
+                .setParameter("nacionalnost", nacionalnost)
+                .getResultList();
+
+        // Ako postoji vozač s istim osobnim podacima, baci iznimku
+        if (!istiVozaci.isEmpty()) {
+            throw new EdunovaException("Već postoji vozač s istim osobnim podacima!");
+        }
+    }
+
 }

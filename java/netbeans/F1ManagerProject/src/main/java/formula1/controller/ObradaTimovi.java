@@ -34,9 +34,13 @@ public class ObradaTimovi extends Obrada<Timovi> {
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaImeTima();
-        kontrolaDrzavaSjedista();
         kontrolaGodinaUnosa();
-        kontrolaPostojanjaTimova();
+        kontrolaDrzavaSjedista();
+        kontrolaJedinstvenostiTimova();
+        
+        if (entitet.getId() == null) { // Ako je id entiteta null, znači da se radi o unosu novog tima
+            kontrolaPostojanjaTimova();
+        }
 //        kontrolaPostojanjaVozacaUTimu();
 //        kontrolaPostojanjaVozaca();
     }
@@ -51,10 +55,10 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (!entitet.getVozaci().isEmpty()) {
 
             StringBuilder sb = new StringBuilder();
-            sb.append("Tim se ne može obrisati jer ima vozače! (");
+            sb.append("Tim se ne može obrisati jer ima vozače!\n (");
 
             for (Vozaci v : entitet.getVozaci()) {
-                sb.append(v.getIme()).append(" ").append( v.getPrezime());
+                sb.append(v.getIme()).append(" ").append(v.getPrezime());
                 sb.append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());
@@ -75,6 +79,17 @@ public class ObradaTimovi extends Obrada<Timovi> {
         entitet.setIme_tima(entitet.getIme_tima().toUpperCase());
     }
 
+    private void kontrolaGodinaUnosa() throws EdunovaException {
+        var g = entitet.getGodina_osnutka();
+        if (g == null) {
+            throw new EdunovaException("Godina osnutka mora biti definirana!\n"
+                    + "(broj između 1904 i 2020)");
+        }
+        if (g < 1904 || g > 2020) {
+            throw new EdunovaException("Godina osnutka mora biti unutar raspona od 1904. godine do 2020. godine!");
+        }
+    }
+
     private void kontrolaDrzavaSjedista() throws EdunovaException {
         var d = entitet.getDrzava_sjedista();
         if (d == null) {
@@ -86,22 +101,33 @@ public class ObradaTimovi extends Obrada<Timovi> {
         entitet.setDrzava_sjedista(entitet.getDrzava_sjedista().toUpperCase());
     }
 
-    private void kontrolaGodinaUnosa() throws EdunovaException {
-        var g = entitet.getGodina_osnutka();
-        if (g == null) {
-            throw new EdunovaException("Godina osnutka mora biti definirana!");
-        }
-        if (g < 1904 || g > 2020) {
-            throw new EdunovaException("Godina osnutka mora biti unutar raspona od 1904. godine do 2020. godine!");
-        }
-    }
-
     private void kontrolaPostojanjaTimova() throws EdunovaException {
         List<Timovi> timovi = session.createQuery("from Timovi t where t.ime_tima = :ime_tima", Timovi.class)
                 .setParameter("ime_tima", entitet.getIme_tima())
                 .getResultList();
         if (!timovi.isEmpty()) {
             throw new EdunovaException("Već postoji tim s istim imenom!");
+        }
+    }
+
+    private void kontrolaJedinstvenostiTimova() throws EdunovaException {
+        String imeTima = entitet.getIme_tima();
+        int godinaOsnutka = entitet.getGodina_osnutka();
+        String drzavaSjedista = entitet.getDrzava_sjedista();
+
+        // Provjera postoji li već tim s istim osobnim podacima
+        List<Timovi> istiTimovi = session.createQuery(
+                "SELECT t FROM Timovi t WHERE t.ime_tima = :imeTima "
+                + "AND t.godina_osnutka = :godinaOsnutka "
+                + "AND t.drzava_sjedista = :drzavaSjedista", Timovi.class)
+                .setParameter("imeTima", imeTima)
+                .setParameter("godinaOsnutka", godinaOsnutka)
+                .setParameter("drzavaSjedista", drzavaSjedista)
+                .getResultList();
+
+        // Ako postoji tim s istim osobnim podacima, baci iznimku
+        if (!istiTimovi.isEmpty()) {
+            throw new EdunovaException("Već postoji tim s istim podacima!");
         }
     }
 

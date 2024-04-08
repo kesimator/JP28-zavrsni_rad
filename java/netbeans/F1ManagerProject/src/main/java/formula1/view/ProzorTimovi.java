@@ -9,6 +9,7 @@ import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
 import formula1.util.EdunovaException;
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -29,6 +30,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         obrada = new ObradaTimovi();
         setTitle(Alati.NAZIV_APP + " | TIMOVI");
         ucitaj();
+
+        lstPodaci.setSelectedIndex(0);
+        lstPodaci.requestFocusInWindow();
     }
 
     /**
@@ -73,6 +77,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtImeTima.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtImeTima.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtImeTima.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtImeTimaKeyPressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -80,6 +89,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtGodinaOsnutka.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtGodinaOsnutka.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGodinaOsnutka.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtGodinaOsnutkaKeyPressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -87,6 +101,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtDrzavaSjedista.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtDrzavaSjedista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtDrzavaSjedista.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDrzavaSjedistaKeyPressed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -95,7 +114,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtVozaciUTimu.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtVozaciUTimu.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +122,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnPromjena.setText("Promijeni");
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,7 +130,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnObrisi.setText("Obriši");
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +162,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                         .addComponent(btnDodaj)
                         .addGap(49, 49, 49)
                         .addComponent(btnPromjena)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(btnObrisi)))
                 .addContainerGap())
         );
@@ -202,10 +221,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.create();
             ucitaj();
+            lstPodaci.setSelectedIndex(0);
+            lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
-                    null, JOptionPane.ERROR_MESSAGE, slika);
+                    "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
         }
+        lstPodaci.setSelectedIndex(0);
+        lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
@@ -223,11 +246,15 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.update();
             ucitaj();
+            lstPodaci.setSelectedIndex(0);
+            lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
-                    null, JOptionPane.ERROR_MESSAGE, slika);
+                    "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
             obrada.refresh();
         }
+        lstPodaci.setSelectedIndex(0);
+        lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
@@ -249,11 +276,36 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.delete();
             ucitaj();
+            lstPodaci.setSelectedIndex(0);
+            lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
-                    null, JOptionPane.ERROR_MESSAGE, slika);
+                    "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
         }
+        lstPodaci.setSelectedIndex(0);
+        lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void txtImeTimaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImeTimaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDodajActionPerformed(null);
+            txtGodinaOsnutka.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_txtImeTimaKeyPressed
+
+    private void txtGodinaOsnutkaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGodinaOsnutkaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDodajActionPerformed(null);
+            txtDrzavaSjedista.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_txtGodinaOsnutkaKeyPressed
+
+    private void txtDrzavaSjedistaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDrzavaSjedistaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDodajActionPerformed(null);
+            txtImeTima.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_txtDrzavaSjedistaKeyPressed
 
     @Override
     public void ucitaj() {
