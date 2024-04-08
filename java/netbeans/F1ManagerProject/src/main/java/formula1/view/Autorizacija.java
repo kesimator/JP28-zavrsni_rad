@@ -9,6 +9,7 @@ import formula1.model.Operater;
 import formula1.util.Alati;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -144,10 +145,13 @@ public class Autorizacija extends javax.swing.JFrame {
 
         Operater o = obrada.autoriziraj(email, new String(txtLozinka.getPassword()));
 
+        ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
         if (o == null) {
-            JOptionPane.showMessageDialog(getRootPane(), "Neispravna kombinacija email i/ili lozinka!");
+            JOptionPane.showMessageDialog(getRootPane(), "Neispravna kombinacija email i/ili lozinka!",
+                    null,JOptionPane.ERROR_MESSAGE, slika);
             return;
-        }
+        } 
 
         Operater logiran = new Operater();
         logiran.setIme(o.getIme());

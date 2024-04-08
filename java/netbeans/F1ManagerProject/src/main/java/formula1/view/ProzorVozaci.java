@@ -31,14 +31,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
     }
 
-    @Override
-    public void ucitaj() {
-        DefaultListModel<Vozaci> m = new DefaultListModel<>();
-        m.addAll(obrada.read());
-        lstPodaci.setModel(m);
-        lstPodaci.repaint();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,6 +280,14 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
+
+    @Override
+    public void ucitaj() {
+        DefaultListModel<Vozaci> m = new DefaultListModel<>();
+        m.addAll(obrada.read());
+        lstPodaci.setModel(m);
+        lstPodaci.repaint();
+    }
 
     @Override
     public void popuniModel() {

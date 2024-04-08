@@ -62,7 +62,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Ime vozača mora biti definirano!");
         }
         if (i.isEmpty()) {
-            throw new EdunovaException("Ime vozača ne smije biti prazno!");
+            throw new EdunovaException("Ime vozača obavezno!");
         }
         entitet.setIme(entitet.getIme().toUpperCase());
     }
@@ -73,7 +73,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Prezime vozača mora biti definirano!");
         }
         if (p.isEmpty()) {
-            throw new EdunovaException("Prezime vozača ne smije biti prazno!");
+            throw new EdunovaException("Prezime vozača obavezno!");
         }
         entitet.setPrezime(entitet.getPrezime().toUpperCase());
     }
@@ -84,7 +84,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Nacionalnost vozača mora biti definirano!");
         }
         if (n.isEmpty()) {
-            throw new EdunovaException("Nacionalnost vozača ne smije biti prazna!");
+            throw new EdunovaException("Nacionalnost vozača obavezno!");
         }
         entitet.setNacionalnost(entitet.getNacionalnost().toUpperCase());
     }

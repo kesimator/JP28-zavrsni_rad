@@ -31,14 +31,6 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         ucitaj();
     }
 
-    @Override
-    public void ucitaj() {
-        DefaultListModel<Timovi> m = new DefaultListModel<>();
-        m.addAll(obrada.read());
-        lstPodaci.setModel(m);
-        lstPodaci.repaint();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,15 +196,15 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         obrada.setEntitet(new Timovi());
         popuniModel();
-        
+
         ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
-        
+
         try {
             obrada.create();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
-                    JOptionPane.ERROR_MESSAGE, slika);
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
+                    null, JOptionPane.ERROR_MESSAGE, slika);
         }
     }//GEN-LAST:event_btnDodajActionPerformed
 
@@ -225,15 +217,15 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         obrada.setEntitet(e);
         popuniModel();
-        
+
         ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
 
         try {
             obrada.update();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
-                    JOptionPane.ERROR_MESSAGE, slika);
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
+                    null, JOptionPane.ERROR_MESSAGE, slika);
             obrada.refresh();
         }
     }//GEN-LAST:event_btnPromjenaActionPerformed
@@ -244,13 +236,12 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
 
         var e = lstPodaci.getSelectedValue();
-        
+
         ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
-        
 
         if (JOptionPane.showConfirmDialog(getRootPane(), e, "Sigurno obrisati?",
-            JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
-        return;
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
+            return;
         }
 
         obrada.setEntitet(e);
@@ -259,17 +250,25 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             obrada.delete();
             ucitaj();
         } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(), null,
-                    JOptionPane.ERROR_MESSAGE, slika);
+            JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
+                    null, JOptionPane.ERROR_MESSAGE, slika);
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
+
+    @Override
+    public void ucitaj() {
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
+        m.addAll(obrada.read());
+        lstPodaci.setModel(m);
+        lstPodaci.repaint();
+    }
 
     @Override
     public void popuniModel() {
         var e = obrada.getEntitet();
         e.setIme_tima(txtImeTima.getText());
         e.setDrzava_sjedista(txtDrzavaSjedista.getText());
-        
+
         try {
             e.setGodina_osnutka(Integer.valueOf(txtGodinaOsnutka.getText()));
         } catch (Exception ex) {
@@ -284,7 +283,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtDrzavaSjedista.setText(e.getDrzava_sjedista());
         txtGodinaOsnutka.setText(String.valueOf(e.getGodina_osnutka()));
 //        txtVozaciUTimu.setText(String.valueOf(e.getVozaci()));
-        
+
         try {
             txtVozaciUTimu.setText(String.valueOf(e.getVozaci()));
         } catch (Exception ex) {

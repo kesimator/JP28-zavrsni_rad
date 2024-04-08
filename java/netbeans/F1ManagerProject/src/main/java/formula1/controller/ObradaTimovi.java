@@ -54,7 +54,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
             sb.append("Tim se ne može obrisati jer ima vozače! (");
 
             for (Vozaci v : entitet.getVozaci()) {
-                sb.append(v.getIme());
+                sb.append(v.getIme()).append(" ").append( v.getPrezime());
                 sb.append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());
@@ -70,7 +70,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
             throw new EdunovaException("Ime tima mora biti definirano!");
         }
         if (i.isEmpty()) {
-            throw new EdunovaException("Ime tima ne smije biti prazno!");
+            throw new EdunovaException("Ime tima obavezno!");
         }
         entitet.setIme_tima(entitet.getIme_tima().toUpperCase());
     }
@@ -81,7 +81,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
             throw new EdunovaException("Država sjedišta mora biti definirano!");
         }
         if (d.isEmpty()) {
-            throw new EdunovaException("Država sjedišta ne smije biti prazno!");
+            throw new EdunovaException("Država sjedišta obavezno!");
         }
         entitet.setDrzava_sjedista(entitet.getDrzava_sjedista().toUpperCase());
     }
