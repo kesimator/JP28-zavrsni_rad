@@ -7,9 +7,12 @@ package formula1.controller;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -38,9 +41,11 @@ public class ObradaVozaci extends Obrada<Vozaci> {
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
         kontrolaPrezime();
-        kontrolaDatumRodenja();
+        kontrolaGodina();
+//        kontrolaDatumRodenja();
         kontrolaNacionalnost();
         kontrolaJedinstvenostiVozaca();
+        
 //        kontrolaPostojanjaTima();
 //        kontrolaPostojanjaVozaca();
 
@@ -111,7 +116,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         try {
             LocalDate.parse(dr.toString()); // Provjerava ispravnost parsiranja datuma
         } catch (DateTimeParseException ex) {
-            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu YYYY-mm-DD.");
+            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
         }   // NE RADI!
 
         // Trenutni datum
@@ -163,6 +168,33 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         // Ako postoji vozač s istim osobnim podacima, baci iznimku
         if (!istiVozaci.isEmpty()) {
             throw new EdunovaException("Već postoji vozač s istim osobnim podacima!");
+        }
+    }
+
+    private void kontrolaGodina() throws EdunovaException {
+        var dr = entitet.getDatum_rodenja();
+        if (dr == null) {
+            throw new EdunovaException("Datum rođenja mora biti definiran!");
+        }
+
+        // Provjerite ispravnost formata datuma
+        
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+            LocalDate.parse(dr.toString(), formatter);
+        } catch (DateTimeParseException ex) {
+            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
+        }
+
+        // Trenutni datum
+        LocalDate danas = LocalDate.now();
+
+        // Računanje razlike u godinama između datuma rođenja i danas
+        long godine = ChronoUnit.YEARS.between(dr, danas);
+
+        // Provjera uvjeta
+        if (godine < 18 || godine > 60) {
+            throw new EdunovaException("Vozač ne može biti mlađi od 18 godina ili stariji od 60 godina!");
         }
     }
 

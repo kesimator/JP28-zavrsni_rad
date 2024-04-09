@@ -4,6 +4,7 @@
  */
 package formula1.view;
 
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import formula1.controller.ObradaVozaci;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
@@ -11,7 +12,9 @@ import formula1.util.EdunovaException;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -29,13 +32,25 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
      */
     public ProzorVozaci() {
         initComponents();
-        obrada = new ObradaVozaci();
         setTitle(Alati.NAZIV_APP + " | VOZAČI");
+        obrada = new ObradaVozaci();
+        definirajGodina();
+
         ucitaj();
+
+        dtpGodina.getComponentDateTextField().setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 //        txtIme.requestFocusInWindow();
         lstPodaci.setSelectedIndex(0);
 
+    }
+
+    private void definirajGodina() {
+        DatePickerSettings dps = new DatePickerSettings(Locale.of("hr", "HR"));
+        dps.setFormatForDatesCommonEra("dd.MM.yyyy.");
+        dps.setTranslationClear("Očisti");
+        dps.setTranslationToday("Danas");
+        dtpGodina.setSettings(dps);
     }
 
     /**
@@ -50,7 +65,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         jScrollPane1 = new javax.swing.JScrollPane();
         lstPodaci = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        txtDatumRodenja = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtNacionalnost = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -62,6 +76,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         btnDodaj = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
+        dtpGodina = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -79,14 +94,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Datum rođenja");
-
-        txtDatumRodenja.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        txtDatumRodenja.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtDatumRodenja.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDatumRodenjaKeyPressed(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -155,6 +162,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
+        dtpGodina.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,29 +176,29 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                         .addComponent(btnDodaj)
                         .addGap(49, 49, 49)
                         .addComponent(btnPromjena)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(btnObrisi))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(2, 2, 2)
-                            .addComponent(txtDatumRodenja, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(2, 2, 2)
-                            .addComponent(txtNacionalnost))
+                            .addComponent(txtNacionalnost, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(2, 2, 2)
+                            .addComponent(txtIme))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(2, 2, 2)
                             .addComponent(txtTim))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(2, 2, 2)
-                            .addComponent(txtPrezime))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(2, 2, 2)
-                            .addComponent(txtIme))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(dtpGodina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtPrezime)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -204,9 +213,9 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtDatumRodenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtpGodina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -215,7 +224,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnObrisi)
@@ -239,6 +248,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         obrada.setEntitet(lstPodaci.getSelectedValue());
 
         popuniView();
+
+        lstPodaci.requestFocusInWindow();
 
     }//GEN-LAST:event_lstPodaciValueChanged
 
@@ -330,16 +341,9 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private void txtPrezimeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrezimeKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null);
-            txtDatumRodenja.requestFocusInWindow();
+            dtpGodina.requestFocusInWindow();
         }
     }//GEN-LAST:event_txtPrezimeKeyPressed
-
-    private void txtDatumRodenjaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDatumRodenjaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnDodajActionPerformed(null);
-            txtNacionalnost.requestFocusInWindow();
-        }
-    }//GEN-LAST:event_txtDatumRodenjaKeyPressed
 
     private void txtNacionalnostKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacionalnostKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -362,13 +366,18 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         e.setIme(txtIme.getText().trim());
         e.setPrezime(txtPrezime.getText().trim());
         e.setNacionalnost(txtNacionalnost.getText().trim());
+//        e.setDatum_rodenja(dtpGodina.getDate());
 
+//        LocalDate datum = dtpGodina.getDate();
+//        e.setDatum_rodenja(datum);
         try {
-            LocalDate datumRodenja = LocalDate.parse(txtDatumRodenja.getText());
-            e.setDatum_rodenja(datumRodenja);
+            LocalDate datum = dtpGodina.getDate();
+            e.setDatum_rodenja(datum);
         } catch (Exception ex) {
-            // Ako se ne može parsirati datum rođenja, postavite ga na null ili obradite pogrešku na odgovarajući način
-            e.setDatum_rodenja(null);   // NE RADI PROVJERA FORMATA!
+            // Ako se pojavi iznimka prilikom postavljanja datuma rođenja, možete je ovdje uhvatiti i obraditi na odgovarajući način
+            // Primjerice, možete obavijestiti korisnika o neispravnom formatu datuma ili postaviti neki podrazumijevani datum
+            e.setDatum_rodenja(null);
+            // Ovdje možete prikazati poruku o pogrešci ili neki drugi način rukovanja s greškama
         }
     }
 
@@ -381,16 +390,18 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
 //        txtDatumRodenja.setText(e.getDatum_rodenja());
         txtNacionalnost.setText(e.getNacionalnost());
-        txtTim.setText(String.valueOf(e.getTim()));
+//        txtTim.setText(String.valueOf(e.getTim()));
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
         try {
-            txtDatumRodenja.setText(String.valueOf(e.getDatum_rodenja()));
+            String datum = e.getDatum_rodenja().format(formatter);
+            dtpGodina.setText(datum);
         } catch (Exception ex) {
-            txtDatumRodenja.setText("");
+            dtpGodina.setText("");
         }
 
         try {
-            txtTim.setText(String.valueOf(e.getTim()));
+            txtTim.setText(String.valueOf(e.getTim().getIme_tima()));
         } catch (Exception ex) {
             txtTim.setText("");
         }
@@ -401,6 +412,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
+    private com.github.lgooddatepicker.components.DatePicker dtpGodina;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -408,7 +420,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<Vozaci> lstPodaci;
-    private javax.swing.JTextField txtDatumRodenja;
     private javax.swing.JTextField txtIme;
     private javax.swing.JTextField txtNacionalnost;
     private javax.swing.JTextField txtPrezime;

@@ -73,7 +73,6 @@ public class PocetniInsert {
         int brojTimova = sviTimovi.size();
 
         Set<String> prvo = new HashSet<>();
-//        Set<String> drugo = new HashSet<>();
 
         for (int i = 0; i < BROJ_VOZACA; i++) {
             Vozaci v = new Vozaci();
@@ -83,10 +82,6 @@ public class PocetniInsert {
                 ime = faker.name().firstName().toUpperCase();
             } while (!prvo.add(ime));
 
-//            String prezime;
-//            do {
-//                prezime = faker.name().lastName();
-//            } while (!drugo.add(prezime));
 
             v.setIme(ime);
             v.setPrezime(faker.name().lastName().toUpperCase());
