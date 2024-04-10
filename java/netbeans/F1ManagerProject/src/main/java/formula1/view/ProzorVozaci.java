@@ -18,6 +18,8 @@ import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -38,7 +40,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
         ucitaj();
 
-        dtpGodina.getComponentDateTextField().setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dpGodina.getComponentDateTextField().setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
 //        txtIme.requestFocusInWindow();
         lstPodaci.setSelectedIndex(0);
@@ -50,7 +52,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         dps.setFormatForDatesCommonEra("dd.MM.yyyy.");
         dps.setTranslationClear("Očisti");
         dps.setTranslationToday("Danas");
-        dtpGodina.setSettings(dps);
+        dpGodina.setSettings(dps);
     }
 
     /**
@@ -76,7 +78,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         btnDodaj = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
-        dtpGodina = new com.github.lgooddatepicker.components.DatePicker();
+        dpGodina = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -91,78 +93,108 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         });
         jScrollPane1.setViewportView(lstPodaci);
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Datum rođenja");
+        jLabel1.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nacionalnost");
+        jLabel2.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
         txtNacionalnost.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtNacionalnost.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNacionalnost.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNacionalnostFocusGained(evt);
+            }
+        });
         txtNacionalnost.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNacionalnostKeyPressed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Tim");
+        jLabel3.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
         txtTim.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtTim.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTim.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtTimFocusGained(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Prezime");
+        jLabel4.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
         txtPrezime.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtPrezime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPrezime.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPrezimeFocusGained(evt);
+            }
+        });
         txtPrezime.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPrezimeKeyPressed(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Ime");
+        jLabel5.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
 
         txtIme.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtIme.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtIme.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtImeFocusGained(evt);
+            }
+        });
         txtIme.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtImeKeyPressed(evt);
             }
         });
 
-        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
+        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
             }
         });
 
-        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnObrisi.setText("Obriši");
+        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnObrisiActionPerformed(evt);
             }
         });
 
-        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnPromjena.setText("Promijeni");
+        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPromjenaActionPerformed(evt);
             }
         });
 
-        dtpGodina.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        dpGodina.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        dpGodina.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dpGodinaFocusGained(evt);
+            }
+        });
+        dpGodina.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dpGodinaPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,7 +229,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(2, 2, 2)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(dtpGodina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dpGodina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtPrezime)))))
                 .addContainerGap())
         );
@@ -215,7 +247,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtpGodina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dpGodina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -331,26 +363,93 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
+    private boolean ispravnoIme(String ime) {
+        // Provjeravamo je li ime prazno ili sadrži brojeve ili posebne znakove
+        return !ime.isEmpty() && ime.matches("[a-zA-Z]+") && ime.length() <= 20;
+    }
+
     private void txtImeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImeKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnDodajActionPerformed(null);
-            txtPrezime.requestFocusInWindow();
+            btnDodajActionPerformed(null); // Pozivamo dodavanje
+            if (txtIme.getText().isEmpty() || !ispravnoIme(txtIme.getText())) {
+                // Ako je polje prazno, ostajemo na polju txtIme
+                SwingUtilities.invokeLater(() -> txtIme.requestFocusInWindow());
+            } else {
+                // Ako polje nije prazno, prebacujemo se na polje txtPrezime
+                SwingUtilities.invokeLater(() -> txtPrezime.requestFocusInWindow());
+            }
         }
     }//GEN-LAST:event_txtImeKeyPressed
 
+    private boolean ispravnoPrezime(String prezime) {
+        // Provjeravamo je li ime prazno ili sadrži brojeve ili posebne znakove
+        return !prezime.isEmpty() && prezime.matches("[a-zA-Z]+") && prezime.length() <= 50;
+    }
+
     private void txtPrezimeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrezimeKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnDodajActionPerformed(null);
-            dtpGodina.requestFocusInWindow();
+            btnDodajActionPerformed(null); // Pozivamo dodavanje
+            if (txtPrezime.getText().isEmpty() || !ispravnoPrezime(txtPrezime.getText())) {
+                // Ako je polje prazno, ostajemo na polju txtPrezime
+                SwingUtilities.invokeLater(() -> txtPrezime.requestFocusInWindow());
+            } else {
+                // Ako polje nije prazno, prebacujemo se na polje dpGodina
+                SwingUtilities.invokeLater(() -> dpGodina.requestFocusInWindow());
+            }
         }
     }//GEN-LAST:event_txtPrezimeKeyPressed
 
+    private boolean Nacionalnost(String nacionalnost) {
+        // Provjeravamo je li ime prazno ili sadrži brojeve ili posebne znakove
+        return !nacionalnost.isEmpty() && nacionalnost.matches("[a-zA-Z]+") && nacionalnost.length() <= 30;
+    }
     private void txtNacionalnostKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacionalnostKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            btnDodajActionPerformed(null);
-            txtIme.requestFocusInWindow();
+            btnDodajActionPerformed(null); // Pozivamo dodavanje
+            if (txtNacionalnost.getText().isEmpty() || !Nacionalnost(txtNacionalnost.getText())) {
+                // Ako je polje prazno, ostajemo na polju txtIme
+                SwingUtilities.invokeLater(() -> txtNacionalnost.requestFocusInWindow());
+            } else {
+                // Ako polje nije prazno, prebacujemo se na polje txtPrezime
+                SwingUtilities.invokeLater(() -> txtIme.requestFocusInWindow());
+            }
         }
     }//GEN-LAST:event_txtNacionalnostKeyPressed
+
+    private void dpGodinaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dpGodinaPropertyChange
+        if ("date".equals(evt.getPropertyName()) && evt.getNewValue() != null) {
+            SwingUtilities.invokeLater(() -> {
+                JTextField textField = (JTextField) dpGodina.getComponent(0);
+                textField.requestFocusInWindow();
+                SwingUtilities.invokeLater(() -> textField.selectAll());
+//                lstPodaci.requestFocusInWindow();
+            });
+        }
+    }//GEN-LAST:event_dpGodinaPropertyChange
+
+    private void txtImeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImeFocusGained
+        txtIme.selectAll();
+    }//GEN-LAST:event_txtImeFocusGained
+
+    private void txtPrezimeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrezimeFocusGained
+        txtPrezime.selectAll();
+    }//GEN-LAST:event_txtPrezimeFocusGained
+
+    private void txtNacionalnostFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNacionalnostFocusGained
+        txtNacionalnost.selectAll();
+    }//GEN-LAST:event_txtNacionalnostFocusGained
+
+    private void dpGodinaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dpGodinaFocusGained
+        SwingUtilities.invokeLater(() -> {
+            JTextField textField = (JTextField) dpGodina.getComponent(0);
+            textField.requestFocusInWindow();
+            textField.selectAll();
+        });
+    }//GEN-LAST:event_dpGodinaFocusGained
+
+    private void txtTimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimFocusGained
+        txtTim.selectAll();
+    }//GEN-LAST:event_txtTimFocusGained
 
     @Override
     public void ucitaj() {
@@ -366,18 +465,12 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         e.setIme(txtIme.getText().trim());
         e.setPrezime(txtPrezime.getText().trim());
         e.setNacionalnost(txtNacionalnost.getText().trim());
-//        e.setDatum_rodenja(dtpGodina.getDate());
 
-//        LocalDate datum = dtpGodina.getDate();
-//        e.setDatum_rodenja(datum);
         try {
-            LocalDate datum = dtpGodina.getDate();
+            LocalDate datum = dpGodina.getDate();
             e.setDatum_rodenja(datum);
         } catch (Exception ex) {
-            // Ako se pojavi iznimka prilikom postavljanja datuma rođenja, možete je ovdje uhvatiti i obraditi na odgovarajući način
-            // Primjerice, možete obavijestiti korisnika o neispravnom formatu datuma ili postaviti neki podrazumijevani datum
             e.setDatum_rodenja(null);
-            // Ovdje možete prikazati poruku o pogrešci ili neki drugi način rukovanja s greškama
         }
     }
 
@@ -395,9 +488,9 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
         try {
             String datum = e.getDatum_rodenja().format(formatter);
-            dtpGodina.setText(datum);
+            dpGodina.setText(datum);
         } catch (Exception ex) {
-            dtpGodina.setText("");
+            dpGodina.setText("");
         }
 
         try {
@@ -412,7 +505,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
-    private com.github.lgooddatepicker.components.DatePicker dtpGodina;
+    private com.github.lgooddatepicker.components.DatePicker dpGodina;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

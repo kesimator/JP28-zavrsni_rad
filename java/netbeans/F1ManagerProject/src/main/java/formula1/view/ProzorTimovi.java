@@ -77,6 +77,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtImeTima.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtImeTima.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtImeTima.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtImeTimaFocusGained(evt);
+            }
+        });
         txtImeTima.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtImeTimaKeyPressed(evt);
@@ -89,6 +94,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtGodinaOsnutka.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtGodinaOsnutka.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtGodinaOsnutka.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtGodinaOsnutkaFocusGained(evt);
+            }
+        });
         txtGodinaOsnutka.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtGodinaOsnutkaKeyPressed(evt);
@@ -101,6 +111,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         txtDrzavaSjedista.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtDrzavaSjedista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtDrzavaSjedista.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDrzavaSjedistaFocusGained(evt);
+            }
+        });
         txtDrzavaSjedista.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDrzavaSjedistaKeyPressed(evt);
@@ -306,6 +321,18 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             txtImeTima.requestFocusInWindow();
         }
     }//GEN-LAST:event_txtDrzavaSjedistaKeyPressed
+
+    private void txtImeTimaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImeTimaFocusGained
+        txtImeTima.selectAll();
+    }//GEN-LAST:event_txtImeTimaFocusGained
+
+    private void txtGodinaOsnutkaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGodinaOsnutkaFocusGained
+        txtGodinaOsnutka.selectAll();
+    }//GEN-LAST:event_txtGodinaOsnutkaFocusGained
+
+    private void txtDrzavaSjedistaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDrzavaSjedistaFocusGained
+        txtDrzavaSjedista.selectAll();
+    }//GEN-LAST:event_txtDrzavaSjedistaFocusGained
 
     @Override
     public void ucitaj() {

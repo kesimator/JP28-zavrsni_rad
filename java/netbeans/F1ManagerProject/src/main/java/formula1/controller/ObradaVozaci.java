@@ -45,10 +45,9 @@ public class ObradaVozaci extends Obrada<Vozaci> {
 //        kontrolaDatumRodenja();
         kontrolaNacionalnost();
         kontrolaJedinstvenostiVozaca();
-        
+
 //        kontrolaPostojanjaTima();
 //        kontrolaPostojanjaVozaca();
-
         if (entitet.getId() == null) {
             entitet.setTim(null);
         }
@@ -81,6 +80,12 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (i.isEmpty()) {
             throw new EdunovaException("Ime vozača obavezno!");
         }
+        if (!i.matches("[a-zA-Z]+")) {
+            throw new EdunovaException("Ime vozača ne smije sadržavati brojeve ni posebne znakove!");
+        }
+        if (i.length() > 20) {
+            throw new EdunovaException("Ime vozača ne smije biti duže od 20 znakova!");
+        }
         entitet.setIme(entitet.getIme().toUpperCase());
     }
 
@@ -92,6 +97,12 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (p.isEmpty()) {
             throw new EdunovaException("Prezime vozača obavezno!");
         }
+        if (!p.matches("[a-zA-Z]+")) {
+            throw new EdunovaException("Prezime vozača ne smije sadržavati brojeve ni posebne znakove!");
+        }
+        if (p.length() > 50) {
+            throw new EdunovaException("Prezime vozača ne smije biti duže od 50 znakova!");
+        }
         entitet.setPrezime(entitet.getPrezime().toUpperCase());
     }
 
@@ -102,6 +113,12 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
         if (n.isEmpty()) {
             throw new EdunovaException("Nacionalnost vozača obavezno!");
+        }
+        if (!n.matches("[a-zA-Z]+")) {
+            throw new EdunovaException("Nacionalnost vozača ne smije sadržavati brojeve ni posebne znakove!");
+        }
+        if (n.length() > 30) {
+            throw new EdunovaException("Nacionalnost vozača ne smije biti duže od 30 znakova!");
         }
         entitet.setNacionalnost(entitet.getNacionalnost().toUpperCase());
     }
@@ -178,10 +195,10 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
 
         // Provjerite ispravnost formata datuma
-        
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-            LocalDate.parse(dr.toString(), formatter);
+            String dt = dr.format(formatter); // Pretvaranje datuma u oblik teksta
+            LocalDate.parse(dt, formatter);
         } catch (DateTimeParseException ex) {
             throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
         }
