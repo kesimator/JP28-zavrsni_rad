@@ -41,9 +41,9 @@ public class ObradaVozaci extends Obrada<Vozaci> {
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
         kontrolaPrezime();
-        kontrolaGodina();
-//        kontrolaDatumRodenja();
+        kontrolaDatumRodenja();
         kontrolaNacionalnost();
+//        kontrolaGodina();
         kontrolaJedinstvenostiVozaca();
 
 //        kontrolaPostojanjaTima();
@@ -80,7 +80,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (i.isEmpty()) {
             throw new EdunovaException("Ime vozača obavezno!");
         }
-        if (!i.matches("[a-zA-Z]+")) {
+        if (!i.matches("[a-zA-ZčćžšđČĆŽŠĐ ]+")) {
             throw new EdunovaException("Ime vozača ne smije sadržavati brojeve ni posebne znakove!");
         }
         if (i.length() > 20) {
@@ -97,7 +97,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (p.isEmpty()) {
             throw new EdunovaException("Prezime vozača obavezno!");
         }
-        if (!p.matches("[a-zA-Z]+")) {
+        if (!p.matches("[a-zA-ZčćžšđČĆŽŠĐ ]+")) {
             throw new EdunovaException("Prezime vozača ne smije sadržavati brojeve ni posebne znakove!");
         }
         if (p.length() > 50) {
@@ -114,7 +114,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (n.isEmpty()) {
             throw new EdunovaException("Nacionalnost vozača obavezno!");
         }
-        if (!n.matches("[a-zA-Z]+")) {
+        if (!n.matches("[a-zA-ZčćžšđČĆŽŠĐ ]+")) {
             throw new EdunovaException("Nacionalnost vozača ne smije sadržavati brojeve ni posebne znakove!");
         }
         if (n.length() > 30) {
@@ -129,12 +129,13 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Datum rođenja mora biti definiran!");
         }
 
-        // Provjerite ispravnost formata datuma
         try {
-            LocalDate.parse(dr.toString()); // Provjerava ispravnost parsiranja datuma
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+            String dt = dr.format(formatter); // Pretvaranje datuma u oblik teksta
+            LocalDate.parse(dt, formatter);
         } catch (DateTimeParseException ex) {
             throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
-        }   // NE RADI!
+        }
 
         // Trenutni datum
         LocalDate danas = LocalDate.now();
