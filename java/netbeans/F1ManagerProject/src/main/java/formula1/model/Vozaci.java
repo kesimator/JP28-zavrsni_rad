@@ -76,22 +76,22 @@ public class Vozaci extends Entitet {
 
     @Override
     public String toString() {
-        return ime + " " + prezime;
+//        return ime + " " + prezime;
 
-//        StringBuilder sb = new StringBuilder();
-//
-//        if (getIme() != null && getPrezime() != null) {
-//            sb.append(getIme()).append(" ").append(getPrezime());
-//        } else {
-//            sb.append("Nepostojeće ime i prezime, ");
-//        }
-//
-//        if (getTim() != null && getTim().getIme_tima() != null && !getTim().getIme_tima().isEmpty()) {
-//            sb.append(" [");
-//            sb.append(getTim().getIme_tima());
-//            sb.append("]");
-//        }
-//        return sb.toString();
+        StringBuilder sb = new StringBuilder();
+
+        if (getIme() != null && getPrezime() != null) {
+            sb.append(getIme()).append(" ").append(getPrezime());
+        } else {
+            sb.append("Nepostojeće ime i prezime, ");
+        }
+
+        if (getTim() != null && getTim().getIme_tima() != null && !getTim().getIme_tima().isEmpty()) {
+            sb.append(" [");
+            sb.append(getTim().getIme_tima());
+            sb.append("]");
+        }
+        return sb.toString();
     }
 
 }

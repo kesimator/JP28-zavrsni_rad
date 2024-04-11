@@ -126,15 +126,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
     private void kontrolaDatumRodenja() throws EdunovaException {
         var dr = entitet.getDatum_rodenja();
         if (dr == null) {
-            throw new EdunovaException("Datum rođenja mora biti definiran!");
-        }
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-            String dt = dr.format(formatter); // Pretvaranje datuma u oblik teksta
-            LocalDate.parse(dt, formatter);
-        } catch (DateTimeParseException ex) {
-            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
+            throw new EdunovaException("Datum rođenja mora biti definiran!\nUnijeti datum u formatu mm.DD.yyyy.");
         }
 
         // Trenutni datum

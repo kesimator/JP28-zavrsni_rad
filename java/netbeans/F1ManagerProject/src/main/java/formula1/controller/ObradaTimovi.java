@@ -37,7 +37,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
         kontrolaGodinaUnosa();
         kontrolaDrzavaSjedista();
         kontrolaJedinstvenostiTimova();
-        
+
         if (entitet.getId() == null) { // Ako je id entiteta null, znači da se radi o unosu novog tima
             kontrolaPostojanjaTimova();
         }
@@ -55,15 +55,14 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (!entitet.getVozaci().isEmpty()) {
 
             StringBuilder sb = new StringBuilder();
-            sb.append("Tim se ne može obrisati jer ima vozače!\n (");
+            sb.append("Tim se ne može obrisati jer ima vozače!\n");
 
             for (Vozaci v : entitet.getVozaci()) {
                 sb.append(v.getIme()).append(" ").append(v.getPrezime());
-                sb.append(", ");
+                sb.append(",\n");
             }
             sb.delete(sb.length() - 2, sb.length());
-            sb.append(") ");
-
+            
             throw new EdunovaException(sb.toString());
         }
     }
@@ -75,6 +74,9 @@ public class ObradaTimovi extends Obrada<Timovi> {
         }
         if (i.isEmpty()) {
             throw new EdunovaException("Ime tima obavezno!");
+        }
+        if (i.length() > 30) {
+            throw new EdunovaException("Ime tima ne smije biti duže od 30 znakova!");
         }
         entitet.setIme_tima(entitet.getIme_tima().toUpperCase());
     }
@@ -97,6 +99,12 @@ public class ObradaTimovi extends Obrada<Timovi> {
         }
         if (d.isEmpty()) {
             throw new EdunovaException("Država sjedišta obavezno!");
+        }
+        if (!d.matches("[a-zA-ZčćžšđČĆŽŠĐ ]+")) {
+            throw new EdunovaException("Država sjedišta ne smije sadržavati brojeve ni posebne znakove!");
+        }
+        if (d.length() > 30) {
+            throw new EdunovaException("Država sjedišta ne smije biti duže od 30 znakova!");
         }
         entitet.setDrzava_sjedista(entitet.getDrzava_sjedista().toUpperCase());
     }
