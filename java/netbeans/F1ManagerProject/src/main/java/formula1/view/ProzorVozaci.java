@@ -42,7 +42,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         initComponents();
         setTitle(Alati.NAZIV_APP + " | VOZAČI");
         obrada = new ObradaVozaci();
-
         ucitaj();
 
         lstPodaci.setSelectedIndex(0);
@@ -73,6 +72,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         btnObrisi = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
         txtDatumRodenja = new javax.swing.JTextField();
+        btnUpravljajVozacima = new javax.swing.JButton();
+        lblBrojVozaca = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -154,7 +155,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnDodaj.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        btnDodaj.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnDodaj.setText("Dodaj");
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +163,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnObrisi.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        btnObrisi.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnObrisi.setText("Obriši");
         btnObrisi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +171,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnPromjena.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        btnPromjena.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnPromjena.setText("Promijeni");
         btnPromjena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,12 +192,21 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
+        btnUpravljajVozacima.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUpravljajVozacima.setText("Upravljaj vozačima");
+
+        lblBrojVozaca.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lblBrojVozaca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBrojVozaca.setText("Broj vozača");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                    .addComponent(lblBrojVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -212,10 +222,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                                 .addGap(2, 2, 2)
                                 .addComponent(txtIme, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(txtTim))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(2, 2, 2)
                                 .addComponent(txtPrezime))
@@ -226,39 +232,52 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(2, 2, 2)
-                                .addComponent(txtDatumRodenja)))
+                                .addComponent(txtDatumRodenja))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnUpravljajVozacima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtTim))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDatumRodenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNacionalnost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDodaj)
-                    .addComponent(btnObrisi)
-                    .addComponent(btnPromjena))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblBrojVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDatumRodenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNacionalnost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpravljajVozacima)
+                        .addGap(71, 71, 71)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDodaj)
+                            .addComponent(btnObrisi)
+                            .addComponent(btnPromjena))
+                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -330,7 +349,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
         lstPodaci.setSelectedIndex(0);
         lstPodaci.requestFocusInWindow();
-
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
@@ -357,7 +375,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
         lstPodaci.setSelectedIndex(0);
         lstPodaci.requestFocusInWindow();
-
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
     private boolean ispravnoIme(String ime) {
@@ -441,12 +458,23 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
         // Provjeravamo ispravnost formata datuma
         try {
-            LocalDate.parse(datum, DateTimeFormatter.ofPattern("dd.MM.yyyy."));
+            LocalDate rodendan = LocalDate.parse(datum, DateTimeFormatter.ofPattern("dd.MM.yyyy."));
+            LocalDate danas = LocalDate.now();
+
+            // Računanje razlike u godinama između datuma rođenja i danas
+            int godine = Period.between(rodendan, danas).getYears();
+
+            // Provjera uvjeta za dob vozača
+            if (godine < 18 || godine > 60) {
+                return false;
+            }
+
             return true;
         } catch (DateTimeParseException ex) {
             return false;
         }
     }
+
 
     private void txtDatumRodenjaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDatumRodenjaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -483,14 +511,13 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             txtDatumRodenja.setText(datumRodenja.format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
         } catch (Exception ex) {
             // Ako se ne može parsirati datum rođenja, postavite ga na null ili obradite pogrešku na odgovarajući način
-            e.setDatum_rodenja(null);   // NE RADI PROVJERA FORMATA!
+            e.setDatum_rodenja(null);
         }
     }
 
     @Override
     public void popuniView() {
         var e = obrada.getEntitet();
-
         txtIme.setText(e.getIme());
         txtPrezime.setText(e.getPrezime());
         txtNacionalnost.setText(e.getNacionalnost());
@@ -506,19 +533,22 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         } catch (Exception ex) {
             txtTim.setText("");
         }
-
+        
+        lblBrojVozaca.setText("Broj vozača: " + obrada.read().size());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
+    private javax.swing.JButton btnUpravljajVozacima;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBrojVozaca;
     private javax.swing.JList<Vozaci> lstPodaci;
     private javax.swing.JTextField txtDatumRodenja;
     private javax.swing.JTextField txtIme;

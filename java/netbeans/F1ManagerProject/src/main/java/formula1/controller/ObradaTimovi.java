@@ -100,7 +100,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (d.isEmpty()) {
             throw new EdunovaException("Država sjedišta obavezno!");
         }
-        if (!d.matches("[a-zA-ZčćžšđČĆŽŠĐ ]+")) {
+        if (!d.matches("[a-zA-ZčćžšđČĆŽŠĐ '-]+")) {
             throw new EdunovaException("Država sjedišta ne smije sadržavati brojeve ni posebne znakove!");
         }
         if (d.length() > 30) {
