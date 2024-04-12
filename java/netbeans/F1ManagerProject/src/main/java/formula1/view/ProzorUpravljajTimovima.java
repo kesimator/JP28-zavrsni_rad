@@ -4,9 +4,13 @@
  */
 package formula1.view;
 
+import formula1.controller.ObradaVozaci;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -20,6 +24,7 @@ import javax.swing.SwingConstants;
 public class ProzorUpravljajTimovima extends javax.swing.JFrame {
 
     private ProzorTimovi prozorTimovi;
+    private ObradaVozaci obradaVozaci;
 
     /**
      * Creates new form ProzorUpravljajTimovima
@@ -27,27 +32,63 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
     public ProzorUpravljajTimovima(ProzorTimovi prozorTimovi) {
         initComponents();
         this.prozorTimovi = prozorTimovi;
+        obradaVozaci = new ObradaVozaci();
         setTitle("TIM:        " + prozorTimovi.getObradaTimovi().getEntitet().getIme_tima());
 
-        DefaultListModel<String> v = new DefaultListModel<>();
+        DefaultListModel<Vozaci> v = new DefaultListModel<>();
         for (Vozaci vozac : prozorTimovi.getObradaTimovi().getEntitet().getVozaci()) {
-            v.addElement(vozac.getIme() + " " + vozac.getPrezime());
+            v.addElement(vozac);
         }
-        lstVozaci.setModel(v);
+        lstVozaciUTimu.setModel(v);
 
         postaviRendererZaListu();
+
+        postaviRendererZaListuDostupniVozaci();
+
+        prikaziDostupneVozace();
 
     }
 
     private void postaviRendererZaListu() {
-        lstVozaci.setCellRenderer(new DefaultListCellRenderer() {
+        lstVozaciUTimu.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
+                // Uzmi objekat Vozaci iz value parametra
+                Vozaci vozac = (Vozaci) value;
+
+                // Postavi ime i prezime vozača kao tekst labele
+                label.setText(vozac.getIme() + " " + vozac.getPrezime());
                 return label;
             }
         });
+    }
+
+    private void postaviRendererZaListuDostupniVozaci() {
+        lstVozaciUBazi.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                // Uzmi objekat Vozaci iz value parametra
+                Vozaci vozac = (Vozaci) value;
+
+                // Postavi ime i prezime vozača kao tekst labele
+                label.setText(vozac.getIme() + " " + vozac.getPrezime());
+                return label;
+            }
+        });
+    }
+
+    private void prikaziDostupneVozace() {
+        DefaultListModel<Vozaci> m = new DefaultListModel<>();
+        List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(null);
+        for (Vozaci v : sviDostupniVozaci) {
+            m.addElement(v);
+        }
+        lstVozaciUBazi.setModel(m);
+        lstVozaciUBazi.repaint();
     }
 
     /**
@@ -61,10 +102,16 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
 
         lblVozaciUTimu = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstVozaci = new javax.swing.JList<>();
+        lstVozaciUTimu = new javax.swing.JList<>();
+        lblDostupniVozaci = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstVozaciUBazi = new javax.swing.JList<>();
+        txtUvjet = new javax.swing.JTextField();
+        btnTrazi = new javax.swing.JButton();
+        btnDodaj = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(740, 370));
 
         lblVozaciUTimu.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lblVozaciUTimu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -72,9 +119,48 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
 
         jScrollPane2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
 
-        lstVozaci.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        lstVozaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(lstVozaci);
+        lstVozaciUTimu.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        lstVozaciUTimu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane2.setViewportView(lstVozaciUTimu);
+
+        lblDostupniVozaci.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lblDostupniVozaci.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDostupniVozaci.setText("Dostupni vozači");
+
+        jScrollPane3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+
+        lstVozaciUBazi.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        lstVozaciUBazi.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(lstVozaciUBazi);
+
+        txtUvjet.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        txtUvjet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUvjetKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUvjetKeyReleased(evt);
+            }
+        });
+
+        btnTrazi.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnTrazi.setText("Traži");
+        btnTrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraziActionPerformed(evt);
+            }
+        });
+
+        btnDodaj.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnDodaj.setText("<< Dodaj vozača u tim");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnObrisi.setText("Obriši vozača iz tima >>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,15 +171,44 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(519, 519, 519))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                    .addComponent(btnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDostupniVozaci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblVozaciUTimu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblDostupniVozaci)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTrazi))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblVozaciUTimu)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addComponent(btnDodaj)
+                                .addGap(64, 64, 64)
+                                .addComponent(btnObrisi)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -101,9 +216,76 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
+        DefaultListModel<Vozaci> m = new DefaultListModel<>();
+
+        // Dohvati tekst unesen u txtUvjet
+        String uvjet = txtUvjet.getText().trim();
+
+        // Dohvati sve vozače koji nisu dodijeljeni nijednom timu
+        List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(uvjet);
+
+        // Prikaži vozače u listi
+        for (Vozaci v : sviDostupniVozaci) {
+            // Provjeri da li ime vozača sadrži uneseni uvjet
+            if (v.getIme().toUpperCase().contains(uvjet.toUpperCase())) {
+                m.addElement(v);
+            }
+        }
+
+        lstVozaciUBazi.setModel(m);
+    }//GEN-LAST:event_btnTraziActionPerformed
+
+    private void txtUvjetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnTraziActionPerformed(null);
+        }
+    }//GEN-LAST:event_txtUvjetKeyPressed
+
+    private void filtrirajVozace(String uvjet) {
+        DefaultListModel<Vozaci> model = new DefaultListModel<>();
+        List<Vozaci> filtriraniVozaci = obradaVozaci.dohvatiVozaceBezTima(uvjet);
+
+        for (Vozaci vozac : filtriraniVozaci) {
+            model.addElement(vozac);
+        }
+
+        lstVozaciUBazi.setModel(model);
+        lstVozaciUBazi.repaint();
+    }
+
+    private void txtUvjetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyReleased
+        // Pokreni pretragu teksta prilikom puštanja tipke
+        filtrirajVozace(txtUvjet.getText());
+    }//GEN-LAST:event_txtUvjetKeyReleased
+
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        if (lstVozaciUBazi.getSelectedValue() == null) {
+            return;
+        }
+
+        var v = lstVozaciUBazi.getSelectedValue();
+
+        DefaultListModel<Vozaci> m = (DefaultListModel<Vozaci>) lstVozaciUTimu.getModel();
+        m.addElement(v);
+
+        DefaultListModel<Vozaci> b = (DefaultListModel<Vozaci>) lstVozaciUBazi.getModel();
+        b.removeElement(v);
+
+        lstVozaciUTimu.repaint();
+        lstVozaciUBazi.repaint();
+    }//GEN-LAST:event_btnDodajActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnTrazi;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblDostupniVozaci;
     private javax.swing.JLabel lblVozaciUTimu;
-    private javax.swing.JList<String> lstVozaci;
+    private javax.swing.JList<Vozaci> lstVozaciUBazi;
+    private javax.swing.JList<Vozaci> lstVozaciUTimu;
+    private javax.swing.JTextField txtUvjet;
     // End of variables declaration//GEN-END:variables
 }

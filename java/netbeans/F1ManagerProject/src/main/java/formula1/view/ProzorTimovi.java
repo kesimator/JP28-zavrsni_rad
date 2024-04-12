@@ -72,7 +72,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         jScrollPane2 = new javax.swing.JScrollPane();
         lstVozaci = new javax.swing.JList<>();
         lblBrojTimova = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnUpravljajTimovima = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(890, 400));
@@ -81,6 +81,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
 
         lstPodaci.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lstPodaci.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstPodaci.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lstPodaciKeyPressed(evt);
+            }
+        });
         lstPodaci.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstPodaciValueChanged(evt);
@@ -177,11 +182,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lblBrojTimova.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBrojTimova.setText("Broj timova");
 
-        jButton1.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        jButton1.setText("Upravljaj timovima");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnUpravljajTimovima.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUpravljajTimovima.setText("Upravljaj timovima");
+        btnUpravljajTimovima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnUpravljajTimovimaActionPerformed(evt);
             }
         });
 
@@ -215,7 +220,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                                 .addComponent(btnObrisi))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
-                        .addComponent(jButton1)))
+                        .addComponent(btnUpravljajTimovima)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
@@ -249,7 +254,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                             .addComponent(btnPromjena)
                             .addComponent(btnObrisi))
                         .addGap(90, 90, 90)
-                        .addComponent(jButton1)
+                        .addComponent(btnUpravljajTimovima)
                         .addGap(90, 90, 90))
                     .addComponent(jScrollPane1)))
         );
@@ -423,18 +428,24 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtDrzavaSjedista.selectAll();
     }//GEN-LAST:event_txtDrzavaSjedistaFocusGained
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnUpravljajTimovimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravljajTimovimaActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
         }
         new ProzorUpravljajTimovima(this).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnUpravljajTimovimaActionPerformed
+
+    private void lstPodaciKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstPodaciKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnUpravljajTimovima.doClick();
+        }
+    }//GEN-LAST:event_lstPodaciKeyPressed
 
     @Override
     public void ucitaj() {
-        DefaultListModel<Timovi> t = new DefaultListModel<>();
-        t.addAll(obrada.read());
-        lstPodaci.setModel(t);
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
+        m.addAll(obrada.read());
+        lstPodaci.setModel(m);
         lstPodaci.repaint();
     }
 
@@ -486,7 +497,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnUpravljajTimovima;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

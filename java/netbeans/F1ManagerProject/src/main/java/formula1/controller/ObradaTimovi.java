@@ -48,6 +48,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
         kontrolaUnos();
+        kontrolaPostojanjaTimova();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ObradaTimovi extends Obrada<Timovi> {
                 sb.append(",\n");
             }
             sb.delete(sb.length() - 2, sb.length());
-            
+
             throw new EdunovaException(sb.toString());
         }
     }
@@ -110,8 +111,10 @@ public class ObradaTimovi extends Obrada<Timovi> {
     }
 
     private void kontrolaPostojanjaTimova() throws EdunovaException {
-        List<Timovi> timovi = session.createQuery("from Timovi t where t.ime_tima = :ime_tima", Timovi.class)
+        List<Timovi> timovi = session.createQuery(
+                "from Timovi t where t.ime_tima = :ime_tima and t.id != :id", Timovi.class)
                 .setParameter("ime_tima", entitet.getIme_tima())
+                .setParameter("id", entitet.getId())
                 .getResultList();
         if (!timovi.isEmpty()) {
             throw new EdunovaException("Već postoji tim s istim imenom!");
@@ -133,9 +136,14 @@ public class ObradaTimovi extends Obrada<Timovi> {
                 .setParameter("drzavaSjedista", drzavaSjedista)
                 .getResultList();
 
-        // Ako postoji tim s istim osobnim podacima, baci iznimku
+        /// Ako postoji tim s istim osobnim podacima, provjeri je li to trenutni tim
         if (!istiTimovi.isEmpty()) {
-            throw new EdunovaException("Već postoji tim s istim podacima!");
+            for (Timovi t : istiTimovi) {
+                // Ako id trenutnog tima nije jednak id-u tima iz baze, tada je to drugi tim s istim podacima
+                if (!t.getId().equals(entitet.getId())) {
+                    throw new EdunovaException("Već postoji tim s istim podacima!");
+                }
+            }
         }
     }
 

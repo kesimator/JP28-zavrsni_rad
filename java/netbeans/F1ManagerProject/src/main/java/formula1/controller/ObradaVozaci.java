@@ -37,6 +37,34 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         return lista;
     }
 
+    public List<Vozaci> read(String uvjet) {
+
+        // Ako je uvjet prazan, vrati sve vozače
+        if (uvjet.isEmpty()) {
+            return session.createQuery("from Vozaci order by ime, prezime", Vozaci.class).list();
+        }
+
+        // Inače, vrati vozače koji zadovoljavaju uvjet pretraživanja
+        return session.createQuery("from Vozaci where upper(ime) like :uvjet "
+                + "or upper(prezime) like :uvjet "
+                + "or upper(nacionalnost) like :uvjet "
+                + "order by ime, prezime", Vozaci.class)
+                .setParameter("uvjet", "%" + uvjet.toUpperCase() + "%")
+                .list();
+    }
+
+    public List<Vozaci> dohvatiVozaceBezTima(String uvjet) {
+        if (uvjet == null || uvjet.isEmpty()) {
+            // Ako je uvjet prazan, vrati sve vozače koji nemaju dodijeljen tim
+            return session.createQuery("SELECT v FROM Vozaci v WHERE v.tim IS NULL", Vozaci.class).getResultList();
+        } else {
+            // Inače, vrati vozače koji nemaju dodijeljen tim i koji zadovoljavaju uvjet pretraživanja
+            return session.createQuery("SELECT v FROM Vozaci v WHERE v.tim IS NULL AND (upper(v.ime) LIKE :uvjet OR upper(v.prezime) LIKE :uvjet)", Vozaci.class)
+                    .setParameter("uvjet", "%" + uvjet.toUpperCase() + "%")
+                    .getResultList();
+        }
+    }
+
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
