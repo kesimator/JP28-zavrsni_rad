@@ -4,6 +4,7 @@
  */
 package formula1.controller;
 
+import formula1.model.Prvenstva;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
@@ -26,9 +27,22 @@ public class ObradaTimovi extends Obrada<Timovi> {
     @Override
     public List<Timovi> read() {
 
-        List<Timovi> lista = session.createQuery("from Timovi order by ime_tima", Timovi.class).list();
+        // Dohvaćanje liste timova sortirane po imenu tima
+        List<Timovi> listaTimova = session.createQuery("from Timovi order by ime_tima", Timovi.class).list();
 
-        return lista;
+        // Za svaki tim dohvati i popuni listu vozača
+        for (Timovi tim : listaTimova) {
+            // Dohvaćanje liste vozača za trenutni tim, sortirane po imenu i prezimenu
+            List<Vozaci> listaVozaca = session.createQuery(
+                    "select v from Vozaci v where v.tim = :tim order by v.ime, v.prezime",
+                    Vozaci.class)
+                    .setParameter("tim", tim)
+                    .list();
+            // Postavljanje sortirane liste vozača u atribut tima
+            tim.setVozaci(listaVozaca);
+        }
+
+        return listaTimova;
     }
 
     @Override
@@ -53,6 +67,9 @@ public class ObradaTimovi extends Obrada<Timovi> {
 
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
+        if (!entitet.getPrvenstva().isEmpty()) {
+            throw new EdunovaException("Tim sudjeluje u nekom prvenstvu i ne može biti obrisan!");
+        }
         if (!entitet.getVozaci().isEmpty()) {
 
             StringBuilder sb = new StringBuilder();
@@ -147,32 +164,50 @@ public class ObradaTimovi extends Obrada<Timovi> {
         }
     }
 
-//    private void kontrolaPostojanjaVozacaUTimu() throws EdunovaException {
-//        List<Vozaci> vozaciUTimu = session.createQuery("from Vozaci v where v.tim = :tim", Vozaci.class)
-//                .setParameter("tim", entitet)
-//                .getResultList();
-//        if (!vozaciUTimu.isEmpty()) {
-//            throw new EdunovaException("Vozač je već dodijeljen timu!");
-//        }
-//    }
-//    private void kontrolaPostojanjaVozaca() throws EdunovaException {
-//        List<Vozaci> vozaci = entitet.getVozaci();
-//
-//        // Iteriramo kroz listu vozača
-//        for (Vozaci vozac : vozaci) {
-//            String ime = vozac.getIme();
-//            String prezime = vozac.getPrezime();
-//            
-//            List<Vozaci> postojeciVozaci = session.createQuery(
-//                    "from Vozaci v where v.ime = :ime and v.prezime = :prezime", Vozaci.class)
-//                    .setParameter("ime", ime)
-//                    .setParameter("prezime", prezime)
-//                    .getResultList();
-//            
-//            if (!postojeciVozaci.isEmpty()) {   // provjeriti !
-//                throw new EdunovaException("Vozač s navedenim imenom i prezimenom ne postoji!");
-//            }
-//        }
-//        
-//    }
+    public void ukloniIzPrvenstva(Timovi tim) throws EdunovaException {
+        // Ukloni vozača iz svih prvenstava koja sudjeluje
+        if (!tim.getPrvenstva().isEmpty()) {
+            for (Prvenstva prvenstvo : tim.getPrvenstva()) {
+                prvenstvo.setTim(null);
+            }
+            tim.getPrvenstva().clear(); // Očisti listu prvenstava
+        } else {
+            throw new EdunovaException("Tim nema osvojenih prvenstava!");
+        }
+    }
+
+    public void ukloniSveVozaceIzTima(Timovi tim) throws EdunovaException {
+        // Provjeri je li tim null
+        if (tim == null) {
+            throw new EdunovaException("Tim nije definiran!");
+        }
+
+        // Dohvati sve vozače iz tima
+        List<Vozaci> vozaci = tim.getVozaci();
+
+        // Iteriraj kroz sve vozače i ukloni ih iz tima
+        for (Vozaci vozac : vozaci) {
+            // Postavi tim vozača na null kako bi ga uklonili iz tima
+            vozac.setTim(null);
+        }
+
+        vozaci.clear();
+    }
+
+    public void ukloniIzTima(Vozaci vozac) throws EdunovaException {
+        if (vozac == null || vozac.getId() == null) {
+            throw new EdunovaException("Vozač nije ispravno definiran!");
+        }
+
+        // Provjera postoji li vozač u timu
+        Timovi tim = vozac.getTim();
+        if (tim == null) {
+            throw new EdunovaException("Vozač nije dodijeljen timu!");
+        }
+
+        // Ukloni vozača iz tima
+        tim.getVozaci().remove(vozac);
+        vozac.setTim(null);
+    }
+
 }

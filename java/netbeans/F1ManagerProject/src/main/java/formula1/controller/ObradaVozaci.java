@@ -4,6 +4,7 @@
  */
 package formula1.controller;
 
+import formula1.model.Prvenstva;
 import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.EdunovaException;
@@ -94,10 +95,16 @@ public class ObradaVozaci extends Obrada<Vozaci> {
 
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
+        if (!entitet.getPrvenstva().isEmpty()) {
+            throw new EdunovaException("Vozač sudjeluje u nekom prvenstvu i ne može biti obrisan!");
+        }
+
         Timovi tim = entitet.getTim();
         if (tim != null) {
-            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!\n [" + tim.getIme_tima() + "]");
+            throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!\n[" + tim.getIme_tima() + "]");
         }
+        // Provjeri povezanost vozača s timom i ukloni vozača iz tima prije brisanja
+        // ukloniIzTima(entitet);
     }
 
     private void kontrolaIme() throws EdunovaException {
@@ -233,6 +240,44 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         // Provjera uvjeta
         if (godine < 18 || godine > 60) {
             throw new EdunovaException("Vozač ne može biti mlađi od 18 godina ili stariji od 60 godina!");
+        }
+    }
+
+    public void ukloniIzTima(Vozaci vozac) throws EdunovaException {
+        if (vozac == null || vozac.getId() == null) {
+            throw new EdunovaException("Vozač nije ispravno definiran!");
+        }
+
+        // Provjera postoji li vozač u timu
+        Timovi tim = vozac.getTim();
+        if (tim == null) {
+            throw new EdunovaException("Vozač nije dodijeljen timu!");
+        }
+
+        // Ukloni vozača iz tima
+        tim.getVozaci().remove(vozac);
+        vozac.setTim(null);
+    }
+
+    public boolean provjeriVozaca(Vozaci vozac) throws EdunovaException {
+        // Provjeri je li vozač u nekom prvenstvu
+        if (!vozac.getPrvenstva().isEmpty()) {
+            throw new EdunovaException("Vozač sudjeluje u nekom prvenstvu.");
+        }
+
+        // Vozač nije u timu niti u prvenstvu, vraćamo true
+        return true;
+    }
+
+    public void ukloniIzPrvenstva(Vozaci vozac) throws EdunovaException {
+        // Ukloni vozača iz svih prvenstava koja sudjeluje
+        if (!vozac.getPrvenstva().isEmpty()) {
+            for (Prvenstva prvenstvo : vozac.getPrvenstva()) {
+                prvenstvo.setVozac(null);
+            }
+            vozac.getPrvenstva().clear(); // Očisti listu prvenstava
+        } else {
+            throw new EdunovaException("Vozač nema osvojenih prvenstava!");
         }
     }
 

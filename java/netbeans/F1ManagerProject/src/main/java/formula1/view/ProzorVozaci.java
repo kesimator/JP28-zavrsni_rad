@@ -72,8 +72,9 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         btnObrisi = new javax.swing.JButton();
         btnPromjena = new javax.swing.JButton();
         txtDatumRodenja = new javax.swing.JTextField();
-        btnUpravljajVozacima = new javax.swing.JButton();
+        btnUkloniIzTima = new javax.swing.JButton();
         lblBrojVozaca = new javax.swing.JLabel();
+        btnUkloniIzPrvenstva = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -192,12 +193,25 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
-        btnUpravljajVozacima.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnUpravljajVozacima.setText("Upravljaj vozačima");
+        btnUkloniIzTima.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUkloniIzTima.setText("Ukloni iz tima");
+        btnUkloniIzTima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUkloniIzTimaActionPerformed(evt);
+            }
+        });
 
         lblBrojVozaca.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lblBrojVozaca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBrojVozaca.setText("Broj vozača");
+        lblBrojVozaca.setText("Broj vozača:");
+
+        btnUkloniIzPrvenstva.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUkloniIzPrvenstva.setText("Ukloni iz prvenstva");
+        btnUkloniIzPrvenstva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUkloniIzPrvenstvaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,39 +222,37 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
                     .addComponent(lblBrojVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDodaj)
-                        .addGap(50, 50, 50)
+                        .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
                         .addComponent(btnPromjena)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnObrisi))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(txtIme, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(txtPrezime))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(txtNacionalnost, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(txtDatumRodenja))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnUpravljajVozacima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtTim))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(txtIme, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(txtPrezime))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(txtNacionalnost, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(txtDatumRodenja))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnUkloniIzTima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTim)
+                            .addComponent(btnUkloniIzPrvenstva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,8 +282,10 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpravljajVozacima)
-                        .addGap(71, 71, 71)
+                        .addComponent(btnUkloniIzTima)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUkloniIzPrvenstva)
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDodaj)
                             .addComponent(btnObrisi)
@@ -332,7 +346,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
 
         if (JOptionPane.showConfirmDialog(getRootPane(), e, "Sigurno obrisati?",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                slika) != JOptionPane.YES_OPTION) {
             return;
         }
 
@@ -489,6 +504,107 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtDatumRodenjaKeyPressed
 
+    private void btnUkloniIzTimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzTimaActionPerformed
+        if (lstPodaci.getSelectedValue() != null) {
+            Vozaci odabraniVozac = lstPodaci.getSelectedValue();
+
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
+            // Provjeri je li vozač sudionik nekog prvenstva
+            if (!odabraniVozac.getPrvenstva().isEmpty()) {
+                // Ako je vozač sudionik nekog prvenstva, obavijesti korisnika
+                JOptionPane.showMessageDialog(this,
+                        "Vozač se ne može ukloniti iz tima jer ima osvojena prvenstva!",
+                        "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                return; // Prekini izvršavanje metode jer ne želimo nastaviti s uklanjanjem vozača iz tima
+            }
+
+            try {
+                // Provjeri može li vozač biti uklonjen iz tima
+                if (obrada.provjeriVozaca(odabraniVozac)) {
+                    // Prikaži dijalog za potvrdu korisnika
+                    int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno ukloniti vozača iz tima?",
+                            "UPOZORENJE", JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, slika);
+
+                    // Provjeri odgovor korisnika
+                    if (odgovor == JOptionPane.YES_OPTION) {
+                        // Ukloni vozača iz tima
+                        obrada.ukloniIzTima(odabraniVozac);
+
+                        // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
+                        ucitaj();
+                        lstPodaci.requestFocusInWindow();
+
+                        // Obavijesti korisnika o uspješnom uklanjanju vozača iz tima
+                        JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz tima!",
+                                "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                    }
+                }
+            } catch (EdunovaException ex) {
+                // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz tima
+                // i prikaži odgovarajuću poruku korisniku
+                JOptionPane.showMessageDialog(this, "Dogodila se greška prilikom uklanjanja vozača iz tima: "
+                        + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+            }
+        } else {
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+            // Ako nije odabran nijedan vozač, prikaži poruku korisniku
+            JOptionPane.showMessageDialog(this, "Nije odabran vozač za uklanjanje iz tima!",
+                    "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnUkloniIzTimaActionPerformed
+
+    private void btnUkloniIzPrvenstvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzPrvenstvaActionPerformed
+        if (lstPodaci.getSelectedValue() != null) {
+            Vozaci odabraniVozac = lstPodaci.getSelectedValue();
+
+            // Provjeri sudjeluje li vozač u nekom prvenstvu
+            if (odabraniVozac.getPrvenstva().isEmpty()) {
+                // Ako vozač ne sudjeluje u ijednom prvenstvu, obavijesti korisnika
+                ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+                JOptionPane.showMessageDialog(this, "Vozač nema osvojenih prvenstava!",
+                        "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                // Automatski vraća fokus na odabranog vozača u lstPodaci
+                lstPodaci.setSelectedValue(odabraniVozac, true);
+                lstPodaci.requestFocusInWindow();
+            } else {
+                // Vozač sudjeluje u prvenstvu, pa ga možemo ukloniti
+                // Prikaži dijalog za potvrdu korisnika
+                ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+                int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno obrisati vozača iz prvenstva?",
+                        "UPOZORENJE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        slika);
+
+                // Provjeri odgovor korisnika
+                if (odgovor == JOptionPane.YES_OPTION) {
+                    try {
+                        obrada.ukloniIzPrvenstva(odabraniVozac);
+
+                        // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene vidjele
+                        ucitaj();
+                        lstPodaci.requestFocusInWindow();
+
+                        // Obavijesti korisnika o uspješnom uklanjanju vozača iz prvenstva
+                        JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz prvenstva!",
+                                "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                    } catch (Exception ex) {
+                        // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz prvenstva
+                        // i prikaži odgovarajuću poruku korisniku
+                        JOptionPane.showMessageDialog(this, 
+                                "Dogodila se greška prilikom uklanjanja vozača iz prvenstva: "
+                                + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                    }
+                }
+            }
+        } else {
+            // Ako nije odabran ijedan vozač, prikaži poruku korisniku
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+            JOptionPane.showMessageDialog(this, "Nije odabran vozač za uklanjanje iz prvenstva!",
+                    "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnUkloniIzPrvenstvaActionPerformed
+
     @Override
     public void ucitaj() {
         DefaultListModel<Vozaci> m = new DefaultListModel<>();
@@ -533,7 +649,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         } catch (Exception ex) {
             txtTim.setText("");
         }
-        
+
         lblBrojVozaca.setText("Broj vozača: " + obrada.read().size());
     }
 
@@ -541,7 +657,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
-    private javax.swing.JButton btnUpravljajVozacima;
+    private javax.swing.JButton btnUkloniIzPrvenstva;
+    private javax.swing.JButton btnUkloniIzTima;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

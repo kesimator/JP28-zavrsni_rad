@@ -60,4 +60,8 @@ public class Prvenstva extends Entitet {
         this.tim = tim;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(sezona);
+    }
 }

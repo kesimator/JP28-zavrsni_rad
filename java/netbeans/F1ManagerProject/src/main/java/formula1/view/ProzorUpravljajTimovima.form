@@ -31,7 +31,7 @@
               </Group>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnObrisi" pref="246" max="32767" attributes="0"/>
+                  <Component id="btnUkloni" pref="246" max="32767" attributes="0"/>
                   <Component id="btnDodaj" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -44,6 +44,7 @@
                       <Component id="btnTrazi" min="-2" pref="82" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="lblUkupnoDostupnihVozaca" alignment="0" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -61,7 +62,9 @@
                           <Component id="btnTrazi" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="295" max="-2" attributes="0"/>
+                      <Component id="jScrollPane3" min="-2" pref="274" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblUkupnoDostupnihVozaca" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="lblVozaciUTimu" min="-2" max="-2" attributes="0"/>
@@ -72,7 +75,7 @@
                               <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                               <Component id="btnDodaj" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                              <Component id="btnObrisi" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnUkloni" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -191,12 +194,24 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDodajActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnObrisi">
+    <Component class="javax.swing.JButton" name="btnUkloni">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Consolas" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Obri&#x161;i voza&#x10d;a iz tima &gt;&gt;"/>
+        <Property name="text" type="java.lang.String" value="Ukloni voza&#x10d;a iz tima &gt;&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUkloniActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblUkupnoDostupnihVozaca">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Consolas" size="14" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Prona&#x111;eno rezultata:"/>
       </Properties>
     </Component>
   </SubComponents>

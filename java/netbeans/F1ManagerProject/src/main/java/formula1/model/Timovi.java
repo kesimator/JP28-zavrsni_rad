@@ -17,17 +17,21 @@ public class Timovi extends Entitet {
     private Integer godina_osnutka;
     @OneToMany(mappedBy = "tim")
     private List<Vozaci> vozaci = new ArrayList<>();
+    @OneToMany(mappedBy = "tim")
+    private List<Prvenstva> prvenstva;
 
     public Timovi() {
 
     }
 
-    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Integer godina_osnutka, List<Vozaci> vozaci) {
+    public Timovi(Integer id, String ime_tima, String drzava_sjedista, Integer godina_osnutka, List<Vozaci> vozaci,
+            List<Prvenstva> prvenstva) {
         super(id);
         this.ime_tima = ime_tima;
         this.drzava_sjedista = drzava_sjedista;
         this.godina_osnutka = godina_osnutka;
         this.vozaci = vozaci;
+        this.prvenstva = prvenstva;
     }
 
     public String getIme_tima() {
@@ -60,6 +64,14 @@ public class Timovi extends Entitet {
 
     public void setVozaci(List<Vozaci> vozaci) {
         this.vozaci = vozaci;
+    }
+
+    public List<Prvenstva> getPrvenstva() {
+        return prvenstva;
+    }
+
+    public void setPrvenstva(List<Prvenstva> prvenstva) {
+        this.prvenstva = prvenstva;
     }
 
     @Override

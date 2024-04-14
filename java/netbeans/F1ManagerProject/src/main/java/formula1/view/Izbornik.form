@@ -13,14 +13,14 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Programi"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="11" style="0"/>
+              <Font name="Consolas" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Consolas" size="11" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Voza&#x10d;i"/>
               </Properties>
@@ -31,12 +31,25 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Consolas" size="11" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Timovi"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Consolas" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Prvenstva"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -45,14 +58,14 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Ostalo"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="11" style="0"/>
+              <Font name="Consolas" size="12" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Consolas" size="11" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="O aplikaciji"/>
               </Properties>
@@ -63,7 +76,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Consolas" size="11" style="0"/>
+                  <Font name="Consolas" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Izlaz"/>
               </Properties>

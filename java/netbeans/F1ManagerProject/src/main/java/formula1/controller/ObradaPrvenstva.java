@@ -39,22 +39,38 @@ public class ObradaPrvenstva extends Obrada<Prvenstva> {
 
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
-        if (entitet.getTim() != null) {
-            throw new EdunovaException("Tim je povezan s prvenstvom i ne može biti obrisan!");
-        }
         if (entitet.getVozac() != null) {
-            throw new EdunovaException("Vozač je povezan s prvenstvom i ne može biti obrisan!");
+            throw new EdunovaException("Vozač je povezan s prvenstvom! Molim prvo ukloniti vozača iz prvenstva!");
         }
+        if (entitet.getTim() != null) {
+            throw new EdunovaException("Tim je povezan s prvenstvom!\nMolim prvo ukloniti tim iz prvenstva!");
+        }
+
     }
 
     private void kontrolaSezona() throws EdunovaException {
         var s = entitet.getSezona();
         if (s == null) {
-            throw new EdunovaException("Sezona mora biti definirana!");
+            throw new EdunovaException("Sezona mora biti definirana!\n(broj između 1950 i 2023)");
         }
         if (s < 1950 || s > 2023) {
             throw new EdunovaException("Sezona mora biti unutar raspona od 1950. godine do 2023. godine!");
         }
+
+        // Provjera postojanja sezone u bazi
+        if (sezonaPostoji(s)) {
+            throw new EdunovaException("Već postoji sezona s navedenom godinom!");
+        }
     }
 
+    // Metoda koja provjerava postojanje sezone u bazi
+    private boolean sezonaPostoji(int sezona) {
+        List<Prvenstva> svaPrvenstva = read();
+        for (Prvenstva p : svaPrvenstva) {
+            if (p.getSezona() == sezona) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

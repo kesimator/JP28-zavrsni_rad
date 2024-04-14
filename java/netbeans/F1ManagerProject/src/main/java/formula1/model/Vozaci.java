@@ -4,7 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Vozaci extends Entitet {
@@ -20,18 +22,22 @@ public class Vozaci extends Entitet {
     @ManyToOne
     @JoinColumn(name = "tim_id")
     private Timovi tim;
+    @OneToMany(mappedBy = "vozac")
+    private List<Prvenstva> prvenstva;
 
     public Vozaci() {
 
     }
 
-    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, LocalDate datum_rodenja, Timovi tim) {
+    public Vozaci(Integer id, String ime, String prezime, String nacionalnost, LocalDate datum_rodenja, Timovi tim,
+            List<Prvenstva> prvenstva) {
         super(id);
         this.ime = ime;
         this.prezime = prezime;
         this.nacionalnost = nacionalnost;
         this.datum_rodenja = datum_rodenja;
         this.tim = tim;
+        this.prvenstva = prvenstva;
     }
 
     public String getIme() {
@@ -72,6 +78,14 @@ public class Vozaci extends Entitet {
 
     public void setTim(Timovi tim) {
         this.tim = tim;
+    }
+
+    public List<Prvenstva> getPrvenstva() {
+        return prvenstva;
+    }
+
+    public void setPrvenstva(List<Prvenstva> prvenstva) {
+        this.prvenstva = prvenstva;
     }
 
     @Override

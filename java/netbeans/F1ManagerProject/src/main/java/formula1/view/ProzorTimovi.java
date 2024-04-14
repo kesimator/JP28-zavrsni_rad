@@ -42,6 +42,8 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         ucitaj();
 
         lstPodaci.setSelectedIndex(0);
+
+        postaviRendererZaListu();
     }
 
     public ObradaTimovi getObradaTimovi() {
@@ -73,9 +75,12 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lstVozaci = new javax.swing.JList<>();
         lblBrojTimova = new javax.swing.JLabel();
         btnUpravljajTimovima = new javax.swing.JButton();
+        btnUkloniIzPrvenstva = new javax.swing.JButton();
+        btnUkloniVozace = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(890, 400));
+        setSize(new java.awt.Dimension(890, 400));
 
         jScrollPane1.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
 
@@ -190,6 +195,22 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             }
         });
 
+        btnUkloniIzPrvenstva.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUkloniIzPrvenstva.setText("Ukloni tim iz prvenstva");
+        btnUkloniIzPrvenstva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUkloniIzPrvenstvaActionPerformed(evt);
+            }
+        });
+
+        btnUkloniVozace.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnUkloniVozace.setText("Ukloni vozače iz tima");
+        btnUkloniVozace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUkloniVozaceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,9 +219,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                     .addComponent(lblBrojTimova, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,13 +238,16 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                                 .addGap(45, 45, 45)
                                 .addComponent(btnPromjena)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                                .addComponent(btnObrisi))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(btnUpravljajTimovima)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnObrisi)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnUkloniIzPrvenstva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUpravljajTimovima, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUkloniVozace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(68, 68, 68)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -235,7 +259,6 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                     .addComponent(lblBrojTimova, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtImeTima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,10 +276,18 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                             .addComponent(btnDodaj)
                             .addComponent(btnPromjena)
                             .addComponent(btnObrisi))
-                        .addGap(90, 90, 90)
+                        .addGap(18, 18, 18)
                         .addComponent(btnUpravljajTimovima)
-                        .addGap(90, 90, 90))
-                    .addComponent(jScrollPane1)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUkloniIzPrvenstva)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUkloniVozace)
+                        .addGap(84, 84, 84))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -441,6 +472,102 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_lstPodaciKeyPressed
 
+    private void btnUkloniIzPrvenstvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzPrvenstvaActionPerformed
+        if (lstPodaci.getSelectedValue() != null) {
+            Timovi odabraniTim = lstPodaci.getSelectedValue();
+
+            // Provjeri sudjeluje li tim u nekom prvenstvu
+            if (odabraniTim.getPrvenstva().isEmpty()) {
+                // Ako tim ne sudjeluje u ijednom prvenstvu, obavijesti korisnika
+                ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+                JOptionPane.showMessageDialog(this, "Tim nema osvojenih prvenstava!",
+                        "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                // Automatski vraća fokus na odabrani tim u lstPodaci
+                lstPodaci.setSelectedValue(odabraniTim, true);
+                lstPodaci.requestFocusInWindow();
+            } else {
+                // Tim sudjeluje u prvenstvu, pa ga možemo ukloniti
+                // Prikaži dijalog za potvrdu korisnika
+                ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+                int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno obrisati tim iz prvenstva?",
+                        "UPOZORENJE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        slika);
+
+                // Provjeri odgovor korisnika
+                if (odgovor == JOptionPane.YES_OPTION) {
+                    try {
+                        obrada.ukloniIzPrvenstva(odabraniTim);
+
+                        // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene vidjele
+                        ucitaj();
+                        lstPodaci.requestFocusInWindow();
+
+                        // Obavijesti korisnika o uspješnom uklanjanju tima iz prvenstva
+                        JOptionPane.showMessageDialog(this, "Tim je uspješno uklonjen iz prvenstva!",
+                                "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                    } catch (Exception ex) {
+                        // Uhvati iznimku ako se dogodi greška prilikom uklanjanja tima iz prvenstva
+                        // i prikaži odgovarajuću poruku korisniku
+                        JOptionPane.showMessageDialog(this,
+                                "Dogodila se greška prilikom uklanjanja tima iz prvenstva: "
+                                + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                    }
+                }
+            }
+        } else {
+            // Ako nije odabran ijedan tim, prikaži poruku korisniku
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+            JOptionPane.showMessageDialog(this, "Nije odabran tim za uklanjanje iz prvenstva!",
+                    "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnUkloniIzPrvenstvaActionPerformed
+
+    private void btnUkloniVozaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniVozaceActionPerformed
+        // Provjeri je li odabran tim
+        if (lstPodaci.getSelectedValue() != null) {
+            // Dohvati odabrani tim
+            Timovi odabraniTim = lstPodaci.getSelectedValue();
+
+            // Pripremi ikonu za dijalog
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+
+            // Pitaj korisnika za potvrdu brisanja tima
+            int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno ukloniti sve vozače iz tima?",
+                    "UPOZORENJE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    slika);
+
+            // Provjeri odgovor korisnika
+            if (odgovor == JOptionPane.YES_OPTION) {
+                try {
+                    // Ukloni sve vozače iz tima
+                    obrada.ukloniSveVozaceIzTima(odabraniTim);
+
+                    // Osvježi prikaz liste vozača u timu
+                    popuniView();
+
+                    // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
+                    ucitaj();
+                    lstPodaci.requestFocusInWindow();
+
+                    // Obavijesti korisnika o uspješnom uklanjanju svih vozača iz tima
+                    JOptionPane.showMessageDialog(this, "Svi vozači su uspješno uklonjeni iz tima!",
+                            "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                } catch (EdunovaException ex) {
+                    // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz tima
+                    // i prikaži odgovarajuću poruku korisniku
+                    JOptionPane.showMessageDialog(this, "Dogodila se greška prilikom uklanjanja vozača iz tima: "
+                            + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                }
+            }
+        } else {
+            // Pripremi ikonu za dijalog
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+            // Ako nije odabran ijedan tim, prikaži poruku korisniku
+            JOptionPane.showMessageDialog(this, "Nije odabran tim za uklanjanje vozača!",
+                    "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+        }
+    }//GEN-LAST:event_btnUkloniVozaceActionPerformed
+
     @Override
     public void ucitaj() {
         DefaultListModel<Timovi> m = new DefaultListModel<>();
@@ -466,6 +593,11 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lstVozaci.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value instanceof Vozaci) {
+                    Vozaci vozac = (Vozaci) value;
+                    value = vozac.getIme() + " " + vozac.getPrezime();
+                }
+
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 return label;
@@ -480,11 +612,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         txtDrzavaSjedista.setText(e.getDrzava_sjedista());
         txtGodinaOsnutka.setText(String.valueOf(e.getGodina_osnutka()));
 
-        postaviRendererZaListu();
-
-        DefaultListModel<String> v = new DefaultListModel<>();
+        DefaultListModel<Vozaci> v = new DefaultListModel<>();
         for (Vozaci vozac : e.getVozaci()) {
-            v.addElement(vozac.getIme() + " " + vozac.getPrezime());
+            v.addElement(vozac);
         }
         lstVozaci.setModel(v);
 
@@ -497,6 +627,8 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjena;
+    private javax.swing.JButton btnUkloniIzPrvenstva;
+    private javax.swing.JButton btnUkloniVozace;
     private javax.swing.JButton btnUpravljajTimovima;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
@@ -506,7 +638,7 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
     private javax.swing.JLabel lblBrojTimova;
     private javax.swing.JLabel lblVozaciUTimu;
     private javax.swing.JList<Timovi> lstPodaci;
-    private javax.swing.JList<String> lstVozaci;
+    private javax.swing.JList<Vozaci> lstVozaci;
     private javax.swing.JTextField txtDrzavaSjedista;
     private javax.swing.JTextField txtGodinaOsnutka;
     private javax.swing.JTextField txtImeTima;

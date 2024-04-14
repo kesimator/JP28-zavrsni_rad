@@ -24,7 +24,7 @@ public class Izbornik extends javax.swing.JFrame {
      */
     public Izbornik() {
         initComponents();
-
+        
         setTitle(Alati.NAZIV_APP + " | IZBORNIK");
         lblOperater.setText(Alati.getOperater());
     }
@@ -44,6 +44,7 @@ public class Izbornik extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -60,9 +61,9 @@ public class Izbornik extends javax.swing.JFrame {
         jMenuBar1.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
 
         jMenu1.setText("Programi");
-        jMenu1.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenu1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        jMenuItem3.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenuItem3.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jMenuItem3.setText("Vozači");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,8 +72,9 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenuItem4.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jMenuItem4.setText("Timovi");
+        jMenuItem4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -80,12 +82,22 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
+        jMenuItem5.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jMenuItem5.setText("Prvenstva");
+        jMenuItem5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Ostalo");
-        jMenu2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenu2.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenuItem1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jMenuItem1.setText("O aplikaciji");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +106,7 @@ public class Izbornik extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem1);
 
-        jMenuItem2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jMenuItem2.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jMenuItem2.setText("Izlaz");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +141,7 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
+        
         String putanja = "/f1logo132x55.jpg";
         ImageIcon slika = new ImageIcon(getClass().getResource(putanja));
 
@@ -148,6 +160,10 @@ public class Izbornik extends javax.swing.JFrame {
         new ProzorTimovi().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new ProzorPrvenstva().setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
@@ -157,6 +173,7 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lblOperater;
     // End of variables declaration//GEN-END:variables
