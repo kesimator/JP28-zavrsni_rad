@@ -55,8 +55,6 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (entitet.getId() == null) { // Ako je id entiteta null, znači da se radi o unosu novog tima
             kontrolaPostojanjaTimova();
         }
-//        kontrolaPostojanjaVozacaUTimu();
-//        kontrolaPostojanjaVozaca();
     }
 
     @Override
@@ -210,4 +208,16 @@ public class ObradaTimovi extends Obrada<Timovi> {
         vozac.setTim(null);
     }
 
+    public void dodajUTim(Vozaci vozac) throws EdunovaException {
+        // Provjeri je li vozač ispravno definiran
+        if (vozac == null || vozac.getId() == null) {
+            throw new EdunovaException("Vozač nije ispravno definiran!");
+        }
+
+        // Postavi tim vozaču
+        vozac.setTim(entitet);
+
+        // Dodaj vozača u listu vozača tima
+        entitet.getVozaci().add(vozac);
+    }
 }

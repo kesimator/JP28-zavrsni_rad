@@ -11,6 +11,7 @@ import formula1.util.EdunovaException;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -30,22 +31,27 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
     /**
      * Creates new form ProzorUpravljajTimovima
      */
-    public ProzorUpravljajTimovima(ProzorTimovi prozorTimovi) {
+    public ProzorUpravljajTimovima() {
         initComponents();
-        this.prozorTimovi = prozorTimovi;
         obradaVozaci = new ObradaVozaci();
+
+        postaviRendererZaListu();
+        postaviRendererZaListuDostupniVozaci();
+        prikaziDostupneVozace();
+    }
+
+    /**
+     * Creates new form ProzorUpravljajTimovima
+     */
+    public ProzorUpravljajTimovima(ProzorTimovi prozorTimovi) {
+        this(); // Pozivaj drugi konstruktor
+        this.prozorTimovi = prozorTimovi;
         setTitle("TIM:        " + prozorTimovi.getObradaTimovi().getEntitet().getIme_tima());
 
         DefaultListModel<Vozaci> m = new DefaultListModel<>();
         m.addAll(prozorTimovi.getObradaTimovi().getEntitet().getVozaci());
         lstVozaciUTimu.setModel(m);
         lstVozaciUTimu.repaint();
-
-        postaviRendererZaListu();
-
-        postaviRendererZaListuDostupniVozaci();
-
-        prikaziDostupneVozace();
     }
 
     private void postaviRendererZaListu() {
@@ -80,9 +86,16 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
         });
     }
 
+    private List<Vozaci> sortirajAbecedno(List<Vozaci> vozaci) {
+        vozaci.sort(Comparator.comparing(Vozaci::getIme)
+                .thenComparing(Vozaci::getPrezime));
+        return vozaci;
+    }
+
     private void prikaziDostupneVozace() {
         DefaultListModel<Vozaci> m = new DefaultListModel<>();
         List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(null);
+        sviDostupniVozaci = sortirajAbecedno(sviDostupniVozaci);
         for (Vozaci v : sviDostupniVozaci) {
             m.addElement(v);
         }
@@ -179,22 +192,22 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnUkloni, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                    .addComponent(btnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDostupniVozaci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUkloni))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUkupnoDostupnihVozaca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lblUkupnoDostupnihVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(lblDostupniVozaci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,9 +230,9 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
+                                .addGap(92, 92, 92)
                                 .addComponent(btnDodaj)
-                                .addGap(64, 64, 64)
+                                .addGap(63, 63, 63)
                                 .addComponent(btnUkloni)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -282,24 +295,22 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
         DefaultListModel<Vozaci> m = (DefaultListModel<Vozaci>) lstVozaciUTimu.getModel();
         DefaultListModel<Vozaci> b = (DefaultListModel<Vozaci>) lstVozaciUBazi.getModel();
 
-        
-
-        List<Vozaci> vozaci = new ArrayList<>();
-        for (int i = 0; i < m.size(); i++) {
-            vozaci.add(m.get(i));
-        }
-        m.addElement(v);
-        b.removeElement(v);
-        vozaci.add(v);
-        prozorTimovi.getObradaTimovi().getEntitet().setVozaci(vozaci);
-
         try {
+            // Dodaj vozača u tim
+            prozorTimovi.getObradaTimovi().dodajUTim(v);
+
+            // Ukloni vozača iz liste dostupnih vozača i dodaj ga u listu vozača u timu
+            m.addElement(v);
+            b.removeElement(v);
+
+            // Ažuriraj UI i bazu podataka
             prozorTimovi.getObradaTimovi().update();
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
         prozorTimovi.popuniView();
+        prikaziDostupneVozace();
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnUkloniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniActionPerformed
@@ -317,11 +328,13 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
 
         try {
             prozorTimovi.getObradaTimovi().ukloniIzTima(v);
+            prozorTimovi.getObradaTimovi().update();
         } catch (EdunovaException ex) {
             ex.printStackTrace();
             // Ovdje možeš dodati odgovarajuću obradu iznimke ako je potrebno
         }
         prozorTimovi.popuniView();
+        prikaziDostupneVozace();
     }//GEN-LAST:event_btnUkloniActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

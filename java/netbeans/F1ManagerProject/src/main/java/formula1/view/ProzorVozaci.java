@@ -219,8 +219,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
-                    .addComponent(lblBrojVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblBrojVozaca, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -519,6 +519,15 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 return; // Prekini izvršavanje metode jer ne želimo nastaviti s uklanjanjem vozača iz tima
             }
 
+            // Provjeri je li vozač uopće član nekog tima
+            if (odabraniVozac.getTim() == null) {
+                // Ako vozač nije član tima, obavijesti korisnika
+                JOptionPane.showMessageDialog(this,
+                        "Vozač nije u timu!",
+                        "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                return; // Prekini izvršavanje metode jer ne želimo nastaviti s uklanjanjem vozača iz tima
+            }
+
             try {
                 // Provjeri može li vozač biti uklonjen iz tima
                 if (obrada.provjeriVozaca(odabraniVozac)) {
@@ -531,6 +540,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     if (odgovor == JOptionPane.YES_OPTION) {
                         // Ukloni vozača iz tima
                         obrada.ukloniIzTima(odabraniVozac);
+                        obrada.update();
 
                         // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
                         ucitaj();
@@ -580,6 +590,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 if (odgovor == JOptionPane.YES_OPTION) {
                     try {
                         obrada.ukloniIzPrvenstva(odabraniVozac);
+                        obrada.update();
 
                         // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene vidjele
                         ucitaj();
@@ -591,7 +602,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     } catch (Exception ex) {
                         // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz prvenstva
                         // i prikaži odgovarajuću poruku korisniku
-                        JOptionPane.showMessageDialog(this, 
+                        JOptionPane.showMessageDialog(this,
                                 "Dogodila se greška prilikom uklanjanja vozača iz prvenstva: "
                                 + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
                     }

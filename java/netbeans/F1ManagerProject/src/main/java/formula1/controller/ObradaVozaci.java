@@ -72,11 +72,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         kontrolaPrezime();
         kontrolaDatumRodenja();
         kontrolaNacionalnost();
-//        kontrolaGodina();
         kontrolaJedinstvenostiVozaca();
-
-//        kontrolaPostojanjaTima();
-//        kontrolaPostojanjaVozaca();
         if (entitet.getId() == null) {
             entitet.setTim(null);
         }
@@ -203,7 +199,8 @@ public class ObradaVozaci extends Obrada<Vozaci> {
                 "SELECT v FROM Vozaci v WHERE v.ime = :ime "
                 + "AND v.prezime = :prezime "
                 + "AND v.datum_rodenja = :datum_rodenja "
-                + "AND v.nacionalnost = :nacionalnost", Vozaci.class)
+                + "AND v.nacionalnost = :nacionalnost "
+                + "AND v.tim IS NULL", Vozaci.class)
                 .setParameter("ime", ime)
                 .setParameter("prezime", prezime)
                 .setParameter("datum_rodenja", datum_rodenja)
@@ -270,7 +267,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
     }
 
     public void ukloniIzPrvenstva(Vozaci vozac) throws EdunovaException {
-        // Ukloni vozača iz svih prvenstava koja sudjeluje
+        // Ukloni vozača iz svih prvenstava u kojima sudjeluje
         if (!vozac.getPrvenstva().isEmpty()) {
             for (Prvenstva prvenstvo : vozac.getPrvenstva()) {
                 prvenstvo.setVozac(null);
@@ -280,5 +277,4 @@ public class ObradaVozaci extends Obrada<Vozaci> {
             throw new EdunovaException("Vozač nema osvojenih prvenstava!");
         }
     }
-
 }
