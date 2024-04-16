@@ -331,9 +331,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
-
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
@@ -356,13 +355,13 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.delete();
             ucitaj();
-            lstPodaci.setSelectedIndex(0);
+            lstPodaci.getSelectedValue();
             lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
@@ -388,7 +387,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
             obrada.refresh();
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
@@ -525,6 +524,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 JOptionPane.showMessageDialog(this,
                         "Vozač nije u timu!",
                         "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                lstPodaci.setSelectedValue(odabraniVozac, true);
+                lstPodaci.requestFocusInWindow();
                 return; // Prekini izvršavanje metode jer ne želimo nastaviti s uklanjanjem vozača iz tima
             }
 
@@ -540,7 +541,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                     if (odgovor == JOptionPane.YES_OPTION) {
                         // Ukloni vozača iz tima
                         obrada.ukloniIzTima(odabraniVozac);
-                        obrada.update();
 
                         // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
                         ucitaj();
@@ -549,6 +549,7 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju vozača iz tima
                         JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz tima!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                        obrada.update();
                     }
                 }
             } catch (EdunovaException ex) {
@@ -556,6 +557,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 // i prikaži odgovarajuću poruku korisniku
                 JOptionPane.showMessageDialog(this, "Dogodila se greška prilikom uklanjanja vozača iz tima: "
                         + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                lstPodaci.setSelectedValue(odabraniVozac, true);
+                lstPodaci.requestFocusInWindow();
             }
         } else {
             ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
@@ -590,7 +593,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                 if (odgovor == JOptionPane.YES_OPTION) {
                     try {
                         obrada.ukloniIzPrvenstva(odabraniVozac);
-                        obrada.update();
 
                         // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene vidjele
                         ucitaj();
@@ -599,12 +601,15 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju vozača iz prvenstva
                         JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz prvenstva!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                        obrada.update();
                     } catch (Exception ex) {
                         // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz prvenstva
                         // i prikaži odgovarajuću poruku korisniku
                         JOptionPane.showMessageDialog(this,
                                 "Dogodila se greška prilikom uklanjanja vozača iz prvenstva: "
                                 + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                        lstPodaci.setSelectedValue(odabraniVozac, true);
+                        lstPodaci.requestFocusInWindow();
                     }
                 }
             }

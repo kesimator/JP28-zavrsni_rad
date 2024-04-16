@@ -199,8 +199,7 @@ public class ObradaVozaci extends Obrada<Vozaci> {
                 "SELECT v FROM Vozaci v WHERE v.ime = :ime "
                 + "AND v.prezime = :prezime "
                 + "AND v.datum_rodenja = :datum_rodenja "
-                + "AND v.nacionalnost = :nacionalnost "
-                + "AND v.tim IS NULL", Vozaci.class)
+                + "AND v.nacionalnost = :nacionalnost", Vozaci.class)
                 .setParameter("ime", ime)
                 .setParameter("prezime", prezime)
                 .setParameter("datum_rodenja", datum_rodenja)

@@ -320,13 +320,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.create();
             ucitaj();
-            lstPodaci.setSelectedIndex(0);
+            lstPodaci.getSelectedValue();
             lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
+            obrada.refresh();
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnDodajActionPerformed
 
@@ -345,14 +346,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.update();
             ucitaj();
-            lstPodaci.setSelectedIndex(0);
+            lstPodaci.getSelectedValue();
             lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
             obrada.refresh();
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
@@ -375,13 +376,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.delete();
             ucitaj();
-            lstPodaci.setSelectedIndex(0);
+            lstPodaci.getSelectedValue();
             lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
+            obrada.refresh();
         }
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
@@ -497,7 +499,6 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                 if (odgovor == JOptionPane.YES_OPTION) {
                     try {
                         obrada.ukloniIzPrvenstva(odabraniTim);
-                        obrada.update();
 
                         // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene vidjele
                         ucitaj();
@@ -506,12 +507,17 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju tima iz prvenstva
                         JOptionPane.showMessageDialog(this, "Tim je uspješno uklonjen iz prvenstva!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                        obrada.update();
+                        lstPodaci.setSelectedValue(odabraniTim, true);
+                        lstPodaci.requestFocusInWindow();
                     } catch (Exception ex) {
                         // Uhvati iznimku ako se dogodi greška prilikom uklanjanja tima iz prvenstva
                         // i prikaži odgovarajuću poruku korisniku
                         JOptionPane.showMessageDialog(this,
                                 "Dogodila se greška prilikom uklanjanja tima iz prvenstva: "
                                 + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                        lstPodaci.setSelectedValue(odabraniTim, true);
+                        lstPodaci.requestFocusInWindow();
                     }
                 }
             }
@@ -532,33 +538,47 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
             // Pripremi ikonu za dijalog
             ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
 
-            // Pitaj korisnika za potvrdu brisanja tima
-            int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno ukloniti sve vozače iz tima?",
-                    "UPOZORENJE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                    slika);
+            // Provjeri postoji li vozači u odabranom timu
+            if (odabraniTim != null && odabraniTim.getVozaci().isEmpty()) {
+                // Ako odabrani tim nema vozače, prikaži odgovarajuću poruku korisniku
+                JOptionPane.showMessageDialog(this, "Tim nema vozače!",
+                        "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
+                lstPodaci.setSelectedValue(odabraniTim, true);
+                lstPodaci.requestFocusInWindow();
+            } else {
 
-            // Provjeri odgovor korisnika
-            if (odgovor == JOptionPane.YES_OPTION) {
-                try {
-                    // Ukloni sve vozače iz tima
-                    obrada.ukloniSveVozaceIzTima(odabraniTim);
-                    obrada.update();
+                // Pitaj korisnika za potvrdu brisanja tima
+                int odgovor = JOptionPane.showConfirmDialog(this, "Sigurno ukloniti sve vozače iz tima?",
+                        "UPOZORENJE", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        slika);
 
-                    // Osvježi prikaz liste vozača u timu
-                    popuniView();
+                // Provjeri odgovor korisnika
+                if (odgovor == JOptionPane.YES_OPTION) {
+                    try {
+                        // Ukloni sve vozače iz tima
+                        obrada.ukloniSveVozaceIzTima(odabraniTim);
 
-                    // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
-                    ucitaj();
-                    lstPodaci.requestFocusInWindow();
+                        // Osvježi prikaz liste vozača u timu
+                        popuniView();
 
-                    // Obavijesti korisnika o uspješnom uklanjanju svih vozača iz tima
-                    JOptionPane.showMessageDialog(this, "Svi vozači su uspješno uklonjeni iz tima!",
-                            "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
-                } catch (EdunovaException ex) {
-                    // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz tima
-                    // i prikaži odgovarajuću poruku korisniku
-                    JOptionPane.showMessageDialog(this, "Dogodila se greška prilikom uklanjanja vozača iz tima: "
-                            + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                        // Osvježi prikaz tablice ili druge komponente sučelja kako bi se odražene promjene
+                        ucitaj();
+                        lstPodaci.requestFocusInWindow();
+
+                        // Obavijesti korisnika o uspješnom uklanjanju svih vozača iz tima
+                        JOptionPane.showMessageDialog(this, "Svi vozači su uspješno uklonjeni iz tima!",
+                                "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
+                        obrada.update();
+                        lstPodaci.setSelectedValue(odabraniTim, true);
+                        lstPodaci.requestFocusInWindow();
+                    } catch (EdunovaException ex) {
+                        // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz tima
+                        // i prikaži odgovarajuću poruku korisniku
+                        JOptionPane.showMessageDialog(this, "Dogodila se greška prilikom uklanjanja vozača iz tima: "
+                                + ex.getMessage(), "GREŠKA", JOptionPane.ERROR_MESSAGE, slika);
+                        lstPodaci.setSelectedValue(odabraniTim, true);
+                        lstPodaci.requestFocusInWindow();
+                    }
                 }
             }
         } else {

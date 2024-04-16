@@ -24,7 +24,7 @@ public class Izbornik extends javax.swing.JFrame {
      */
     public Izbornik() {
         initComponents();
-        
+
         setTitle(Alati.NAZIV_APP + " | IZBORNIK");
         lblOperater.setText(Alati.getOperater());
     }
@@ -141,14 +141,14 @@ public class Izbornik extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         String putanja = "/f1logo132x55.jpg";
         ImageIcon slika = new ImageIcon(getClass().getResource(putanja));
 
 //        Image slika = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 //        ImageIcon ii = new ImageIcon(slika);
         JOptionPane.showMessageDialog(getRootPane(), "O aplikaciji\n"
-                + "Stvorena za jednostavno praćenje timova,\n" + "vozača, vozača u timovima i prvenstvima.",
+                + "Stvorena za jednostavno praćenje vozača,\n" + "timova, vozača u timovima i prvenstvima.",
                 "Aplikacija za podatke o sudionicima Formule 1", JOptionPane.INFORMATION_MESSAGE, slika);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

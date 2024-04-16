@@ -65,7 +65,7 @@ public abstract class Obrada<T extends Entitet> {
     
     private void kontrolaNull() throws EdunovaException {
         if (entitet == null) {
-            throw new EdunovaException("Entitet je null.");
+            throw new EdunovaException("Entitet je null!");
         }
     }
     
