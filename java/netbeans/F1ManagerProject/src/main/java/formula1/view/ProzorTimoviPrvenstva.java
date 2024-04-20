@@ -1,18 +1,23 @@
 package formula1.view;
 
+import formula1.controller.ObradaTimovi;
 import formula1.controller.ObradaVozaci;
+import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import formula1.util.Alati;
 import formula1.util.EdunovaException;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -20,102 +25,107 @@ import javax.swing.SwingConstants;
  * @author Kesimator
  */
 /**
- * Klasa koja omogućuje dodavanje i uklanjanje vozača iz tima. Koristi se u
- * kontekstu upravljanja vozačima unutar tima u formi ProzorTimovi.
+ * Klasa koja predstavlja prozor za dodavanje i uklanjanje timova iz prvenstva.
+ * Omogućuje korisniku dodavanje jednog tima u prvenstvo te uklanjanje tima iz
+ * prvenstva. Koristi se u kontekstu upravljanja prvenstvima u formi
+ * ProzorPrvenstva.
  */
-public class ProzorUpravljajTimovima extends javax.swing.JFrame {
+public class ProzorTimoviPrvenstva extends javax.swing.JFrame {
 
-    private ProzorTimovi prozorTimovi;
-    private ObradaVozaci obradaVozaci;
+    private ProzorPrvenstva prozorPrvenstva;
+    private ObradaTimovi obradaTimovi;
 
     /**
      * Konstruktor koji inicijalizira prozor i priprema sučelje za rad.
      */
-    public ProzorUpravljajTimovima() {
+    public ProzorTimoviPrvenstva() {
         initComponents();
-        obradaVozaci = new ObradaVozaci();
+        obradaTimovi = new ObradaTimovi();
 
         postaviRendererZaListu();
-        postaviRendererZaListuDostupniVozaci();
-        prikaziDostupneVozace();
+        postaviRendererZaListuDostupniTimovi();
+        prikaziDostupneTimove();
     }
 
     /**
-     * Konstruktor koji inicijalizira prozor s povezanim ProzorTimovi. Postavlja
-     * naslov prozora na ime tima.
+     * Konstruktor koji inicijalizira prozor s povezanim ProzorPrvenstva.
+     * Postavlja naslov prozora na trenutnu sezonu prvenstva.
      *
-     * @param prozorTimovi ProzorTimovi povezan s ovim prozorom
+     * @param prozorPrvenstva ProzorPrvenstva povezan s ovim prozorom
      */
-    public ProzorUpravljajTimovima(ProzorTimovi prozorTimovi) {
-        this(); // Pozivaj drugi konstruktor
-        this.prozorTimovi = prozorTimovi;
-        setTitle("TIM:        " + prozorTimovi.getObradaTimovi().getEntitet().getIme_tima());
+    public ProzorTimoviPrvenstva(ProzorPrvenstva prozorPrvenstva) {
+        this();
+        this.prozorPrvenstva = prozorPrvenstva;
+        setTitle("SEZONA:        " + prozorPrvenstva.getObradaPrvenstva().getEntitet().getSezona());
 
-        DefaultListModel<Vozaci> m = new DefaultListModel<>();
-        m.addAll(prozorTimovi.getObradaTimovi().getEntitet().getVozaci());
-        lstVozaciUTimu.setModel(m);
-        lstVozaciUTimu.repaint();
+        Timovi tim = prozorPrvenstva.getObradaPrvenstva().getEntitet().getTim();
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
+        if (tim != null) {
+            m.addElement(tim);
+        }
+        lstTimUPrvenstvu.setModel(m);
+        lstTimUPrvenstvu.repaint();
     }
 
     /**
-     * Metoda koja postavlja prilagođeni renderer za listu vozača u timu.
-     * Renderer centrirano prikazuje ime i prezime vozača.
+     * Metoda koja postavlja prilagođeni renderer za listu timova u prvenstvu.
+     * Renderer centrirano prikazuje ime tima.
      */
     private void postaviRendererZaListu() {
-        lstVozaciUTimu.setCellRenderer(new DefaultListCellRenderer() {
+        lstTimUPrvenstvu.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                Vozaci vozac = (Vozaci) value;
-                label.setText(vozac.getIme() + " " + vozac.getPrezime());
+                Timovi t = (Timovi) value;
+                label.setText(t.getIme_tima());
                 return label;
             }
         });
     }
 
     /**
-     * Metoda koja postavlja prilagođeni renderer za listu dostupnih vozača.
-     * Renderer centrirano prikazuje ime i prezime vozača.
+     * Metoda koja postavlja prilagođeni renderer za listu dostupnih timova.
+     * Renderer centrirano prikazuje ime tima.
      */
-    private void postaviRendererZaListuDostupniVozaci() {
-        lstVozaciUBazi.setCellRenderer(new DefaultListCellRenderer() {
+    private void postaviRendererZaListuDostupniTimovi() {
+        lstTimoviUBazi.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                Vozaci vozac = (Vozaci) value;
-                label.setText(vozac.getIme() + " " + vozac.getPrezime());
+                Timovi t = (Timovi) value;
+                label.setText(t.getIme_tima());
                 return label;
             }
         });
     }
 
     /**
-     * Metoda koja sortira listu vozača abecedno prema imenima i prezimenima.
+     * Metoda koja sortira listu timova abecedno prema imenima timova.
      *
-     * @param vozaci Lista vozača koju treba sortirati
-     * @return Sortirana lista vozača
+     * @param t Lista timova koju treba sortirati
+     * @return Sortirana lista timova
      */
-    private List<Vozaci> sortirajAbecedno(List<Vozaci> vozaci) {
-        vozaci.sort(Comparator.comparing(Vozaci::getIme).thenComparing(Vozaci::getPrezime));
-        return vozaci;
+    private List<Timovi> sortirajAbecedno(List<Timovi> t) {
+        t.sort(Comparator.comparing(Timovi::getIme_tima));
+        return t;
     }
 
     /**
-     * Metoda koja prikazuje sve dostupne vozače u listi. Vozači se dohvaćaju
-     * preko obrade vozača, sortiraju abecedno i prikazuju u listi.
+     * Metoda koja prikazuje sve dostupne timove u listi. Timovi se dohvaćaju
+     * preko obrade timova, sortiraju abecedno i prikazuju u listi.
      */
-    private void prikaziDostupneVozace() {
-        DefaultListModel<Vozaci> m = new DefaultListModel<>();
-        List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(null);
-        sviDostupniVozaci = sortirajAbecedno(sviDostupniVozaci);
-        for (Vozaci v : sviDostupniVozaci) {
-            m.addElement(v);
+    private void prikaziDostupneTimove() {
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
+        List<Timovi> sviDostupniTimovi = obradaTimovi.dohvatiTimoveSVozacima();
+        sviDostupniTimovi = sortirajAbecedno(sviDostupniTimovi);
+        for (Timovi tim : sviDostupniTimovi) {
+            m.addElement(tim);
         }
-        lblUkupnoDostupnihVozaca.setText("Pronađeno rezultata: " + m.getSize());
-        lstVozaciUBazi.setModel(m);
-        lstVozaciUBazi.repaint();
+        lblUkupnoDostupnihTimova.setText("Pronađeno rezultata: " + m.getSize());
+        lstTimoviUBazi.setModel(m);
+        lstTimoviUBazi.repaint();
     }
 
     /**
@@ -129,37 +139,37 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
 
         lblVozaciUTimu = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstVozaciUTimu = new javax.swing.JList<>();
+        lstTimUPrvenstvu = new javax.swing.JList<>();
         lblDostupniVozaci = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        lstVozaciUBazi = new javax.swing.JList<>();
+        lstTimoviUBazi = new javax.swing.JList<>();
         txtUvjet = new javax.swing.JTextField();
         btnTrazi = new javax.swing.JButton();
         btnDodaj = new javax.swing.JButton();
         btnUkloni = new javax.swing.JButton();
-        lblUkupnoDostupnihVozaca = new javax.swing.JLabel();
+        lblUkupnoDostupnihTimova = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblVozaciUTimu.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lblVozaciUTimu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblVozaciUTimu.setText("Vozači u timu");
+        lblVozaciUTimu.setText("Tim u prvenstvu");
 
         jScrollPane2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
 
-        lstVozaciUTimu.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        lstVozaciUTimu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jScrollPane2.setViewportView(lstVozaciUTimu);
+        lstTimUPrvenstvu.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        lstTimUPrvenstvu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane2.setViewportView(lstTimUPrvenstvu);
 
         lblDostupniVozaci.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lblDostupniVozaci.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDostupniVozaci.setText("Dostupni vozači");
+        lblDostupniVozaci.setText("Dostupni timovi");
 
         jScrollPane3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
 
-        lstVozaciUBazi.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        lstVozaciUBazi.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(lstVozaciUBazi);
+        lstTimoviUBazi.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        lstTimoviUBazi.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(lstTimoviUBazi);
 
         txtUvjet.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         txtUvjet.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -180,7 +190,7 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
         });
 
         btnDodaj.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnDodaj.setText("<< Dodaj vozača u tim");
+        btnDodaj.setText("<< Dodaj tim u prvenstvo");
         btnDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDodajActionPerformed(evt);
@@ -188,16 +198,16 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
         });
 
         btnUkloni.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnUkloni.setText("Ukloni vozača iz tima >>");
+        btnUkloni.setText("Ukloni tim iz prvenstva >>");
         btnUkloni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUkloniActionPerformed(evt);
             }
         });
 
-        lblUkupnoDostupnihVozaca.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        lblUkupnoDostupnihVozaca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUkupnoDostupnihVozaca.setText("Pronađeno rezultata:");
+        lblUkupnoDostupnihTimova.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lblUkupnoDostupnihTimova.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUkupnoDostupnihTimova.setText("Pronađeno rezultata:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,15 +216,15 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addComponent(lblVozaciUTimu, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUkloni))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnUkloni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUkupnoDostupnihVozaca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblUkupnoDostupnihTimova, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,7 +247,7 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUkupnoDostupnihVozaca))
+                        .addComponent(lblUkupnoDostupnihTimova))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblVozaciUTimu)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -257,33 +267,33 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Metoda koja se poziva prilikom pritiska gumba za pretragu vozača.
-     * Pretražuje dostupne vozače prema unesenom uvjetu i ažurira prikaz u
+     * Metoda koja se poziva prilikom pritiska gumba za pretragu timova.
+     * Pretražuje dostupne timove prema unesenom uvjetu i ažurira prikaz u
      * listi.
      */
     private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
-        DefaultListModel<Vozaci> m = new DefaultListModel<>();
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
 
         // Dohvati tekst unesen u txtUvjet
         String uvjet = txtUvjet.getText().trim();
 
-        // Dohvati sve vozače koji nisu dodijeljeni nijednom timu
-        List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(uvjet);
+        // Dohvati sve vozače koji su dodijeljeni timu
+        List<Timovi> sviDostupniTimovi = obradaTimovi.dohvatiTimoveSVozacima();
 
-        // Prikaži vozače u listi
-        for (Vozaci v : sviDostupniVozaci) {
-            // Provjeri da li ime vozača sadrži uneseni uvjet
-            if (v.getIme().toUpperCase().contains(uvjet.toUpperCase())) {
-                m.addElement(v);
+        // Prikaži timove u listi
+        for (Timovi t : sviDostupniTimovi) {
+            // Provjeri da li ime tima sadrži uneseni uvjet
+            if (t.getIme_tima().toUpperCase().contains(uvjet.toUpperCase())) {
+                m.addElement(t);
             }
         }
 
-        lstVozaciUBazi.setModel(m);
+        lstTimoviUBazi.setModel(m);
     }//GEN-LAST:event_btnTraziActionPerformed
 
     /**
      * Metoda koja se poziva prilikom pritiska tipke na tipkovnici. Ako je
-     * pritisnuta tipka ENTER, pokreće se pretraga vozača.
+     * pritisnuta tipka ENTER, pokreće se pretraga timova.
      */
     private void txtUvjetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -292,105 +302,121 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUvjetKeyPressed
 
     /**
-     * Metoda koja filtrira vozače prema unesenom uvjetu u realnom vremenu.
-     * Ažurira prikaz dostupnih vozača prema unesenom uvjetu.
+     * Metoda koja filtrira timove prema unesenom uvjetu u realnom vremenu.
+     * Ažurira prikaz dostupnih timova prema unesenom uvjetu.
      */
-    private void filtrirajVozace(String uvjet) {
-        DefaultListModel<Vozaci> m = new DefaultListModel<>();
-        List<Vozaci> sviDostupniVozaci = obradaVozaci.dohvatiVozaceBezTima(uvjet);
+    private void filtrirajTimove() {
+        DefaultListModel<Timovi> m = new DefaultListModel<>();
+        List<Timovi> sviDostupniTimovi = obradaTimovi.dohvatiTimoveSVozacima();
 
-        // Prikaži samo vozače koji počinju s unesenim uvjetom u imenu
-        for (Vozaci v : sviDostupniVozaci) {
-            if (v.getIme().toUpperCase().startsWith(uvjet.toUpperCase())) {
-                m.addElement(v);
+        // Dohvati tekst unesen u txtUvjet
+        String uvjet = txtUvjet.getText().trim().toUpperCase();
+
+        // Prikaži samo timove koji počinju s unesenim uvjetom u imenu tima
+        for (Timovi t : sviDostupniTimovi) {
+            if (t.getIme_tima().toUpperCase().startsWith(uvjet)) {
+                m.addElement(t);
             }
         }
 
-        // Sortiraj vozače abecedno
-        List<Vozaci> sortiraniVozaci = new ArrayList<>(m.getSize());
+        // Sortiraj timove abecedno
+        List<Timovi> sortiraniTimovi = new ArrayList<>(m.getSize());
         for (int i = 0; i < m.getSize(); i++) {
-            sortiraniVozaci.add(m.getElementAt(i));
+            sortiraniTimovi.add(m.getElementAt(i));
         }
-        sortiraniVozaci.sort(Comparator.comparing(Vozaci::getIme).thenComparing(Vozaci::getPrezime));
+        sortiraniTimovi.sort(Comparator.comparing(Timovi::getIme_tima));
 
-        lblUkupnoDostupnihVozaca.setText("Pronađeno rezultata: " + sortiraniVozaci.size());
+        lblUkupnoDostupnihTimova.setText("Pronađeno rezultata: " + sortiraniTimovi.size());
 
-        // Očisti model liste prije dodavanja sortiranih vozača
+        // Očisti model liste prije dodavanja sortiranih timova
         m.clear();
-        // Dodaj sortirane vozače u model liste
-        for (Vozaci v : sortiraniVozaci) {
-            m.addElement(v);
+        // Dodaj sortirane timove u model liste
+        for (Timovi t : sortiraniTimovi) {
+            m.addElement(t);
         }
 
-        lstVozaciUBazi.setModel(m);
-        lstVozaciUBazi.repaint();
+        lstTimoviUBazi.setModel(m);
     }
 
     /**
      * Metoda koja se poziva prilikom puštanja tipke na tipkovnici. Ažurira
-     * prikaz dostupnih vozača prema unesenom uvjetu.
+     * prikaz dostupnih timova prema unesenom uvjetu.
      */
     private void txtUvjetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyReleased
         // Pokreni pretragu teksta prilikom puštanja tipke
-        filtrirajVozace(txtUvjet.getText().trim());
+        filtrirajTimove();
     }//GEN-LAST:event_txtUvjetKeyReleased
 
     /**
-     * Metoda koja se poziva prilikom pritiska gumba za dodavanje vozača u tim.
-     * Dodaje odabranog vozača iz liste dostupnih vozača u tim.
+     * Metoda koja se poziva prilikom pritiska gumba za dodavanje tima u
+     * prvenstvo. Dodaje odabrani tim iz liste dostupnih timova u prvenstvo.
      */
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        if (lstVozaciUBazi.getSelectedValue() == null) {
+        // Provjeri trenutni broj timova u listi     
+        if (lstTimUPrvenstvu.getModel().getSize() >= 1) {
+            // Ako je broj timova veći od 0, onemogući dodavanje novog tima         
+            ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
+            JOptionPane.showMessageDialog(this, "Moguće dodati samo jedan tim u prvenstvo!",
+                    "UPOZORENJE", JOptionPane.WARNING_MESSAGE, slika);
             return;
         }
 
-        var v = lstVozaciUBazi.getSelectedValue();
+        if (lstTimoviUBazi.getSelectedValue() == null) {
+            return;
+        }
 
-        DefaultListModel<Vozaci> m = (DefaultListModel<Vozaci>) lstVozaciUTimu.getModel();
-        DefaultListModel<Vozaci> b = (DefaultListModel<Vozaci>) lstVozaciUBazi.getModel();
+        var t = lstTimoviUBazi.getSelectedValue();
+
+        DefaultListModel<Timovi> m = (DefaultListModel<Timovi>) lstTimUPrvenstvu.getModel();
+        DefaultListModel<Timovi> b = (DefaultListModel<Timovi>) lstTimoviUBazi.getModel();
 
         try {
-            // Dodaj vozača u tim
-            prozorTimovi.getObradaTimovi().dodajUTim(v);
+            // Dodaj tim u prvenstvo
+            prozorPrvenstva.getObradaPrvenstva().dodajTim(t);
 
-            // Ukloni vozača iz liste dostupnih vozača i dodaj ga u listu vozača u timu
-            m.addElement(v);
-            b.removeElement(v);
+            // Ukloni tim iz liste dostupnih timova i dodaj ga u listu timova u prvenstvo
+            m.addElement(t);
+            b.removeElement(t);
         } catch (EdunovaException ex) {
             ex.printStackTrace();
             return;
         }
-        prozorTimovi.popuniView();
-        prikaziDostupneVozace();
+        prozorPrvenstva.popuniView();
+        prikaziDostupneTimove();
     }//GEN-LAST:event_btnDodajActionPerformed
 
     /**
-     * Metoda koja se poziva prilikom pritiska gumba za uklanjanje vozača iz
-     * tima. Uklanja odabranog vozača iz tima i vraća ga u listu dostupnih
-     * vozača.
+     * Metoda koja se poziva prilikom pritiska gumba za uklanjanje tima iz
+     * prvenstva. Uklanja odabrani tim iz prvenstva.
      */
     private void btnUkloniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniActionPerformed
-        if (lstVozaciUTimu.getSelectedValue() == null) {
+        if (lstTimUPrvenstvu.getSelectedValue() == null) {
             return;
         }
 
-        var v = lstVozaciUTimu.getSelectedValue();
+        // Dohvati odabrani tim
+        Timovi t = lstTimUPrvenstvu.getSelectedValue();
 
-        DefaultListModel<Vozaci> m = (DefaultListModel<Vozaci>) lstVozaciUTimu.getModel();
-        m.removeElement(v);
+        // Dohvati odabranu sezonu iz ProzorPrvenstva
+        Integer s = prozorPrvenstva.getObradaPrvenstva().getEntitet().getSezona();
 
-        DefaultListModel<Vozaci> b = (DefaultListModel<Vozaci>) lstVozaciUBazi.getModel();
-        b.addElement(v);
-
+        // Ukloni tim iz odabrane sezone
         try {
-            prozorTimovi.getObradaTimovi().ukloniIzTima(v);
+            prozorPrvenstva.getObradaPrvenstva().ukloniIzPrvenstva(t, s);
         } catch (EdunovaException ex) {
             ex.printStackTrace();
             // Ovdje možeš dodati odgovarajuću obradu iznimke ako je potrebno
             return;
         }
-        prozorTimovi.popuniView();
-        prikaziDostupneVozace();
+
+        // Osvježi prikaz u ProzorTimoviPrvenstva
+        prozorPrvenstva.popuniView();
+
+        // Prikaži dostupne vozače
+        prikaziDostupneTimove();
+
+        DefaultListModel<Timovi> m = (DefaultListModel<Timovi>) lstTimUPrvenstvu.getModel();
+        m.removeElement(t);
     }//GEN-LAST:event_btnUkloniActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -400,10 +426,10 @@ public class ProzorUpravljajTimovima extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblDostupniVozaci;
-    private javax.swing.JLabel lblUkupnoDostupnihVozaca;
+    private javax.swing.JLabel lblUkupnoDostupnihTimova;
     private javax.swing.JLabel lblVozaciUTimu;
-    private javax.swing.JList<Vozaci> lstVozaciUBazi;
-    private javax.swing.JList<Vozaci> lstVozaciUTimu;
+    private javax.swing.JList<Timovi> lstTimUPrvenstvu;
+    private javax.swing.JList<Timovi> lstTimoviUBazi;
     private javax.swing.JTextField txtUvjet;
     // End of variables declaration//GEN-END:variables
 }

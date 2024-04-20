@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Ova klasa sadrži metode za obradu podataka entiteta Operater.
  */
 package formula1.controller;
 
@@ -14,13 +13,32 @@ import java.util.List;
  *
  * @author Kesimator
  */
+/**
+ * Ova klasa sadrži metode za obradu podataka entiteta Operater. Nasljeđuje
+ * apstraktnu klasu Obrada.
+ *
+ * @param <Operater> tip podataka entiteta Operater
+ * @see formula1.controller.Obrada
+ */
 public class ObradaOperater extends Obrada<Operater> {
 
+    /**
+     * Čita sve zapise entiteta Operater iz baze podataka.
+     *
+     * @return lista svih entiteta Operater
+     */
     @Override
     public List<Operater> read() {
         return session.createQuery("from Operater", Operater.class).list();
     }
 
+    /**
+     * Provjerava pristupne podatke za autentikaciju operatera.
+     *
+     * @param email email operatera
+     * @param lozinka lozinka operatera
+     * @return Operater objekt ako su pristupni podaci valjani, inače null
+     */
     public Operater autoriziraj(String email, String lozinka) {
         Operater o;
 
@@ -37,21 +55,41 @@ public class ObradaOperater extends Obrada<Operater> {
         }
     }
 
+    /**
+     * Provjerava valjanost podataka prilikom unosa novog entiteta Operater.
+     *
+     * @throws EdunovaException ako postoji već operater s istim emailom
+     */
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaEmail();
     }
 
+    /**
+     * Provjerava valjanost podataka prilikom promjene entiteta Operater.
+     *
+     * @throws EdunovaException ako su podaci nevaljani
+     */
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
 
     }
 
+    /**
+     * Provjerava valjanost podataka prilikom brisanja entiteta Operater.
+     *
+     * @throws EdunovaException ako su podaci nevaljani
+     */
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
 
     }
 
+    /**
+     * Provjerava postoji li već operater s istim emailom.
+     *
+     * @throws EdunovaException ako postoji već operater s tim emailom
+     */
     private void kontrolaEmail() throws EdunovaException {
         // Provjeri postoji li već operater s istim emailom
         List<Operater> mail = session.createQuery("from Operater o where o.email=:email", Operater.class)
@@ -61,5 +99,4 @@ public class ObradaOperater extends Obrada<Operater> {
             throw new EdunovaException("Već postoji operater s tim emailom!");
         }
     }
-
 }

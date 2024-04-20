@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Ova klasa se koristi za obradu podataka o vozačima u sustavu Formula 1.
+ * Omogućuje čitanje, unos, promjenu i brisanje podataka o vozačima, kao i dodatne funkcionalnosti.
  */
 package formula1.controller;
 
@@ -20,32 +20,48 @@ import java.util.List;
  *
  * @author Kesimator
  */
+/**
+ * Ova klasa se koristi za obradu podataka o vozačima u sustavu Formula 1.
+ */
 public class ObradaVozaci extends Obrada<Vozaci> {
 
+    /**
+     * Konstruktor klase ObradaVozaci bez parametara.
+     */
     public ObradaVozaci() {
         super();
     }
 
+    /**
+     * Konstruktor klase ObradaVozaci s parametrom vozila.
+     *
+     * @param v Vozac za obradu
+     */
     public ObradaVozaci(Vozaci v) {
         super(v);
     }
 
+    /**
+     * Metoda za čitanje svih vozača iz baze podataka.
+     *
+     * @return Lista vozača
+     */
     @Override
     public List<Vozaci> read() {
-
         List<Vozaci> lista = session.createQuery("from Vozaci order by ime, prezime", Vozaci.class).list();
-
         return lista;
     }
 
+    /**
+     * Metoda za čitanje vozača koji zadovoljavaju određeni uvjet pretraživanja.
+     *
+     * @param uvjet Uvjet pretraživanja
+     * @return Lista vozača koji zadovoljavaju uvjet pretraživanja
+     */
     public List<Vozaci> read(String uvjet) {
-
-        // Ako je uvjet prazan, vrati sve vozače
         if (uvjet.isEmpty()) {
             return session.createQuery("from Vozaci order by ime, prezime", Vozaci.class).list();
         }
-
-        // Inače, vrati vozače koji zadovoljavaju uvjet pretraživanja
         return session.createQuery("from Vozaci where upper(ime) like :uvjet "
                 + "or upper(prezime) like :uvjet "
                 + "or upper(nacionalnost) like :uvjet "
@@ -54,18 +70,36 @@ public class ObradaVozaci extends Obrada<Vozaci> {
                 .list();
     }
 
+    /**
+     * Metoda za dohvaćanje vozača koji nemaju dodijeljen tim.
+     *
+     * @param uvjet Uvjet pretraživanja
+     * @return Lista vozača bez dodijeljenog tima
+     */
     public List<Vozaci> dohvatiVozaceBezTima(String uvjet) {
         if (uvjet == null || uvjet.isEmpty()) {
-            // Ako je uvjet prazan, vrati sve vozače koji nemaju dodijeljen tim
             return session.createQuery("SELECT v FROM Vozaci v WHERE v.tim IS NULL", Vozaci.class).getResultList();
         } else {
-            // Inače, vrati vozače koji nemaju dodijeljen tim i koji zadovoljavaju uvjet pretraživanja
             return session.createQuery("SELECT v FROM Vozaci v WHERE v.tim IS NULL AND (upper(v.ime) LIKE :uvjet OR upper(v.prezime) LIKE :uvjet)", Vozaci.class)
                     .setParameter("uvjet", "%" + uvjet.toUpperCase() + "%")
                     .getResultList();
         }
     }
 
+    /**
+     * Metoda za dohvaćanje vozača koji su dodijeljeni nekom timu.
+     *
+     * @return Lista vozača u timu
+     */
+    public List<Vozaci> dohvatiVozaceUTimu() {
+        return session.createQuery("SELECT v FROM Vozaci v WHERE v.tim IS NOT NULL", Vozaci.class).getResultList();
+    }
+
+    /**
+     * Metoda za kontrolu ispravnosti unosa podataka o vozaču.
+     *
+     * @throws EdunovaException
+     */
     @Override
     protected void kontrolaUnos() throws EdunovaException {
         kontrolaIme();
@@ -78,17 +112,25 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
     }
 
+    /**
+     * Metoda za kontrolu ispravnosti promjene podataka o vozaču.
+     *
+     * @throws EdunovaException
+     */
     @Override
     protected void kontrolaPromjena() throws EdunovaException {
         if (entitet.getId() != null) {
-            // Ako je postavljen identifikator, mijenja se postojeći vozač
-            kontrolaUnos(); // Provjeri kontrole kao za unos novog vozača
+            kontrolaUnos();
         } else {
-            // Inače, dodaje se novi vozač
-            kontrolaPromjena(); // Provjeri kontrole kao za promjenu postojećeg vozača
+            kontrolaPromjena();
         }
     }
 
+    /**
+     * Metoda za kontrolu ispravnosti brisanja podataka o vozaču.
+     *
+     * @throws EdunovaException
+     */
     @Override
     protected void kontrolaBrisanje() throws EdunovaException {
         if (!entitet.getPrvenstva().isEmpty()) {
@@ -99,10 +141,13 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         if (tim != null) {
             throw new EdunovaException("Vozač je povezan s timom i ne može biti obrisan!\n[" + tim.getIme_tima() + "]");
         }
-        // Provjeri povezanost vozača s timom i ukloni vozača iz tima prije brisanja
-        // ukloniIzTima(entitet);
     }
 
+    /**
+     * Metoda za provjeru ispravnosti unesenog imena vozača.
+     *
+     * @throws EdunovaException
+     */
     private void kontrolaIme() throws EdunovaException {
         var i = entitet.getIme();
         if (i == null) {
@@ -120,6 +165,11 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         entitet.setIme(entitet.getIme().toUpperCase());
     }
 
+    /**
+     * Metoda za provjeru ispravnosti unesenog prezimena vozača.
+     *
+     * @throws EdunovaException
+     */
     private void kontrolaPrezime() throws EdunovaException {
         var p = entitet.getPrezime();
         if (p == null) {
@@ -137,6 +187,11 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         entitet.setPrezime(entitet.getPrezime().toUpperCase());
     }
 
+    /**
+     * Metoda za provjeru ispravnosti unesene nacionalnosti vozača.
+     *
+     * @throws EdunovaException
+     */
     private void kontrolaNacionalnost() throws EdunovaException {
         var n = entitet.getNacionalnost();
         if (n == null) {
@@ -154,6 +209,11 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         entitet.setNacionalnost(entitet.getNacionalnost().toUpperCase());
     }
 
+    /**
+     * Metoda za provjeru ispravnosti unesenog datuma rođenja vozača.
+     *
+     * @throws EdunovaException
+     */
     private void kontrolaDatumRodenja() throws EdunovaException {
         var dr = entitet.getDatum_rodenja();
         if (dr == null) {
@@ -173,21 +233,11 @@ public class ObradaVozaci extends Obrada<Vozaci> {
 
     }
 
-    private void kontrolaPostojanjaTima() throws EdunovaException {
-        Timovi tim = entitet.getTim();
-        if (tim == null) {
-            throw new EdunovaException("Vozač mora biti dodijeljen postojećem timu!");
-        }
-    }
-
-    private void kontrolaPostojanjaVozaca() throws EdunovaException {
-        Vozaci vozac = entitet;
-        Timovi tim = entitet.getTim();
-        if (tim != null && tim.getVozaci().contains(vozac)) {
-            throw new EdunovaException("Vozač već pripada tom timu!");
-        }
-    }
-
+    /**
+     * Metoda za provjeru jedinstvenosti vozača prema osobnim podacima.
+     *
+     * @throws EdunovaException
+     */
     private void kontrolaJedinstvenostiVozaca() throws EdunovaException {
         String ime = entitet.getIme();
         String prezime = entitet.getPrezime();
@@ -212,33 +262,12 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         }
     }
 
-    private void kontrolaGodina() throws EdunovaException {
-        var dr = entitet.getDatum_rodenja();
-        if (dr == null) {
-            throw new EdunovaException("Datum rođenja mora biti definiran!");
-        }
-
-        // Provjerite ispravnost formata datuma
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-            String dt = dr.format(formatter); // Pretvaranje datuma u oblik teksta
-            LocalDate.parse(dt, formatter);
-        } catch (DateTimeParseException ex) {
-            throw new EdunovaException("Neispravan format datuma. Unijeti datum u formatu dd.MM.yyyy.");
-        }
-
-        // Trenutni datum
-        LocalDate danas = LocalDate.now();
-
-        // Računanje razlike u godinama između datuma rođenja i danas
-        long godine = ChronoUnit.YEARS.between(dr, danas);
-
-        // Provjera uvjeta
-        if (godine < 18 || godine > 60) {
-            throw new EdunovaException("Vozač ne može biti mlađi od 18 godina ili stariji od 60 godina!");
-        }
-    }
-
+    /**
+     * Metoda za uklanjanje vozača iz tima.
+     *
+     * @param vozac Vozač koji se uklanja iz tima
+     * @throws EdunovaException
+     */
     public void ukloniIzTima(Vozaci vozac) throws EdunovaException {
         if (vozac == null || vozac.getId() == null) {
             throw new EdunovaException("Vozač nije ispravno definiran!");
@@ -253,8 +282,27 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         // Ukloni vozača iz tima
         tim.getVozaci().remove(vozac);
         vozac.setTim(null);
+
+        try {
+            // Ažuriraj promjene u bazi podataka
+            session.getTransaction().begin();
+            session.merge(tim); // Ažuriraj tim
+            session.merge(vozac); // Ažuriraj vozača
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            // U slučaju greške, poništi transakciju
+            session.getTransaction().rollback();
+            throw new EdunovaException("Greška prilikom ažuriranja baze podataka: " + ex.getMessage());
+        }
     }
 
+    /**
+     * Metoda za provjeru je li vozač sudionik nekog prvenstva.
+     *
+     * @param vozac Vozač čija se sudionost u prvenstvu provjerava
+     * @return true ako vozač nije sudionik prvenstva, inače baca iznimku
+     * @throws EdunovaException
+     */
     public boolean provjeriVozaca(Vozaci vozac) throws EdunovaException {
         // Provjeri je li vozač u nekom prvenstvu
         if (!vozac.getPrvenstva().isEmpty()) {
@@ -265,15 +313,32 @@ public class ObradaVozaci extends Obrada<Vozaci> {
         return true;
     }
 
+    /**
+     * Metoda za uklanjanje vozača iz svih prvenstava kojima pripada.
+     *
+     * @param vozac Vozač čiji se uklanjanje iz prvenstava provodi
+     * @throws EdunovaException
+     */
     public void ukloniIzPrvenstva(Vozaci vozac) throws EdunovaException {
-        // Ukloni vozača iz svih prvenstava u kojima sudjeluje
-        if (!vozac.getPrvenstva().isEmpty()) {
-            for (Prvenstva prvenstvo : vozac.getPrvenstva()) {
-                prvenstvo.setVozac(null);
+        try {
+            // Ukloni vozača iz svih prvenstava u kojima sudjeluje
+            if (!vozac.getPrvenstva().isEmpty()) {
+                for (Prvenstva prvenstvo : vozac.getPrvenstva()) {
+                    prvenstvo.setVozac(null);
+                }
+                vozac.getPrvenstva().clear(); // Očisti listu prvenstava
+
+                // Ažuriraj promjene u bazi podataka
+                session.getTransaction().begin();
+                session.merge(vozac); // Ažuriraj vozača
+                session.getTransaction().commit();
+            } else {
+                throw new EdunovaException("Vozač nema osvojenih prvenstava!");
             }
-            vozac.getPrvenstva().clear(); // Očisti listu prvenstava
-        } else {
-            throw new EdunovaException("Vozač nema osvojenih prvenstava!");
+        } catch (Exception ex) {
+            // U slučaju greške, poništi transakciju
+            session.getTransaction().rollback();
+            throw new EdunovaException("Greška prilikom ažuriranja baze podataka: " + ex.getMessage());
         }
     }
 }

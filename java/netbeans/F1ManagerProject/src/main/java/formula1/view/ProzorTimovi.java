@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Ova klasa predstavlja prozor za rad s entitetom Timovi.
  */
 package formula1.view;
 
@@ -28,28 +27,62 @@ import javax.swing.SwingUtilities;
  *
  * @author Kesimator
  */
+/**
+ * ProzorTimovi klasa predstavlja prozor za rad s entitetom Timovi. Nasljeđuje
+ * klasu javax.swing.JFrame i implementira sučelje EdunovaViewSucelje.
+ */
 public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucelje {
 
-    private ObradaTimovi obrada;
+    private ObradaTimovi obrada; // Referenca na objekt klase ObradaTimovi
 
     /**
-     * Creates new form ProzorTimovi
+     * Konstruktor klase ProzorTimovi. Inicijalizira komponente prozora,
+     * postavlja naslov prozora, inicijalizira obradu i poziva metodu za
+     * učitavanje podataka.
      */
     public ProzorTimovi() {
         initComponents();
-        obrada = new ObradaTimovi();
-        setTitle(Alati.NAZIV_APP + " | TIMOVI");
-        ucitaj();
+        obrada = new ObradaTimovi(); // Inicijalizacija obrade
+        setTitle(Alati.NAZIV_APP + " | TIMOVI"); // Postavljanje naslova prozora
+        ucitaj(); // Učitavanje podataka
 
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.setSelectedIndex(0); // Postavljanje inicijalnog odabira na prvi element liste
 
-        postaviRendererZaListu();
+        postaviRendererZaListu(); // Postavljanje renderera za listu
     }
 
+    /**
+     * Metoda koja vraća referencu na objekt klase ObradaTimovi.
+     *
+     * @return Referenca na objekt klase ObradaTimovi
+     */
     public ObradaTimovi getObradaTimovi() {
         return obrada;
     }
 
+    /**
+     * Metoda koja postavlja prilagođeni renderer za listu vozača. Renderer
+     * centrirano prikazuje imena vozača.
+     */
+    private void postaviRendererZaListu() {
+        lstVozaci.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value instanceof Vozaci) {
+                    Vozaci vozac = (Vozaci) value;
+                    value = vozac.getIme() + " " + vozac.getPrezime();
+                }
+
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                return label;
+            }
+        });
+    }
+
+    /**
+     * Metoda koja inicijalizira komponente prozora i postavlja njihove osobine.
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -294,12 +327,19 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda koja se poziva kada se promijeni odabir u listi lstPodaci. Ako je
+     * odabran element liste, postavlja entitet obrade na taj element te poziva
+     * metodu za popunjavanje view-a.
+     *
+     * @param evt Događaj promjene odabira u listi
+     */
     private void lstPodaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPodaciValueChanged
         if (evt.getValueIsAdjusting()) {
             return;
         }
 
-        if (lstPodaci.getSelectedValue() == null) { // treba li !
+        if (lstPodaci.getSelectedValue() == null) {
             return;
         }
 
@@ -310,6 +350,13 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_lstPodaciValueChanged
 
+    /**
+     * Metoda koja se poziva kada se pritisne gumb btnDodaj. Stvara novi entitet
+     * klase Timovi, dodaje ga u listu, poziva metodu za spremanje entiteta te
+     * ažurira prikaz.
+     *
+     * @param evt Događaj pritiska na gumb Dodaj
+     */
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
 
         obrada.setEntitet(new Timovi());
@@ -320,17 +367,23 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         try {
             obrada.create();
             ucitaj();
-            lstPodaci.getSelectedValue();
+            lstPodaci.setSelectedIndex(0);
             lstPodaci.requestFocusInWindow();
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
-            obrada.refresh();
         }
         lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnDodajActionPerformed
 
+    /**
+     * Metoda koja se poziva kada se pritisne gumb btnPromjena. Ako je odabran
+     * element liste, postavlja entitet obrade na taj element, poziva metodu za
+     * spremanje entiteta te ažurira prikaz.
+     *
+     * @param evt Događaj pritiska na gumb Promijeni
+     */
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -357,6 +410,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
+    /**
+     * Metoda koja se poziva kada se pritisne gumb btnObrisi. Ako je odabran
+     * element liste, postavlja entitet obrade na taj element, prikazuje dijalog
+     * za potvrdu brisanja, te ako je potvrđeno, briše entitet iz baze i ažurira
+     * prikaz.
+     *
+     * @param evt Događaj pritiska na gumb Obriši
+     */
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -367,7 +428,8 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         ImageIcon slika = new ImageIcon(getClass().getResource("/f1logo70x29.jpg"));
 
         if (JOptionPane.showConfirmDialog(getRootPane(), e, "Sigurno obrisati?",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, slika) != JOptionPane.YES_OPTION) {
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                slika) != JOptionPane.YES_OPTION) {
             return;
         }
 
@@ -381,18 +443,32 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         } catch (EdunovaException ex) {
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
-            obrada.refresh();
         }
         lstPodaci.getSelectedValue();
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    /**
+     * Metoda koja provjerava ispravnost unesenog imena.
+     *
+     * @param ime Ime koje se provjerava
+     * @return true ako je ime ispravno (nije prazno i ima manje ili jednako 30
+     * znakova), inače false
+     */
     private boolean ispravnoIme(String ime) {
         // Provjeravamo je li ime prazno ili duže od 30 znakova
         ime = ime.trim();
         return !ime.isEmpty() && ime.length() <= 30;
     }
 
+    /**
+     * Metoda koja se poziva kada se pritisne tipka Enter dok je fokus na polju
+     * txtImeTima. Ako je pritisnuta tipka Enter, metoda poziva akciju za
+     * dodavanje entiteta. Nakon dodavanja, fokus se prebacuje na sljedeće polje
+     * ovisno o unesenim podacima.
+     *
+     * @param evt Događaj pritiska tipke na polju txtImeTima
+     */
     private void txtImeTimaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImeTimaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -406,17 +482,31 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtImeTimaKeyPressed
 
-    private boolean ispravanGodinaOsnutka(int godinaOsnutka) {
+    /**
+     * Metoda koja provjerava ispravnost unesene godine osnutka tima.
+     *
+     * @param godinaOsnutka Godina osnutka koja se provjerava
+     * @return true ako je godina ispravna (između 1904 i 2020), inače false
+     */
+    private boolean ispravnaGodinaOsnutka(int godinaOsnutka) {
         // Provjeravamo je li godina između 1904 i 2020
         return godinaOsnutka >= 1904 && godinaOsnutka <= 2020;
     }
 
+    /**
+     * Metoda koja se poziva kada se pritisne tipka Enter dok je fokus na polju
+     * txtGodinaOsnutka. Ako je pritisnuta tipka Enter, metoda poziva akciju za
+     * dodavanje entiteta. Nakon dodavanja, fokus se prebacuje na sljedeće polje
+     * ovisno o unesenim podacima.
+     *
+     * @param evt Događaj pritiska tipke na polju txtGodinaOsnutka
+     */
     private void txtGodinaOsnutkaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGodinaOsnutkaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
             try {
                 int godina = Integer.parseInt(txtGodinaOsnutka.getText());
-                if (!ispravanGodinaOsnutka(godina)) {
+                if (!ispravnaGodinaOsnutka(godina)) {
                     // Ako godina nije ispravna, ostajemo na polju txtGodinaOsnutka
                     SwingUtilities.invokeLater(() -> txtGodinaOsnutka.requestFocusInWindow());
                 } else {
@@ -430,12 +520,27 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtGodinaOsnutkaKeyPressed
 
+    /**
+     * Metoda koja provjerava ispravnost unesenog naziva države.
+     *
+     * @param drzava Naziv države koji se provjerava
+     * @return true ako je naziv države ispravan (neprazan i sadrži samo slova,
+     * apostrof, razmak i crticu, te je duljine do 20 znakova), inače false
+     */
     private boolean ispravnaDrzava(String drzava) {
-        // Provjeravamo je li drzava prazno ili sadrži brojeve ili posebne znakove
+        // Provjeravamo je li država prazno ili sadrži brojeve ili posebne znakove
         drzava = drzava.trim();
         return !drzava.isEmpty() && drzava.matches("[a-zA-ZčćžšđČĆŽŠĐ '-]+") && drzava.length() <= 20;
     }
 
+    /**
+     * Metoda koja se poziva kada se pritisne tipka Enter dok je fokus na polju
+     * txtDrzavaSjedista. Ako je pritisnuta tipka Enter, metoda poziva akciju za
+     * dodavanje entiteta. Nakon dodavanja, fokus se prebacuje na listu
+     * lstPodaci.
+     *
+     * @param evt Događaj pritiska tipke na polju txtDrzavaSjedista
+     */
     private void txtDrzavaSjedistaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDrzavaSjedistaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -449,18 +554,43 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtDrzavaSjedistaKeyPressed
 
+    /**
+     * Metoda koja označava da je tekstno polje za unos imena tima dobilo fokus.
+     * Selektira sav tekst u polju.
+     *
+     * @param evt događaj fokusa
+     */
     private void txtImeTimaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImeTimaFocusGained
         txtImeTima.selectAll();
     }//GEN-LAST:event_txtImeTimaFocusGained
 
+    /**
+     * Metoda koja označava da je tekstno polje za unos godine osnutka tima
+     * dobilo fokus. Selektira sav tekst u polju.
+     *
+     * @param evt događaj fokusa
+     */
     private void txtGodinaOsnutkaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGodinaOsnutkaFocusGained
         txtGodinaOsnutka.selectAll();
     }//GEN-LAST:event_txtGodinaOsnutkaFocusGained
 
+    /**
+     * Metoda koja označava da je tekstno polje za unos države sjedišta tima
+     * dobilo fokus. Selektira sav tekst u polju.
+     *
+     * @param evt događaj fokusa
+     */
     private void txtDrzavaSjedistaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDrzavaSjedistaFocusGained
         txtDrzavaSjedista.selectAll();
     }//GEN-LAST:event_txtDrzavaSjedistaFocusGained
 
+    /**
+     * Metoda koja se poziva kada se pritisne gumb za upravljanje timovima. Ako
+     * nije odabran nijedan tim, ne radi ništa. Inače otvara prozor za
+     * upravljanje timovima.
+     *
+     * @param evt događaj pritiska gumba
+     */
     private void btnUpravljajTimovimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravljajTimovimaActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -468,12 +598,28 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         new ProzorUpravljajTimovima(this).setVisible(true);
     }//GEN-LAST:event_btnUpravljajTimovimaActionPerformed
 
+    /**
+     * Metoda koja se poziva kada je pritisnuta tipka na listi. Ako je
+     * pritisnuta tipka Enter, simulira pritisak gumba za upravljanje timovima.
+     *
+     * @param evt događaj pritiska tipke
+     */
     private void lstPodaciKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstPodaciKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnUpravljajTimovima.doClick();
         }
     }//GEN-LAST:event_lstPodaciKeyPressed
 
+    /**
+     * Metoda koja se poziva kada je pritisnut gumb za uklanjanje tima iz
+     * prvenstva. Provjerava je li odabran tim. Ako nije, prikazuje odgovarajuću
+     * poruku. Ako je, provjerava sudjeluje li tim u nekom prvenstvu. Ako ne
+     * sudjeluje, obavještava korisnika. Ako sudjeluje, prikazuje dijalog za
+     * potvrdu brisanja tima iz prvenstva. Ako korisnik potvrdi brisanje,
+     * uklanja tim iz prvenstva.
+     *
+     * @param evt događaj pritiska gumba
+     */
     private void btnUkloniIzPrvenstvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzPrvenstvaActionPerformed
         if (lstPodaci.getSelectedValue() != null) {
             Timovi odabraniTim = lstPodaci.getSelectedValue();
@@ -507,7 +653,6 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju tima iz prvenstva
                         JOptionPane.showMessageDialog(this, "Tim je uspješno uklonjen iz prvenstva!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
-                        obrada.update();
                         lstPodaci.setSelectedValue(odabraniTim, true);
                         lstPodaci.requestFocusInWindow();
                     } catch (Exception ex) {
@@ -529,6 +674,14 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_btnUkloniIzPrvenstvaActionPerformed
 
+    /**
+     * Metoda koja se poziva kada je pritisnut gumb za uklanjanje svih vozača iz
+     * tima. Provjerava je li odabran tim. Ako nije, prikazuje odgovarajuću
+     * poruku. Ako je, prikazuje dijalog za potvrdu brisanja svih vozača iz
+     * tima. Ako korisnik potvrdi brisanje, uklanja sve vozače iz tima.
+     *
+     * @param evt događaj pritiska gumba
+     */
     private void btnUkloniVozaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniVozaceActionPerformed
         // Provjeri je li odabran tim
         if (lstPodaci.getSelectedValue() != null) {
@@ -568,7 +721,6 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju svih vozača iz tima
                         JOptionPane.showMessageDialog(this, "Svi vozači su uspješno uklonjeni iz tima!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
-                        obrada.update();
                         lstPodaci.setSelectedValue(odabraniTim, true);
                         lstPodaci.requestFocusInWindow();
                     } catch (EdunovaException ex) {
@@ -590,6 +742,10 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_btnUkloniVozaceActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom ažuriranja prikaza. Punjenje modela
+     * podacima.
+     */
     @Override
     public void ucitaj() {
         DefaultListModel<Timovi> m = new DefaultListModel<>();
@@ -598,6 +754,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.repaint();
     }
 
+    /**
+     * Metoda koja popunjava model entiteta s podacima unesenim u sučelje.
+     */
     @Override
     public void popuniModel() {
         var e = obrada.getEntitet();
@@ -611,22 +770,9 @@ public class ProzorTimovi extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }
 
-    private void postaviRendererZaListu() {
-        lstVozaci.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof Vozaci) {
-                    Vozaci vozac = (Vozaci) value;
-                    value = vozac.getIme() + " " + vozac.getPrezime();
-                }
-
-                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                return label;
-            }
-        });
-    }
-
+    /**
+     * Metoda koja popunjava sučelje podacima trenutnog entiteta.
+     */
     @Override
     public void popuniView() {
         var e = obrada.getEntitet();

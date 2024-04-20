@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Ovaj prozor omogućuje pregled, dodavanje, izmjenu i brisanje podataka o prvenstvima u Formuli 1.
  */
 package formula1.view;
 
@@ -8,6 +7,8 @@ import formula1.controller.ObradaPrvenstva;
 import formula1.model.Prvenstva;
 import formula1.util.Alati;
 import formula1.util.EdunovaException;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -16,22 +17,37 @@ import javax.swing.JOptionPane;
  *
  * @author Kesimator
  */
+/**
+ * Prozor za upravljanje prvenstvima u Formuli 1.
+ */
 public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSucelje {
 
-    private ObradaPrvenstva obrada;
+    private ObradaPrvenstva obrada; // Kontroler za obradu podataka o prvenstvima
 
     /**
-     * Creates new form ProzorPrvenstva
+     * Konstruktor prozora za prvenstva.
      */
     public ProzorPrvenstva() {
-        initComponents();
-        setTitle(Alati.NAZIV_APP + " | PRVENSTVA");
-        obrada = new ObradaPrvenstva();
-        ucitaj();
+        initComponents(); // Inicijalizacija komponenti prozora
+        setTitle(Alati.NAZIV_APP + " | PRVENSTVA"); // Postavljanje naslova prozora
+        obrada = new ObradaPrvenstva(); // Inicijalizacija kontrolera
+        ucitaj(); // Učitavanje podataka o prvenstvima
 
-        lstPodaci.setSelectedIndex(0);
+        lstPodaci.setSelectedIndex(0); // Postavljanje inicijalnog odabira u listi podataka
     }
 
+    /**
+     * Vraća instancu kontrolera za prvenstva.
+     *
+     * @return Instanca kontrolera za prvenstva.
+     */
+    public ObradaPrvenstva getObradaPrvenstva() {
+        return obrada;
+    }
+
+    /**
+     * Inicijalizacija grafičkih komponenti prozora.
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,6 +226,11 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda koja se poziva kada se odabere neki element iz liste prvenstava.
+     *
+     * @param evt Događaj odabira elementa iz liste.
+     */
     private void lstPodaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPodaciValueChanged
         if (evt.getValueIsAdjusting()) {
             return;
@@ -226,18 +247,44 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_lstPodaciValueChanged
 
+    /**
+     * Selektira sav tekst u polju za unos godine kada polje dobije fokus.
+     *
+     * @param evt Događaj fokusa na polje za unos godine.
+     */
     private void txtGodinaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGodinaFocusGained
         txtGodina.selectAll();
     }//GEN-LAST:event_txtGodinaFocusGained
 
+    /**
+     * Otvara prozor za upravljanje sezonama vozača.
+     *
+     * @param evt Događaj klika na gumb za upravljanje sezonama vozača.
+     */
     private void btnUpravljajSezonamaVozaciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravljajSezonamaVozaciActionPerformed
-
+        if (lstPodaci.getSelectedValue() == null) {
+            return;
+        }
+        new ProzorVozaciPrvenstva(this).setVisible(true);
     }//GEN-LAST:event_btnUpravljajSezonamaVozaciActionPerformed
 
+    /**
+     * Otvara prozor za upravljanje sezonama timova.
+     *
+     * @param evt Događaj klika na gumb za upravljanje sezonama timova.
+     */
     private void btnUpravljajSezonamaTimoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpravljajSezonamaTimoviActionPerformed
-
+        if (lstPodaci.getSelectedValue() == null) {
+            return;
+        }
+        new ProzorTimoviPrvenstva(this).setVisible(true);
     }//GEN-LAST:event_btnUpravljajSezonamaTimoviActionPerformed
 
+    /**
+     * Dodaje novo prvenstvo.
+     *
+     * @param evt Događaj klika na gumb za dodavanje prvenstva.
+     */
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         obrada.setEntitet(new Prvenstva());
         popuniModel();
@@ -254,8 +301,15 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
             JOptionPane.showMessageDialog(getRootPane(), ex.getPoruka(),
                     "UPOZORENJE", JOptionPane.ERROR_MESSAGE, slika);
         }
+        lstPodaci.getSelectedValue();
+        lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnDodajActionPerformed
 
+    /**
+     * Izmjena postojećeg prvenstva.
+     *
+     * @param evt Događaj klika na gumb za izmjenu prvenstva.
+     */
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -282,6 +336,11 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
+    /**
+     * Briše odabrano prvenstvo.
+     *
+     * @param evt Događaj klika na gumb za brisanje prvenstva.
+     */
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -312,14 +371,22 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    /**
+     * Učitava podatke o prvenstvima i prikazuje ih u listi.
+     */
     @Override
     public void ucitaj() {
         DefaultListModel<Prvenstva> m = new DefaultListModel<>();
-        m.addAll(obrada.read());
+        var podaci = obrada.read();
+        Collections.sort(podaci, Comparator.comparingInt(Prvenstva::getSezona)); // Sortiranje po sezoni
+        m.addAll(podaci);
         lstPodaci.setModel(m);
         lstPodaci.repaint();
     }
 
+    /**
+     * Popunjava model podacima o prvenstvu.
+     */
     @Override
     public void popuniModel() {
         var e = obrada.getEntitet();
@@ -330,11 +397,14 @@ public class ProzorPrvenstva extends javax.swing.JFrame implements EdunovaViewSu
         }
     }
 
+    /**
+     * Popunjava grafičke komponente podacima o trenutno odabranom prvenstvu.
+     */
     @Override
     public void popuniView() {
         var e = obrada.getEntitet();
 
-        // Provjeri da li je objekt vozaca null prije pozivanja toString() metode
+        // Provjeri da li je objekt vozača null prije pozivanja toString() metode
         String vozacString;
         if (e.getVozac() != null && e.getVozac().getTim() != null) {
             vozacString = e.getVozac().toString();

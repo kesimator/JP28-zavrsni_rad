@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * ProzorVozaci.java
+ * Ova klasa predstavlja prozor za upravljanje vozačima u aplikaciji za praćenje Formula 1.
+ * Autor: Kesimator
  */
 package formula1.view;
 
@@ -36,7 +37,8 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
     private ObradaVozaci obrada;
 
     /**
-     * Creates new form ProzorVozaci
+     * Konstruktor klase ProzorVozaci. Inicijalizira komponente prozora i
+     * postavlja naslov prozora.
      */
     public ProzorVozaci() {
         initComponents();
@@ -45,7 +47,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         ucitaj();
 
         lstPodaci.setSelectedIndex(0);
-
     }
 
     /**
@@ -298,6 +299,14 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda koja se poziva kada se promijeni odabrani element u listi vozača.
+     * Postavlja odabrani entitet u obradu, popunjava prikaz podacima o
+     * odabranom vozaču i postavlja fokus na listu vozača.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju promjene odabira u
+     * listi
+     */
     private void lstPodaciValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPodaciValueChanged
         if (evt.getValueIsAdjusting()) {
             return;
@@ -315,6 +324,15 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
 
     }//GEN-LAST:event_lstPodaciValueChanged
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb za dodavanje novog
+     * vozača. Postavlja novi entitet vozača u obradu, popunjava model liste
+     * vozača, dodaje novog vozača u bazu podataka, osvježava prikaz vozača,
+     * postavlja odabir na prvi vozač u listi i postavlja fokus na listu vozača.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska na gumb za
+     * dodavanje
+     */
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
 
         obrada.setEntitet(new Vozaci());
@@ -335,6 +353,17 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnDodajActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb za brisanje odabranog
+     * vozača. Ako nije odabran niti jedan vozač, ne radi ništa. Ako je odabran
+     * vozač, postavlja odabrani vozač u obradu, prikazuje dijalog za potvrdu
+     * brisanja, briše odabranog vozača iz baze podataka, osvježava prikaz
+     * vozača, postavlja odabir na prvi vozač u listi i postavlja fokus na listu
+     * vozača.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska na gumb za
+     * brisanje
+     */
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -365,6 +394,17 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb za promjenu podataka
+     * odabranog vozača. Ako nije odabran niti jedan vozač, ne radi ništa. Ako
+     * je odabran vozač, postavlja odabrani vozač u obradu, popunjava model
+     * liste vozača, ažurira podatke odabranog vozača u bazi podataka, osvježava
+     * prikaz vozača, postavlja odabir na prvi vozač u listi i postavlja fokus
+     * na listu vozača.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska na gumb za
+     * promjenu
+     */
     private void btnPromjenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjenaActionPerformed
         if (lstPodaci.getSelectedValue() == null) {
             return;
@@ -391,11 +431,26 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.requestFocusInWindow();
     }//GEN-LAST:event_btnPromjenaActionPerformed
 
+    /**
+     * Metoda koja provjerava ispravnost unesenog imena vozača. Ime je ispravno
+     * ako nije prazno, sadrži samo slova i ima maksimalno 20 znakova.
+     *
+     * @param ime Uneseno ime vozača
+     * @return true ako je ime ispravno, inače false
+     */
     private boolean ispravnoIme(String ime) {
         // Provjeravamo je li ime prazno ili sadrži brojeve ili posebne znakove
         return !ime.isEmpty() && ime.matches("[a-zA-Z]+") && ime.length() <= 20;
     }
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku Enter u polju za unos
+     * imena vozača. Ako je polje prazno ili ako ime nije ispravno, ostaje fokus
+     * na polju za unos imena. Inače, fokus se prebacuje na polje za unos
+     * prezimena.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska tipke
+     */
     private void txtImeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImeKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -409,11 +464,26 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtImeKeyPressed
 
+    /**
+     * Metoda koja provjerava ispravnost unesenog prezimena vozača. Prezime je
+     * ispravno ako nije prazno, sadrži samo slova i ima maksimalno 50 znakova.
+     *
+     * @param prezime Uneseno prezime vozača
+     * @return true ako je prezime ispravno, inače false
+     */
     private boolean ispravnoPrezime(String prezime) {
         // Provjeravamo je li prezime prazno ili sadrži brojeve ili posebne znakove
         return !prezime.isEmpty() && prezime.matches("[a-zA-Z]+") && prezime.length() <= 50;
     }
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku Enter u polju za unos
+     * prezimena vozača. Ako je polje prazno ili ako prezime nije ispravno,
+     * ostaje fokus na polju za unos prezimena. Inače, fokus se prebacuje na
+     * polje za unos datuma rođenja.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska tipke
+     */
     private void txtPrezimeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrezimeKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -427,10 +497,27 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtPrezimeKeyPressed
 
+    /**
+     * Metoda koja provjerava ispravnost unesene nacionalnosti vozača.
+     * Nacionalnost je ispravna ako nije prazna, sadrži samo slova i ima
+     * maksimalno 30 znakova.
+     *
+     * @param nacionalnost Unesena nacionalnost vozača
+     * @return true ako je nacionalnost ispravna, inače false
+     */
     private boolean Nacionalnost(String nacionalnost) {
         // Provjeravamo je li nacionalnost prazno ili sadrži brojeve ili posebne znakove
         return !nacionalnost.isEmpty() && nacionalnost.matches("[a-zA-Z]+") && nacionalnost.length() <= 30;
     }
+
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku Enter u polju za unos
+     * nacionalnosti vozača. Ako je polje prazno ili ako nacionalnost nije
+     * ispravna, ostaje fokus na polju za unos nacionalnosti. Inače, fokus se
+     * prebacuje na listu vozača.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska tipke
+     */
     private void txtNacionalnostKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacionalnostKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -444,26 +531,64 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtNacionalnostKeyPressed
 
+    /**
+     * Metoda koja postavlja fokus na polje za unos imena vozača i označava sav
+     * tekst u polju.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju dobivanja fokusa
+     */
     private void txtImeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImeFocusGained
         txtIme.selectAll();
     }//GEN-LAST:event_txtImeFocusGained
 
+    /**
+     * Metoda koja postavlja fokus na polje za unos prezimena vozača i označava
+     * sav tekst u polju.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju dobivanja fokusa
+     */
     private void txtPrezimeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPrezimeFocusGained
         txtPrezime.selectAll();
     }//GEN-LAST:event_txtPrezimeFocusGained
 
+    /**
+     * Metoda koja postavlja fokus na polje za unos nacionalnosti vozača i
+     * označava sav tekst u polju.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju dobivanja fokusa
+     */
     private void txtNacionalnostFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNacionalnostFocusGained
         txtNacionalnost.selectAll();
     }//GEN-LAST:event_txtNacionalnostFocusGained
 
+    /**
+     * Metoda koja postavlja fokus na polje za unos tima vozača i označava sav
+     * tekst u polju.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju dobivanja fokusa
+     */
     private void txtTimFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimFocusGained
         txtTim.selectAll();
     }//GEN-LAST:event_txtTimFocusGained
 
+    /**
+     * Metoda koja postavlja fokus na polje za unos datuma rođenja vozača i
+     * označava sav tekst u polju.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju dobivanja fokusa
+     */
     private void txtDatumRodenjaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDatumRodenjaFocusGained
         txtDatumRodenja.selectAll();
     }//GEN-LAST:event_txtDatumRodenjaFocusGained
 
+    /**
+     * Metoda koja provjerava ispravnost unesenog datuma rođenja vozača. Datum
+     * je ispravan ako je unesen u formatu "dd.MM.yyyy." i ako vozač ima između
+     * 18 i 60 godina.
+     *
+     * @param datum Uneseni datum rođenja vozača
+     * @return true ako je datum ispravan, inače false
+     */
     private boolean datum(String datum) {
         // Provjeravamo je li datum prazan
         if (datum.isEmpty()) {
@@ -489,7 +614,14 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }
 
-
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku Enter u polju za unos
+     * datuma rođenja vozača. Ako je datum neispravan, ostaje fokus na polju za
+     * unos datuma rođenja. Inače, fokus se prebacuje na polje za unos
+     * nacionalnosti.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska tipke
+     */
     private void txtDatumRodenjaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDatumRodenjaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDodajActionPerformed(null); // Pozivamo dodavanje
@@ -503,6 +635,13 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_txtDatumRodenjaKeyPressed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb za uklanjanje vozača iz
+     * tima. Provjerava se mogu li vozača ukloniti iz tima te se prikazuje
+     * odgovarajuća poruka korisniku.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska na gumb
+     */
     private void btnUkloniIzTimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzTimaActionPerformed
         if (lstPodaci.getSelectedValue() != null) {
             Vozaci odabraniVozac = lstPodaci.getSelectedValue();
@@ -549,7 +688,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju vozača iz tima
                         JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz tima!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
-                        obrada.update();
                     }
                 }
             } catch (EdunovaException ex) {
@@ -568,6 +706,13 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_btnUkloniIzTimaActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb za uklanjanje vozača iz
+     * prvenstva. Provjerava se mogu li vozača ukloniti iz prvenstva te se
+     * prikazuje odgovarajuća poruka korisniku.
+     *
+     * @param evt Objekt koji sadrži informacije o događaju pritiska na gumb
+     */
     private void btnUkloniIzPrvenstvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniIzPrvenstvaActionPerformed
         if (lstPodaci.getSelectedValue() != null) {
             Vozaci odabraniVozac = lstPodaci.getSelectedValue();
@@ -601,7 +746,6 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
                         // Obavijesti korisnika o uspješnom uklanjanju vozača iz prvenstva
                         JOptionPane.showMessageDialog(this, "Vozač je uspješno uklonjen iz prvenstva!",
                                 "POTVRDA", JOptionPane.INFORMATION_MESSAGE, slika);
-                        obrada.update();
                     } catch (Exception ex) {
                         // Uhvati iznimku ako se dogodi greška prilikom uklanjanja vozača iz prvenstva
                         // i prikaži odgovarajuću poruku korisniku
@@ -621,6 +765,10 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }//GEN-LAST:event_btnUkloniIzPrvenstvaActionPerformed
 
+    /**
+     * Metoda koja učitava podatke o vozačima i osvježava prikaz tablice ili
+     * druge komponente sučelja.
+     */
     @Override
     public void ucitaj() {
         DefaultListModel<Vozaci> m = new DefaultListModel<>();
@@ -629,6 +777,10 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         lstPodaci.repaint();
     }
 
+    /**
+     * Metoda koja popunjava podatke iz entiteta u odgovarajuće tekstualne i
+     * vizualne komponente sučelja.
+     */
     @Override
     public void popuniModel() {
         var e = obrada.getEntitet();
@@ -647,6 +799,10 @@ public class ProzorVozaci extends javax.swing.JFrame implements EdunovaViewSucel
         }
     }
 
+    /**
+     * Metoda koja popunjava tekstualne i vizualne komponente sučelja s podacima
+     * iz entiteta.
+     */
     @Override
     public void popuniView() {
         var e = obrada.getEntitet();

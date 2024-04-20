@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package formula1.util;
 
 import com.github.javafaker.Faker;
@@ -10,7 +6,6 @@ import formula1.model.Timovi;
 import formula1.model.Vozaci;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,12 +13,18 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.hibernate.Session;
 
 /**
- *
- * @author Kesimator
+ * Klasa za unos početnih podataka u bazu podataka aplikacije Formula 1 Manager.
  */
 public class PocetniInsert {
 
+    /**
+     * Broj timova koji će biti generirani prilikom unosa početnih podataka.
+     */
     private static final int BROJ_TIMOVA = 70;
+
+    /**
+     * Broj vozača koji će biti generirani prilikom unosa početnih podataka.
+     */
     private static final int BROJ_VOZACA = 500;
 
     private Faker faker;
@@ -31,8 +32,10 @@ public class PocetniInsert {
     private List<Timovi> timovi;
     private List<Vozaci> vozaci;
 
+    /**
+     * Konstruktor klase `PocetniInsert` koji izvršava unos početnih podataka.
+     */
     public PocetniInsert() {
-
         faker = new Faker();
         session = HibernateUtil.getSession();
         timovi = new ArrayList<>();
@@ -42,22 +45,22 @@ public class PocetniInsert {
         kreirajTimove();
         kreirajVozace();
         kreirajPrvenstva();
-
         session.getTransaction().commit();
-
     }
 
+    /**
+     * Metoda za kreiranje timova i spremanje u bazu podataka.
+     */
     private void kreirajTimove() {
-        // Koristimo set za spremanje imena kako bi se automatski eliminirali duplikati
         Set<String> imenaTimova = new HashSet<>();
         for (int i = 0; i < BROJ_TIMOVA; i++) {
             Timovi t = new Timovi();
 
             String imeTima;
             do {
-                imeTima = faker.dragonBall().character().toUpperCase(); // Generiranje nasumičnog imena tima
-            } while (imenaTimova.contains(imeTima)); // Provjera je li ime već korišteno
-            imenaTimova.add(imeTima); // Dodavanje imena u set kako bi se spriječilo ponavljanje
+                imeTima = faker.dragonBall().character().toUpperCase();
+            } while (imenaTimova.contains(imeTima));
+            imenaTimova.add(imeTima);
 
             t.setIme_tima(imeTima);
             t.setDrzava_sjedista(faker.country().capital().toUpperCase());
@@ -68,8 +71,11 @@ public class PocetniInsert {
         }
     }
 
+    /**
+     * Metoda za kreiranje vozača i spremanje u bazu podataka.
+     */
     private void kreirajVozace() {
-        List<Timovi> sviTimovi = session.createQuery("FROM Timovi", Timovi.class).getResultList(); // Dohvaćanje svih timova iz baze
+        List<Timovi> sviTimovi = session.createQuery("FROM Timovi", Timovi.class).getResultList();
         int brojTimova = sviTimovi.size();
 
         Set<String> prvo = new HashSet<>();
@@ -82,23 +88,20 @@ public class PocetniInsert {
                 ime = faker.name().firstName().toUpperCase();
             } while (!prvo.add(ime));
 
-
             v.setIme(ime);
             v.setPrezime(faker.name().lastName().toUpperCase());
 
             LocalDate trenutno = LocalDate.now();
-            LocalDate min = trenutno.minusYears(60); // Maksimalna dob je 60 godina
-            LocalDate max = trenutno.minusYears(18); // Minimalna dob je 18 godina
+            LocalDate min = trenutno.minusYears(60);
+            LocalDate max = trenutno.minusYears(18);
 
             long mini = min.toEpochDay();
             long maxi = max.toEpochDay();
 
             long randomDateEpochDay = ThreadLocalRandom.current().nextLong(mini, maxi + 1);
-
             LocalDate nasumicno = LocalDate.ofEpochDay(randomDateEpochDay);
 
             v.setDatum_rodenja(nasumicno);
-
             v.setNacionalnost(faker.nation().nationality().toUpperCase());
 
             Timovi randomTim = sviTimovi.get(faker.random().nextInt(brojTimova));
@@ -109,6 +112,9 @@ public class PocetniInsert {
         }
     }
 
+    /**
+     * Metoda za kreiranje prvenstava i spremanje u bazu podataka.
+     */
     private void kreirajPrvenstva() {
         for (int i = 1950; i <= 2023; i++) {
             Prvenstva p = new Prvenstva();
@@ -118,8 +124,6 @@ public class PocetniInsert {
             p.setTim(timovi.get(faker.random().nextInt(timovi.size())));
 
             session.persist(p);
-
         }
     }
-
 }

@@ -18,21 +18,26 @@ import org.apache.commons.validator.routines.EmailValidator;
  *
  * @author Kesimator
  */
+/**
+ * Prozor za autorizaciju korisnika pri prijavi u aplikaciju Formula 1 Manager.
+ */
 public class Autorizacija extends javax.swing.JFrame {
 
     private ObradaOperater obrada;
 
     /**
-     * Creates new form Autorizacija
+     * Konstruktor klase `Autorizacija`.
      */
     public Autorizacija() {
         initComponents();
 
         obrada = new ObradaOperater();
         setTitle(Alati.NAZIV_APP);
-
     }
 
+    /**
+     * Metoda za inicijalizaciju grafičkih komponenti.
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,6 +126,9 @@ public class Autorizacija extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na gumb "Autoriziraj".
+     */
     private void btnAutorizirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizirajActionPerformed
 
         reset();
@@ -150,9 +158,9 @@ public class Autorizacija extends javax.swing.JFrame {
 
         if (o == null) {
             JOptionPane.showMessageDialog(getRootPane(), "Neispravna kombinacija email i/ili lozinka!",
-                    null,JOptionPane.ERROR_MESSAGE, slika);
+                    null, JOptionPane.ERROR_MESSAGE, slika);
             return;
-        } 
+        }
 
         Operater logiran = new Operater();
         logiran.setIme(o.getIme());
@@ -166,6 +174,10 @@ public class Autorizacija extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAutorizirajActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku "Enter" u polju za unos
+     * emaila.
+     */
     private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
         if (txtEmail.getText().length() >= 0) {
             txtEmail.setBackground(Color.WHITE);
@@ -176,6 +188,10 @@ public class Autorizacija extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtEmailKeyPressed
 
+    /**
+     * Metoda koja se poziva prilikom pritiska na tipku "Enter" u polju za unos
+     * lozinke.
+     */
     private void txtLozinkaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLozinkaKeyPressed
         if (txtLozinka.getPassword().length >= 0) {
             txtLozinka.setBackground(Color.WHITE);
@@ -186,11 +202,17 @@ public class Autorizacija extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtLozinkaKeyPressed
 
+    /**
+     * Metoda za postavljanje grafičke komponente u stanje s greškom.
+     */
     private void postaviGresku(JComponent c) {
         c.setBackground(Color.RED);
         c.requestFocus();
     }
 
+    /**
+     * Metoda za resetiranje stanja grafičkih komponenti.
+     */
     private void reset() {
         lblEmailPoruka.setText("");
         txtEmail.setBackground(Color.WHITE);

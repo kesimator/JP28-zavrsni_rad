@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package formula1.view;
 
 import formula1.util.Alati;
@@ -17,10 +13,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kesimator
  */
+/**
+ * Klasa koja predstavlja glavni izbornik aplikacije Formula 1 Manager.
+ */
 public class Izbornik extends javax.swing.JFrame {
 
     /**
-     * Creates new form Izbornik
+     * Konstruktor klase Izbornik.
      */
     public Izbornik() {
         initComponents();
@@ -136,30 +135,52 @@ public class Izbornik extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda koja se poziva prilikom odabira opcije Izlaz iz izbornika.
+     *
+     * @param evt Akcija događaja
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom odabira opcije O aplikaciji iz izbornika.
+     *
+     * @param evt Akcija događaja
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
         String putanja = "/f1logo132x55.jpg";
         ImageIcon slika = new ImageIcon(getClass().getResource(putanja));
-
-//        Image slika = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-//        ImageIcon ii = new ImageIcon(slika);
         JOptionPane.showMessageDialog(getRootPane(), "O aplikaciji\n"
                 + "Stvorena za jednostavno praćenje vozača,\n" + "timova, vozača u timovima i prvenstvima.",
                 "Aplikacija za podatke o sudionicima Formule 1", JOptionPane.INFORMATION_MESSAGE, slika);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom odabira opcije Vozači iz izbornika.
+     *
+     * @param evt Akcija događaja
+     */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         new ProzorVozaci().setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom odabira opcije Timovi iz izbornika.
+     *
+     * @param evt Akcija događaja
+     */
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         new ProzorTimovi().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    /**
+     * Metoda koja se poziva prilikom odabira opcije Prvenstva iz izbornika.
+     *
+     * @param evt Akcija događaja
+     */
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         new ProzorPrvenstva().setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed

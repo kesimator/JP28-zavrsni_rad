@@ -1,22 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package formula1.util;
 
 import formula1.model.Operater;
 
 /**
- *
- * @author Kesimator
+ * Klasa koja sadrži korisne alate i konstante za upravljanje aplikacijom
+ * Formula 1 Manager.
  */
 public class Alati {
 
+    /**
+     * Naziv aplikacije.
+     */
     public static final String NAZIV_APP = "Formula 1 Manager APP";
+
+    /**
+     * Trenutni operater koji je prijavljen u aplikaciju.
+     */
     public static Operater OPERATER;
 
+    /**
+     * Metoda koja vraća informacije o trenutnom operateru.
+     *
+     * @return informacije o trenutnom operateru (ime, prezime i uloga)
+     */
     public static String getOperater() {
-        return OPERATER.getIme() + " " + OPERATER.getPrezime() + " (" + OPERATER.getUloga() + ")";
+        if (OPERATER != null) {
+            return OPERATER.getIme() + " " + OPERATER.getPrezime() + " (" + OPERATER.getUloga() + ")";
+        } else {
+            return "Nema prijavljenog operatera!";
+        }
     }
 
 }

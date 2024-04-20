@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package formula1.view;
 
 import formula1.util.HibernateUtil;
@@ -12,10 +8,14 @@ import org.hibernate.Session;
  *
  * @author Kesimator
  */
+/**
+ * Klasa koja predstavlja SplashScreen (ekran za pokretanje) aplikacije Formula
+ * 1 Manager.
+ */
 public class SplashScreen extends javax.swing.JFrame {
 
     /**
-     * Creates new form SplashScreen
+     * Konstruktor klase SplashScreen.
      */
     public SplashScreen() {
         initComponents();
@@ -23,25 +23,36 @@ public class SplashScreen extends javax.swing.JFrame {
         ucitaj();
     }
 
+    /**
+     * Metoda za pokretanje glavnog dijela aplikacije nakon učitavanja
+     * SplashScreen-a.
+     */
     private void ucitaj() {
         new Ucitanje().start();
     }
 
+    /**
+     * Unutarnja klasa koja predstavlja nit za učitavanje glavnog dijela
+     * aplikacije.
+     */
     private class Ucitanje extends Thread {
 
         @Override
         public void run() {
+            // Provjera konekcije s bazom podataka
             Session s = HibernateUtil.getSession();
             if (s.getMetamodel().getEntities().isEmpty()) {
                 JOptionPane.showMessageDialog(getRootPane(), "Problem u radu s bazom!");
                 return;
             }
+            // Otvaranje prozora za autorizaciju korisnika
             new Autorizacija().setVisible(true);
             dispose();
         }
-
     }
 
+    // Auto-generirani kod za inicijalizaciju grafičkog korisničkog sučelja (GUI)
+    // Nije potrebno mijenjati ovaj kod
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
