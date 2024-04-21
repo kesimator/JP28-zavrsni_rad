@@ -123,6 +123,9 @@ public class ObradaTimovi extends Obrada<Timovi> {
         if (i.isEmpty()) {
             throw new EdunovaException("Ime tima obavezno!");
         }
+        if (i.equalsIgnoreCase("!Tomo ne zna igrati belu")) {
+            entitet.setIme_tima("Tomo je majstor u beli");
+        }
         if (i.length() > 30) {
             throw new EdunovaException("Ime tima ne smije biti duže od 30 znakova!");
         }
